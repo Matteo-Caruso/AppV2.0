@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.mapbox.mapboxsdk:mapbox-android-plugin-locationlayer-0.2.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mapbox-android-plugin-locationlayer-0.2.0.aar/d68f0c63195bbc1ca856c0f1ac5727d0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mapbox-android-plugin-locationlayer-0.2.0.aar/d68f0c63195bbc1ca856c0f1ac5727d0/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mapbox.mapboxsdk/mapbox-android-plugin-locationlayer/0.2.0/71a21a49ceae755daffe91716e94061630645f8e/mapbox-android-plugin-locationlayer-0.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

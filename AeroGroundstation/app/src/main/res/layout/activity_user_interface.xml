@@ -1,0 +1,913 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.code.aero.groundstation.UserInterfaceActivity"
+    tools:showIn="@layout/activity_user_interface"
+    android:id="@+id/slidingMenuLayout"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto">
+    <!--tools:context="com.code.aero.groundstation.UserInterfaceActivity"-->
+
+    <com.mapbox.mapboxsdk.maps.MapView
+    android:id="@+id/mapView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    mapbox:mapbox_cameraTargetLat="28.0394650"
+    mapbox:mapbox_cameraTargetLng="-81.9498040"
+    mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9"
+    mapbox:mapbox_cameraZoom="11" />
+
+
+
+
+       <!-- Data View -->
+       <LinearLayout
+
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical">
+
+
+           <ToggleButton
+               android:id="@+id/autoDropToggle"
+               android:layout_width="125dp"
+               android:layout_height="wrap_content"
+               android:layout_gravity="right"
+               android:textOn="Auto Drop On"
+               android:textOff="Auto Drop Off"
+               android:onClick="autoDrop"
+               android:focusable="false"
+               android:focusableInTouchMode="false"></ToggleButton>
+
+
+           <!-- This linear layout contains all of the data labels for radio IO -->
+
+           <LinearLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+
+
+
+               <!-- Below is the label for plane height -->
+
+               <LinearLayout
+                   android:visibility="invisible"
+                   android:id="@+id/radioIOHeight"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/my_border"
+                   android:orientation="horizontal"
+                   android:padding="2dp">
+                   <!-- the background uses a rectangle created in the drawable folder -->
+                   <TextView
+                       android:id="@+id/height1"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="2dp"
+                       android:text="Altitude: "
+                       android:textColor="#FFFFFF"
+                       android:textSize="50dp"/>
+
+                   <TextView
+                       android:id="@+id/currentHeight"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="2dp"
+                       android:layout_marginRight="8dp"
+                       android:text="0 ft"
+                       android:textColor="#FFFFFF"
+                       android:textSize="50dp"/>
+               </LinearLayout>
+
+
+
+
+               <!-- Below is the label for the drop height-->
+
+
+               <LinearLayout
+                   android:visibility="invisible"
+                   android:id="@+id/radioIODropHeight"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/my_border"
+                   android:orientation="horizontal"
+                   android:padding="2dp">
+                   <!-- the background uses a rectangle created in the drawable folder -->
+                   <TextView
+                       android:id="@+id/height"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="left"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="2dp"
+                       android:text="Drop Height: "
+                       android:textColor="#FFFFFF"
+                       android:textSize="50dp"/>
+
+                   <TextView
+                       android:id="@+id/dropHeight"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="2dp"
+                       android:layout_marginRight="8dp"
+                       android:text="NA"
+                       android:textColor="#FFFFFF"
+                       android:textSize="50dp"/>
+               </LinearLayout>
+
+
+               <!-- Below is the label for plane distance -->
+
+
+               <!-- Below is the label for plane heading -->
+
+               <LinearLayout
+                   android:visibility="invisible"
+                   android:id="@+id/radioIOHeading"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/my_border"
+                   android:orientation="horizontal"
+                   android:padding="2dp">
+                   <!-- the background uses a rectangle created in the drawable folder -->
+                   <TextView
+                       android:id="@+id/heading"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="left"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="2dp"
+                       android:text="Heading: "
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+
+                   <TextView
+                       android:id="@+id/headingValue"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="2dp"
+                       android:layout_marginRight="8dp"
+                       android:text="0 deg"
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+               </LinearLayout>
+
+               <!-- Below is the label for plane roll -->
+
+               <LinearLayout
+                   android:visibility="invisible"
+                   android:id="@+id/radioIORoll"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/my_border"
+                   android:orientation="horizontal"
+                   android:padding="2dp">
+                   <!-- the background uses a rectangle created in the drawable folder -->
+                   <TextView
+                       android:id="@+id/roll"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="left"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="2dp"
+                       android:text="Roll: "
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+
+                   <TextView
+                       android:id="@+id/rollValue"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="2dp"
+                       android:layout_marginRight="8dp"
+                       android:text="0 deg"
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+               </LinearLayout>
+
+               <LinearLayout
+                   android:visibility="invisible"
+                   android:id="@+id/radioSpeed"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/my_border"
+                   android:orientation="horizontal"
+                   android:padding="2dp">
+                   <!-- the background uses a rectangle created in the drawable folder -->
+                   <TextView
+                       android:id="@+id/speed"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="left"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="2dp"
+                       android:text="Ground Speed: "
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+
+                   <TextView
+                       android:id="@+id/speedValue"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="2dp"
+                       android:layout_marginRight="8dp"
+                       android:text="0 m/s"
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+               </LinearLayout>
+
+               <LinearLayout
+                   android:visibility="invisible"
+                   android:id="@+id/radioTimeToDrop"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/my_border"
+                   android:orientation="horizontal"
+                   android:padding="2dp">
+                   <!-- the background uses a rectangle created in the drawable folder -->
+                   <TextView
+                       android:id="@+id/TimeToDrop"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="left"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="2dp"
+                       android:text="Drop Bearing: "
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+
+                   <TextView
+                       android:id="@+id/TimeToDropValue"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="2dp"
+                       android:layout_marginRight="8dp"
+                       android:text="0 s"
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+               </LinearLayout>
+
+               <LinearLayout
+                   android:visibility="invisible"
+                   android:id="@+id/radioHeadingToDrop"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/my_border"
+                   android:orientation="horizontal"
+                   android:padding="2dp">
+                   <!-- the background uses a rectangle created in the drawable folder -->
+                   <TextView
+                       android:id="@+id/HeadingToDrop"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="left"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="2dp"
+                       android:text="Heading To Drop: "
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+
+                   <TextView
+                       android:id="@+id/HeadingToDropValue"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="2dp"
+                       android:layout_marginRight="8dp"
+                       android:text="0 deg"
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+               </LinearLayout>
+
+               <!-- Below is the label for plane pitch -->
+
+               <LinearLayout
+                   android:visibility="invisible"
+                   android:id="@+id/radioIOPitch"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/my_border"
+                   android:orientation="horizontal"
+                   android:padding="2dp">
+                   <!-- the background uses a rectangle created in the drawable folder -->
+                   <TextView
+                       android:id="@+id/pitch"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="2dp"
+                       android:text="Pitch: "
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+
+                   <RelativeLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"></RelativeLayout>
+
+                   <TextView
+                       android:id="@+id/pitchValue"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="2dp"
+                       android:layout_marginRight="8dp"
+                       android:text="0 deg"
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+               </LinearLayout>
+
+
+
+
+           </LinearLayout>
+
+
+           <!--This relative layout contains the buttons and data at the bottom of the screen-->
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:paddingLeft="5dp"
+               android:paddingRight="5dp"
+               android:paddingBottom="5dp">
+
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentBottom="true"
+                   android:layout_alignParentRight="true">
+                   <ImageView
+                       android:adjustViewBounds="true"
+                       android:scaleType="centerInside"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/location_icon"
+                       android:maxHeight="100dp"
+                       android:maxWidth="100dp"
+                       android:background="@drawable/selector"
+                       android:onClick="currentLocationButtonClick"/>
+               </LinearLayout>
+
+
+
+               <LinearLayout
+                   android:id="@+id/download_layout"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   android:layout_alignParentTop="true"
+                   android:layout_alignParentLeft="true"
+                   android:padding="2dp">
+                   <!-- the background uses a rectangle created in the drawable folder -->
+                   <Button
+                       android:id="@+id/download_button"
+                       android:layout_width="wrap_content"
+                       android:layout_marginTop="150dp"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="8dp"
+                       android:text="Download"
+                       android:textColor="#000000"
+                       android:textSize="20dp"/>
+               </LinearLayout>
+
+               <LinearLayout
+                   android:id="@+id/list_layout"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   android:layout_alignParentTop="true"
+                   android:layout_alignParentRight="true"
+                   android:padding="2dp">
+                   <!-- the background uses a rectangle created in the drawable folder -->
+                   <Button
+                       android:id="@+id/list_button"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="150dp"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="8dp"
+                       android:text="List"
+                       android:textColor="#000000"
+                       android:textSize="20dp"/>
+               </LinearLayout>
+
+
+               <LinearLayout
+                   android:id="@+id/recordingIdentifier"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/my_border2"
+                   android:orientation="horizontal"
+                   android:layout_alignParentBottom="true"
+                   android:layout_centerInParent="true"
+                   android:padding="2dp">
+                   <!-- the background uses a rectangle created in the drawable folder -->
+                   <TextView
+                       android:id="@+id/recordingText"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="8dp"
+                       android:text="Not Recording"
+                       android:textColor="#FFFFFF"
+                       android:textSize="20dp"/>
+               </LinearLayout>
+
+               <LinearLayout
+                   android:id="@+id/setCurrent"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
+                   android:layout_centerInParent="true"
+                   android:padding="2dp">
+                   <!-- the background uses a rectangle created in the drawable folder -->
+                   <Button
+                       android:onClick="setCurrent"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Set Current"
+                       android:layout_marginLeft="10dp"
+                       android:layout_marginTop="250dp"
+                       android:layout_marginRight="8dp"
+                       android:textColor="#000000"
+                       android:textSize="20dp"/>
+               </LinearLayout>
+
+
+
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentBottom="true"
+                   android:layout_alignParentLeft="true">
+                   <ImageView
+                       android:adjustViewBounds="true"
+                       android:scaleType="centerInside"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/drop_load"
+                       android:maxHeight="100dp"
+                       android:maxWidth="100dp"
+                       android:background="@drawable/selector"
+                       android:onClick="dropPayloadButtonClick"/>
+               </LinearLayout>
+
+               <Button
+                   android:id="@+id/zeroGPS"
+                   android:onClick="zeroGPS"
+                   android:text="Zero GPS"
+                   android:layout_width="wrap_content"
+                   android:layout_alignParentLeft="true"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="10dp"
+                   android:layout_marginTop="210dp"
+                   android:layout_marginRight="8dp"
+                   android:textColor="#000000"
+                   android:textSize="20dp"/>
+
+               <Button
+                   android:id="@+id/zeroBaro"
+                   android:onClick="zeroBaro"
+                   android:text="Zero Baro"
+                   android:layout_width="wrap_content"
+                   android:layout_alignParentRight="true"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="10dp"
+                   android:layout_marginTop="210dp"
+                   android:layout_marginRight="8dp"
+                   android:textColor="#000000"
+                   android:textSize="20dp"/>
+
+           </RelativeLayout>
+
+       </LinearLayout>
+
+       <!-- Scroll View -->
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:layout_gravity="end"
+           android:background="#e1e1e1"
+           android:orientation="vertical">
+           <LinearLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal">
+
+
+
+
+               <ScrollView
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:orientation="vertical"
+                       android:id="@+id/Right_Menu">
+
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:paddingLeft="100dp"
+                           android:paddingRight="100dp"
+                           android:layout_height="wrap_content"
+                           android:text="Menu"
+                           android:textColor="#ffffff"
+                           android:textSize="25dp"
+                           android:background="@color/colorPrimary"
+                           android:textAlignment="center"
+                           android:textStyle="bold"
+                           android:paddingTop="10dp"
+                           android:paddingBottom="10dp"/>
+                       <TextView
+                           android:paddingLeft="15dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:text="Target"
+                           android:drawablePadding="15dp"
+                           android:drawableLeft="@mipmap/ic_pin_drop_black_24dp"
+                           android:textColor="#000000"
+                           android:textSize="15dp"
+                           android:paddingTop="15dp"
+                           android:paddingBottom="15dp"
+                           android:id="@+id/targetButton"
+                           android:onClick="targetTextClick"
+                           android:background="#E1E1E1"/>
+                       <TextView
+                           android:paddingLeft="15dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:text="Flight Path"
+                           android:drawablePadding="15dp"
+                           android:drawableLeft="@mipmap/ic_flight_black_24dp"
+                           android:textColor="#000000"
+                           android:textSize="15dp"
+                           android:paddingTop="15dp"
+                           android:paddingBottom="15dp"
+                           android:id="@+id/flightPathButton"
+                           android:background="#E1E1E1"
+                           android:onClick="flightPathTextClick"/>
+                       <TextView
+                           android:paddingLeft="15dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:text="Video"
+                           android:drawablePadding="15dp"
+                           android:drawableLeft="@mipmap/ic_videocam_black_24dp"
+                           android:textColor="#000000"
+                           android:textSize="15dp"
+                           android:paddingTop="15dp"
+                           android:paddingBottom="15dp"
+                           android:id="@+id/videoButton"
+                           android:background="#E1E1E1"
+                           android:onClick="videoTextClick"/>
+                       <TextView
+                           android:paddingLeft="15dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:text="Horizon"
+                           android:drawablePadding="15dp"
+                           android:drawableLeft="@mipmap/ic_looks_black_24dp"
+                           android:textColor="#000000"
+                           android:textSize="15dp"
+                           android:paddingTop="15dp"
+                           android:paddingBottom="15dp"
+                           android:id="@+id/horizonButton"
+                           android:background="#E1E1E1"
+                           android:onClick="horizonTextClick"/>
+                       <TextView
+                           android:paddingLeft="15dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:text="Display"
+                           android:drawablePadding="15dp"
+                           android:drawableLeft="@mipmap/ic_add_circle_outline_black_24dp"
+                           android:textColor="#000000"
+                           android:textSize="15dp"
+                           android:paddingTop="15dp"
+                           android:paddingBottom="15dp"
+                           android:id="@+id/displayButton"
+                           android:onClick="displayTextClick"
+                           android:background="#E1E1E1"/>
+                       <TextView
+                           android:paddingLeft="15dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:text="Payload Controls"
+                           android:drawablePadding="15dp"
+                           android:drawableLeft="@mipmap/aero_design"
+                           android:textColor="#000000"
+                           android:textSize="15dp"
+                           android:paddingTop="15dp"
+                           android:paddingBottom="15dp"
+                           android:id="@+id/payLoadControls"
+                           android:onClick="payloadClicked"
+                           android:background="#E1E1E1"/>
+
+                       <!-- Below is the Linear Layout containing the checkboxes for the radio IO labels -->
+
+                       <LinearLayout
+                           android:paddingTop="10dp"
+                           android:paddingBottom="0dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:visibility="invisible"
+                           android:paddingLeft="50dp"
+                           android:id="@+id/displayList"
+                           android:orientation="vertical">
+
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="Height"
+                               android:textColor="#787878"
+                               android:buttonTint="@color/colorPrimary"
+                               android:id="@+id/checkBoxHeight"
+                               android:onClick="checkBoxClicked"/>
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="Drop Height"
+                               android:textColor="#787878"
+                               android:buttonTint="@color/colorPrimary"
+                               android:id="@+id/checkBoxDropHeight"
+                               android:onClick="checkBoxClicked"/>
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="Heading"
+                               android:textColor="#787878"
+                               android:id="@+id/checkBoxHeading"
+                               android:buttonTint="@color/colorPrimary"
+                               android:onClick="checkBoxClicked"/>
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="Roll"
+                               android:textColor="#787878"
+                               android:buttonTint="@color/colorPrimary"
+                               android:id="@+id/checkBoxRoll"
+                               android:onClick="checkBoxClicked"/>
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="Ground Speed"
+                               android:textColor="#787878"
+                               android:buttonTint="@color/colorPrimary"
+                               android:id="@+id/checkboxGroundSpeed"
+                               android:onClick="checkBoxClicked"/>
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="Time to Drop"
+                               android:textColor="#787878"
+                               android:buttonTint="@color/colorPrimary"
+                               android:id="@+id/checkboxDropTime"
+                               android:onClick="checkBoxClicked"/>
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="Heading to Drop"
+                               android:textColor="#787878"
+                               android:buttonTint="@color/colorPrimary"
+                               android:id="@+id/checkboxHeadingTime"
+                               android:onClick="checkBoxClicked"/>
+
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="Pitch"
+                               android:textColor="#787878"
+                               android:buttonTint="@color/colorPrimary"
+                               android:id="@+id/checkBoxPitch"
+                               android:onClick="checkBoxClicked"/>
+
+
+                       </LinearLayout>
+
+
+
+                       <LinearLayout
+                           android:paddingTop="0dp"
+                           android:paddingBottom="50dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:visibility="invisible"
+                           android:paddingLeft="50dp"
+                           android:id="@+id/payloadList"
+                           android:orientation="vertical">
+
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="FL Loaded"
+                               android:textColor="#787878"
+                               android:buttonTint="@color/colorPrimary"
+                               android:id="@+id/payloadFL"
+                               android:onClick="payloadTextClicked"/>
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="FR Loaded"
+                               android:textColor="#787878"
+                               android:buttonTint="@color/colorPrimary"
+                               android:id="@+id/payloadFR"
+                               android:onClick="payloadTextClicked"/>
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="BL Loaded"
+                               android:textColor="#787878"
+                               android:buttonTint="@color/colorPrimary"
+                               android:id="@+id/payloadBL"
+                               android:onClick="payloadTextClicked"/>
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="BR Loaded"
+                               android:textColor="#787878"
+                               android:id="@+id/payloadBR"
+                               android:buttonTint="@color/colorPrimary"
+                               android:onClick="payloadTextClicked"/>
+                           <CheckBox
+                               android:paddingTop="5dp"
+                               android:paddingBottom="5dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:checked="false"
+                               android:text="Payload Doors"
+                               android:textColor="#787878"
+                               android:id="@+id/payloadDoors"
+                               android:buttonTint="@color/colorPrimary"
+                               android:onClick="payloadTextClicked"/>
+                       </LinearLayout>
+
+                       <!-- Below are the custom drop and connect buttons in the sliding menu -->
+
+                       <RelativeLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="match_parent"
+                           android:paddingLeft="5dp"
+                           android:paddingRight="5dp"
+                           android:paddingBottom="5dp">
+
+                           <Button
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:text="Connect"
+                               android:onClick="radioConnect"
+                               android:layout_alignParentBottom="true"
+                               android:layout_alignParentLeft="true"
+                               android:background="@drawable/my_border4"/>
+                           <Button
+                               android:id="@+id/recordButton"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:text="Record"
+                               android:layout_alignParentBottom="true"
+                               android:layout_alignParentRight="true"
+                               android:background="@drawable/my_border2"
+                               android:onClick="recordButtonClicked"/>
+                       </RelativeLayout>
+
+                   </LinearLayout>
+
+               </ScrollView>
+
+           </LinearLayout>
+
+       </LinearLayout>
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:background="#e1e1e1"
+           android:orientation="vertical"
+           android:layout_gravity="start"
+           android:id="@+id/Left_Menu">
+
+           <TextView
+               android:layout_alignParentTop="true"
+               android:layout_width="match_parent"
+               android:paddingLeft="10dp"
+               android:drawablePadding="30dp"
+               android:paddingRight="100dp"
+               android:layout_height="wrap_content"
+               android:text="Menu"
+               android:textColor="#ffffff"
+               android:textSize="25dp"
+               android:background="@color/colorPrimary"
+               android:textAlignment="center"
+               android:textStyle="bold"
+               android:paddingTop="10dp"
+               android:paddingBottom="10dp"
+               android:id="@+id/secondaryMenuTitle"
+               android:drawableLeft="@mipmap/ic_arrow_back_white_24dp"
+               android:onClick="backArrowClick"/>
+
+
+
+       </RelativeLayout>
+
+
+
+
+
+       <ProgressBar
+           android:id="@+id/progress_bar"
+           style="?android:attr/progressBarStyleHorizontal"
+           android:layout_width="match_parent"
+           android:layout_height="25dp"
+           android:layout_alignParentBottom="true"
+           android:layout_centerInParent="true"
+           android:paddingLeft="250dp"
+           android:paddingRight="250dp"
+           android:visibility="gone"/>
+
+
+
+
+
+
+
+
+
+
+</android.support.v4.widget.DrawerLayout>
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--xmlns:mapbox="http://schemas.android.com/apk/res-auto"-->
+    <!--tools:context="com.code.aero.groundstation.UserInterfaceActivity"-->
+    <!--android:orientation="vertical">-->
+
+    <!--&lt;!&ndash; <android.support.design.widget.AppBarLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:theme="@style/AppTheme.AppBarOverlay">-->
+
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/toolbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="?attr/actionBarSize"-->
+    <!--android:background="?attr/colorPrimary"-->
+    <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
+
+    <!--</android.support.design.widget.AppBarLayout>&ndash;&gt;-->
+    <!--<com.mapbox.mapboxsdk.maps.MapView-->
+    <!--android:id="@+id/mapView"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--mapbox:mapbox_cameraTargetLat="40.73581"-->
+    <!--mapbox:mapbox_cameraTargetLng="-73.99155"-->
+    <!--mapbox:mapbox_styleUrl="mapbox://styles/mapbox/satellite-streets-v10"-->
+    <!--mapbox:mapbox_cameraZoom="11" />-->
+
+    <!--<include layout="@layout/content_main"/>-->
+
+    <!--</RelativeLayout>-->

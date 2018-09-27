@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_target"
+        android:title="Target"
+        android:icon="@mipmap/ic_pin_drop_black_24dp"/>
+    <item android:id="@+id/nav_flightpath"
+        android:title="Flight Path"
+        android:icon="@mipmap/ic_flight_black_24dp"/>
+    <item android:id="@+id/nav_video"
+        android:title="Video"
+        android:icon="@mipmap/ic_videocam_black_24dp"/>
+    <item android:id="@+id/nav_horizon"
+        android:title="Horizon"
+        android:icon="@mipmap/ic_looks_black_24dp"/>
+    <item android:id="@+id/nav_display"
+        android:title="Display"
+        android:icon="@mipmap/ic_add_circle_outline_black_24dp" />
+</menu>

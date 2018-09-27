@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.code.aero.groundstation">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature android:name="android.hardware.usb.host" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+            android:resource="@xml/device_filter" />
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".UserInterfaceActivity" />
+        <activity android:name=".DatabaseHelperActivity" />
+        <activity
+            android:name="com.code.aero.outdated_code.LocationServiceActivity"
+            android:label="@string/title_activity_location_service"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".HorizonActivity"
+            android:label="@string/title_activity_artificial_horizon"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.com.code.aero.groundstation.HorizonActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AttitudeIndicatorActivity"
+            android:label="@string/title_activity_attitude_indicator"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.code.aero.outdated_code.OfflineMapActivity"
+            android:label="@string/title_activity_offline_map"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".FlightPathActivity"
+            android:label="@string/title_activity_flight_path"
+            android:theme="@style/AppTheme"></activity>
+    </application>
+
+</manifest>

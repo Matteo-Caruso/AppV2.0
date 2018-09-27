@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.code.aero.groundstation.FlightPathActivity"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto">
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        mapbox:mapbox_cameraTargetLat="27.97816585"
+        mapbox:mapbox_cameraTargetLng="-82.02474327"
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9"
+        mapbox:mapbox_cameraZoom="11" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+
+        <!-- Below is the label for plane height -->
+
+        <LinearLayout
+            android:id="@+id/playAltitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border"
+            android:orientation="horizontal"
+            android:padding="2dp">
+            <!-- the background uses a rectangle created in the drawable folder -->
+            <TextView
+                android:id="@+id/altitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:text="Altitude: "
+                android:textColor="#FFFFFF"
+                android:textSize="50dp"/>
+
+            <TextView
+                android:id="@+id/altitudeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:text="0 ft"
+                android:textColor="#FFFFFF"
+                android:textSize="50dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/playSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border"
+            android:orientation="horizontal"
+            android:padding="2dp">
+            <!-- the background uses a rectangle created in the drawable folder -->
+            <TextView
+                android:id="@+id/speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:text="Speed: "
+                android:textColor="#FFFFFF"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/speedValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:text="0 ft/s"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/playHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border"
+            android:orientation="horizontal"
+            android:padding="2dp">
+            <!-- the background uses a rectangle created in the drawable folder -->
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:text="Heading: "
+                android:textColor="#FFFFFF"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/headingValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:text="0 deg"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/playDropHeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border"
+            android:orientation="horizontal"
+            android:padding="2dp">
+            <!-- the background uses a rectangle created in the drawable folder -->
+            <TextView
+                android:id="@+id/dropHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:text="Drop Height: "
+                android:textColor="#FFFFFF"
+                android:textSize="50dp"/>
+
+            <TextView
+                android:id="@+id/dropHeightValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:text="0 ft"
+                android:textColor="#FFFFFF"
+                android:textSize="50dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/playRoll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border"
+            android:orientation="horizontal"
+            android:padding="2dp">
+            <!-- the background uses a rectangle created in the drawable folder -->
+            <TextView
+                android:id="@+id/roll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:text="Roll: "
+                android:textColor="#FFFFFF"
+                android:textSize="50dp"/>
+
+            <TextView
+                android:id="@+id/rollValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:text="0 deg"
+                android:textColor="#FFFFFF"
+                android:textSize="50dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/playPitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border"
+            android:orientation="horizontal"
+            android:padding="2dp">
+            <!-- the background uses a rectangle created in the drawable folder -->
+            <TextView
+                android:id="@+id/pitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:text="Pitch: "
+                android:textColor="#FFFFFF"
+                android:textSize="50dp"/>
+
+            <TextView
+                android:id="@+id/pitchValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:text="0 deg"
+                android:textColor="#FFFFFF"
+                android:textSize="50dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/playYaw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border"
+            android:orientation="horizontal"
+            android:padding="2dp">
+            <!-- the background uses a rectangle created in the drawable folder -->
+            <TextView
+                android:id="@+id/yaw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:text="Yaw: "
+                android:textColor="#FFFFFF"
+                android:textSize="50dp"/>
+
+            <TextView
+                android:id="@+id/yawValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:text="0 deg"
+                android:textColor="#FFFFFF"
+                android:textSize="50dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|bottom"
+            android:weightSum="3"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/backward"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:onClick="backward_button"
+                android:src="@drawable/step_backward"></ImageButton>
+
+            <ImageButton
+                android:id="@+id/play_pause"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_alignBottom="@+id/forward"
+                android:onClick="play_pause_button"
+                android:src="@drawable/play_button"></ImageButton>
+
+            <ImageButton
+                android:id="@+id/forward"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:onClick="forward_button"
+                android:src="@drawable/step_forward"></ImageButton>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</android.support.v4.widget.DrawerLayout>

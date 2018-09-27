@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_target"
+        android:title="Target"
+        android:icon="@mipmap/ic_pin_drop_black_24dp"/>
+    <item android:id="@+id/nav_flightpath"
+        android:title="Flight Path"
+        android:icon="@mipmap/ic_flight_black_24dp"/>
+</menu>

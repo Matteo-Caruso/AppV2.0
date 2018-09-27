@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.code.aero.groundstation.MainActivity">
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        mapbox:mapbox_cameraTargetLat="-36.841362"
+        mapbox:mapbox_cameraTargetLng="174.851110"
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/streets-v10"
+        mapbox:mapbox_cameraZoom="11" />
+</RelativeLayout>
