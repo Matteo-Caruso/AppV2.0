@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,11 +13,15 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.offline.OfflineManager;
 import com.mapbox.mapboxsdk.offline.OfflineRegion;
+import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
+
+import org.json.JSONObject;
 
 public class OfflineMaps extends AppCompatActivity {
     //UI Elements
@@ -29,6 +34,10 @@ public class OfflineMaps extends AppCompatActivity {
 
     private OfflineManager offlineManager;
     private OfflineRegion offlineRegion;
+
+    public static final String JSON_CHARSET = "UTF-8";
+    public static final String JSON_FIELD_REGION_NAME = "FIELD_REGION_NAME";
+    private static final String TAG = "OfflineMap";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,7 +135,7 @@ public class OfflineMaps extends AppCompatActivity {
                             Toast.makeText(OfflineMaps.this, getString(R.string.OfflineMapsDownloadRegionDialogToast), Toast.LENGTH_SHORT).show();
                         } else {
                             // Begin download process
-                            //downloadRegion(regionName);
+                            downloadRegion(regionName);
                         }
                     }
                 })
@@ -139,6 +148,46 @@ public class OfflineMaps extends AppCompatActivity {
 
         // Display the dialog
         downloadDialog.show();
+    }
+
+    public void downloadRegion(final String regionName) {
+        //Define map region
+        String styleUrl = map.getStyleUrl();
+        LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
+        double minZoom = map.getCameraPosition().zoom;
+        double maxZoom = map.getMaxZoomLevel();
+        float pixelRatio = this.getResources().getDisplayMetrics().density;
+        OfflineTilePyramidRegionDefinition definition = new OfflineTilePyramidRegionDefinition(
+                styleUrl, bounds, minZoom, maxZoom, pixelRatio);
+
+        // Build a JSONObject using the user-defined offline region title,
+        // convert it into string, and use it to create a metadata variable.
+        // The metadata variable will later be passed to createOfflineRegion()
+        byte[] metadata;
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(JSON_FIELD_REGION_NAME, regionName);
+            String json = jsonObject.toString();
+            metadata = json.getBytes(JSON_CHARSET);
+        } catch (Exception exception) {
+            Log.e(TAG, "Failed to encode metadata: " + exception.getMessage());
+            metadata = null;
+        }
+
+        // Create the offline region and launch the download
+        offlineManager.createOfflineRegion(definition, metadata, new OfflineManager.CreateOfflineRegionCallback() {
+            @Override
+            public void onCreate(OfflineRegion offlineRegion) {
+                Log.d(TAG, "Offline region created: " + regionName);
+                OfflineMaps.this.offlineRegion = offlineRegion;
+                //launchDownload();
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e(TAG, "Error: " + error);
+            }
+        });
     }
 
 }
