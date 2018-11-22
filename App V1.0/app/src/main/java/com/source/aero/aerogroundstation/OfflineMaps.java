@@ -1,23 +1,50 @@
 package com.source.aero.aerogroundstation;
 
-import android.content.Intent;
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.offline.OfflineManager;
+import com.mapbox.mapboxsdk.offline.OfflineRegion;
 
-public class MainActivity extends AppCompatActivity {
+public class OfflineMaps extends AppCompatActivity {
+    //UI Elements
     private MapView mapView;
+    private MapboxMap map;
+    private ProgressBar progressBar;
+    private Button downloadButton;
+    private Button listButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_offline_maps);
+        progressBar = (ProgressBar) findViewById(R.id.DownloadProgressBar);
+        downloadButton = (Button) findViewById(R.id.DownloadButton);
+        listButton = (Button) findViewById(R.id.ListButton);
+
         Mapbox.getInstance(this, "pk.eyJ1IjoiYWVyb2Rlc2lnbiIsImEiOiJjam9sczI0bjMwM3E4M2twMXk0NG93YXg1In0.jYhWqqiBnn4O4KrLImf-Gg");
-        setContentView(R.layout.activity_main);
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
+        downloadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //downloadRegionDialog();
+            }
+        });
+
+        listButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //listRegion();
+            }
+        });
     }
 
     @Override
@@ -62,9 +89,4 @@ public class MainActivity extends AppCompatActivity {
         mapView.onSaveInstanceState(outState);
     }
 
-    //Offline Maps
-    public void openOfflineMapsDialog(View view) {
-        Intent intent = new Intent(this, OfflineMaps.class);
-        startActivity(intent);
-    }
 }
