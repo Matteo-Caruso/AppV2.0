@@ -19,6 +19,8 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.offline.OfflineManager;
 import com.mapbox.mapboxsdk.offline.OfflineRegion;
+import com.mapbox.mapboxsdk.offline.OfflineRegionError;
+import com.mapbox.mapboxsdk.offline.OfflineRegionStatus;
 import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
 
 import org.json.JSONObject;
@@ -39,6 +41,8 @@ public class OfflineMaps extends AppCompatActivity {
     public static final String JSON_FIELD_REGION_NAME = "FIELD_REGION_NAME";
     private static final String TAG = "OfflineMap";
 
+    boolean isEndNotified;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,8 @@ public class OfflineMaps extends AppCompatActivity {
                 map = mapboxMap;
             }
         });
+
+        offlineManager = OfflineManager.getInstance(this);
 
         downloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +157,7 @@ public class OfflineMaps extends AppCompatActivity {
     }
 
     public void downloadRegion(final String regionName) {
+        startDownloadProgress();
         //Define map region
         String styleUrl = map.getStyleUrl();
         LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
@@ -180,7 +187,7 @@ public class OfflineMaps extends AppCompatActivity {
             public void onCreate(OfflineRegion offlineRegion) {
                 Log.d(TAG, "Offline region created: " + regionName);
                 OfflineMaps.this.offlineRegion = offlineRegion;
-                //launchDownload();
+                launchDownload();
             }
 
             @Override
@@ -188,6 +195,85 @@ public class OfflineMaps extends AppCompatActivity {
                 Log.e(TAG, "Error: " + error);
             }
         });
+    }
+
+    private void launchDownload() {
+        // Set up an observer to handle download progress and
+        // notify the user when the region is finished downloading
+        offlineRegion.setObserver(new OfflineRegion.OfflineRegionObserver() {
+            @Override
+            public void onStatusChanged(OfflineRegionStatus status) {
+                // Compute a percentage
+                double percentage = status.getRequiredResourceCount() >= 0
+                        ? (100.0 * status.getCompletedResourceCount() / status.getRequiredResourceCount()) :
+                        0.0;
+
+                if (status.isComplete()) {
+                    // Download complete
+                    endDownloadProgress(getString(R.string.OfflineMapsDownloadCompleteProgress));
+                    return;
+                } else if (status.isRequiredResourceCountPrecise()) {
+                    // Switch to determinate state
+                    setPercentage((int) Math.round(percentage));
+                }
+
+                // Log what is being currently downloaded
+                Log.d(TAG, String.format("%s/%s resources; %s bytes downloaded.",
+                        String.valueOf(status.getCompletedResourceCount()),
+                        String.valueOf(status.getRequiredResourceCount()),
+                        String.valueOf(status.getCompletedResourceSize())));
+            }
+
+            @Override
+            public void onError(OfflineRegionError error) {
+                Log.e(TAG, "onError reason: " + error.getReason());
+                Log.e(TAG, "onError message: " + error.getMessage());
+            }
+
+            @Override
+            public void mapboxTileCountLimitExceeded(long limit) {
+                Log.e(TAG, "Mapbox tile count limit exceeded: " + limit);
+            }
+        });
+
+        // Change the region state
+        offlineRegion.setDownloadState(OfflineRegion.STATE_ACTIVE);
+    }
+
+    // Progress bar methods
+    private void startDownloadProgress() {
+        // Disable buttons
+        downloadButton.setEnabled(false);
+        listButton.setEnabled(false);
+
+        // Start and show the progress bar
+        isEndNotified = false;
+        progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void setPercentage(final int percentage) {
+        progressBar.setIndeterminate(false);
+        progressBar.setProgress(percentage);
+    }
+
+    private void endDownloadProgress(final String message) {
+        // Don't notify more than once
+        if (isEndNotified) {
+            return;
+        }
+
+        //Enable buttons
+        downloadButton.setEnabled(true);
+        listButton.setEnabled(true);
+
+        // Stop and hide the progress bar
+        isEndNotified = true;
+        progressBar.setIndeterminate(false);
+        progressBar.setVisibility(View.GONE);
+
+        // Show a toast
+        Toast.makeText(OfflineMaps.this, message, Toast.LENGTH_LONG).show();
     }
 
 }

@@ -9,4 +9,5 @@
     <string name="OfflineMapsDownloadRegionDialogPositive">Create</string>
     <string name="OfflineMapsDownloadRegionDialogToast">No</string>
     <string name="OfflineMapsDownloadRegionDialogCancel">Cancel</string>
+    <string name="OfflineMapsDownloadCompleteProgress">Done</string>
 </resources>
