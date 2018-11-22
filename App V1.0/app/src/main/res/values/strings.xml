@@ -10,4 +10,11 @@
     <string name="OfflineMapsDownloadRegionDialogToast">No</string>
     <string name="OfflineMapsDownloadRegionDialogCancel">Cancel</string>
     <string name="OfflineMapsDownloadCompleteProgress">Done</string>
+    <string name="OfflineMapsRegionListNoRegionsToast">No Regions Downloaded Yet</string>
+    <string name="OfflineMapsRegionListDialogTitle">Regions</string>
+    <string name="OfflineMapsRegionListDialogPositive">Select</string>
+    <string name="OfflineMapsRegionListDialogNeutralButton">Delete</string>
+    <string name="OfflineMapsDeleteRegionToast">Region Deleted</string>
+    <string name="OfflineMapsRegionListDialogNegative">Cancel</string>
+    <string name="OfflineMapsRegionNameFormat">%d</string>
 </resources>
