@@ -3,4 +3,10 @@
     <string name="OfflineMapButton">Load Maps</string>
     <string name="OfflineMapDownloadButton">Download</string>
     <string name="OfflineMapListButton">List</string>
+    <string name="OfflineMapsSetRegionNameHint">Set Region Name</string>
+    <string name="OfflineMapsDownloadRegionDialogTitle">Download Region</string>
+    <string name="OfflineMapsDownloadRegionDialogMessage">Name the region to be downloaded</string>
+    <string name="OfflineMapsDownloadRegionDialogPositive">Create</string>
+    <string name="OfflineMapsDownloadRegionDialogToast">No</string>
+    <string name="OfflineMapsDownloadRegionDialogCancel">Cancel</string>
 </resources>
