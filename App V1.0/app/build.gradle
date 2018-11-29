@@ -18,6 +18,7 @@ android {
     }
     repositories {
         mavenCentral()
+        maven { url 'https://mapbox.bintray.com/mapbox' }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

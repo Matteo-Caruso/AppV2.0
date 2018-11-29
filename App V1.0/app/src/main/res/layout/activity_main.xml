@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,8 +12,18 @@
         android:layout_height="match_parent"
         mapbox:mapbox_cameraTargetLat="28.0394650"
         mapbox:mapbox_cameraTargetLng="-81.9498040"
+        mapbox:mapbox_cameraZoom="11"
         mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9"
-        mapbox:mapbox_cameraZoom="11" />
+        tools:layout_editor_absoluteX="81dp"
+        tools:layout_editor_absoluteY="199dp">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="testButtonLocation"
+            android:text="Button" />
+    </com.mapbox.mapboxsdk.maps.MapView>
 
 </android.support.constraint.ConstraintLayout>
 
