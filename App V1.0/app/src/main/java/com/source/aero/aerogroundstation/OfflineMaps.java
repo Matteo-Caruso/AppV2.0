@@ -1,12 +1,14 @@
 package com.source.aero.aerogroundstation;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -29,11 +31,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class OfflineMaps extends AppCompatActivity {
-    //UI Elements
-    private MapView mapView;
+public class OfflineMaps extends Fragment {
     private MapboxMap map;
 
+    //UI Elements
     private ProgressBar progressBar;
     private Button downloadButton;
     private Button listButton;
@@ -48,25 +49,28 @@ public class OfflineMaps extends AppCompatActivity {
     boolean isEndNotified;
     int regionSelected;
 
+    public OfflineMaps() {
+        //empty fragment constructor
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_offline_maps);
-        progressBar = (ProgressBar) findViewById(R.id.DownloadProgressBar);
-        downloadButton = (Button) findViewById(R.id.DownloadButton);
-        listButton = (Button) findViewById(R.id.ListButton);
+        offlineManager = OfflineManager.getInstance(getActivity());
 
-        Mapbox.getInstance(this, "pk.eyJ1IjoiYWVyb2Rlc2lnbiIsImEiOiJjam9sczI0bjMwM3E4M2twMXk0NG93YXg1In0.jYhWqqiBnn4O4KrLImf-Gg");
-        mapView = (MapView) findViewById(R.id.mapView);
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(MapboxMap mapboxMap) {
-                map = mapboxMap;
-            }
-        });
+    }
 
-        offlineManager = OfflineManager.getInstance(this);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_offline_maps, parent, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstance) {
+        progressBar = (ProgressBar) view.findViewById(R.id.DownloadProgressBar);
+        downloadButton = (Button) view.findViewById(R.id.DownloadButton);
+        listButton = (Button) view.findViewById(R.id.ListButton);
+        //mapView = (MapView) view.findViewById(R.id.mapView);
 
         downloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,54 +85,17 @@ public class OfflineMaps extends AppCompatActivity {
                 regionList();
             }
         });
+
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mapView.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mapView.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mapView.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mapView.onStop();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
+    public void passMap(MapView mapView, MapboxMap map) {
+        this.map = map;
     }
 
     private void downloadRegionDialog() {
-        AlertDialog.Builder downloadDialog = new AlertDialog.Builder(OfflineMaps.this);
+        AlertDialog.Builder downloadDialog = new AlertDialog.Builder(getActivity());
 
-        final EditText regionNameEdit = new EditText(OfflineMaps.this);
+        final EditText regionNameEdit = new EditText(getActivity());
         regionNameEdit.setHint(getString(R.string.OfflineMapsSetRegionNameHint));
 
         // Build the dialog box
@@ -143,7 +110,7 @@ public class OfflineMaps extends AppCompatActivity {
                         // If the user-provided string is empty, display
                         // a toast message and do not begin download.
                         if (regionName.length() == 0) {
-                            Toast.makeText(OfflineMaps.this, getString(R.string.OfflineMapsDownloadRegionDialogToast), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.OfflineMapsDownloadRegionDialogToast), Toast.LENGTH_SHORT).show();
                         } else {
                             // Begin download process
                             downloadRegion(regionName);
@@ -278,7 +245,7 @@ public class OfflineMaps extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
 
         // Show a toast
-        Toast.makeText(OfflineMaps.this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
     private void regionList() {
@@ -289,7 +256,7 @@ public class OfflineMaps extends AppCompatActivity {
                 // Check result. If no regions have been
                 // downloaded yet, notify user and return
                 if (offlineRegions == null || offlineRegions.length == 0) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.OfflineMapsRegionListNoRegionsToast), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.OfflineMapsRegionListNoRegionsToast), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -301,7 +268,7 @@ public class OfflineMaps extends AppCompatActivity {
                 final CharSequence[] items = offlineRegionsNames.toArray(new CharSequence[offlineRegionsNames.size()]);
 
                 // Build a dialog containing the list of regions
-                AlertDialog dialog = new AlertDialog.Builder(OfflineMaps.this)
+                AlertDialog dialog = new AlertDialog.Builder(getActivity())
                         .setTitle(getString(R.string.OfflineMapsRegionListDialogTitle))
                         .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
                             @Override
@@ -314,7 +281,7 @@ public class OfflineMaps extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
 
-                                Toast.makeText(OfflineMaps.this, items[regionSelected], Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), items[regionSelected], Toast.LENGTH_LONG).show();
 
                                 // Get the region bounds and zoom
                                 LatLngBounds bounds = ((OfflineTilePyramidRegionDefinition)
@@ -350,7 +317,7 @@ public class OfflineMaps extends AppCompatActivity {
                                     // progressBar and display a toast
                                         progressBar.setVisibility(View.INVISIBLE);
                                         progressBar.setIndeterminate(false);
-                                        Toast.makeText(getApplicationContext(), getString(R.string.OfflineMapsDeleteRegionToast),
+                                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.OfflineMapsDeleteRegionToast),
                                                 Toast.LENGTH_LONG).show();
                                     }
 
@@ -396,5 +363,4 @@ public class OfflineMaps extends AppCompatActivity {
         }
         return regionName;
     }
-
 }
