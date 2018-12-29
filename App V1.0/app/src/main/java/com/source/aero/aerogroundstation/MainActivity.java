@@ -2,10 +2,13 @@ package com.source.aero.aerogroundstation;
 
 import java.util.List;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.location.Location;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import android.support.annotation.NonNull;
 
@@ -23,12 +26,14 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import com.source.aero.aerogroundstation.MapboxLocationHandler;
 
-public class MainActivity extends AppCompatActivity implements PermissionsListener, OnMapReadyCallback{
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback{
     // Mapbox storage containers
     private MapView mapView;
     private MapboxMap mapboxMap;
 
-    MapboxLocationHandler locationHandler;
+    //myLocation
+    private Button loadLocationButton;
+    private boolean locationFragmentDisplayed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +43,21 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+
+        //myLocation
+        loadLocationButton = (Button) findViewById(R.id.locationButton);
+        loadLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findLocation();
+            }
+        });
+
     }
 
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
-        locationHandler = new LocationHandler(mapboxMap);
-        locationHandler.cameraToCurrentLocation();
     }
 
     @Override
@@ -91,10 +104,19 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
 
     // This button is used for testing if the camera will zoom to our current location on button press and then print out the new latitude and longitude
-    public void testButtonLocation(View v) {
-        locationHandler.updateCurrentLocation();
-        locationHandler.cameraToLocation(lastKnownLocation);
-        Location lastKnownLocation = locationHandler.getMyLastLocation();
-        Toast.makeText(this,Location.convert(lastKnownLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(lastKnownLocation.getLongitude(), Location.FORMAT_DEGREES), Toast.LENGTH_LONG).show();
+    public void findLocation() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (!locationFragmentDisplayed) {
+            MapboxLocationHandler locationHandlerFragment = new MapboxLocationHandler();
+            fragmentTransaction.add(R.id.fragmentContainer, locationHandlerFragment).addToBackStack(null).commit();
+            locationFragmentDisplayed = true;
+            locationHandlerFragment.passMap(this.mapboxMap);
+        }
+        else {
+            MapboxLocationHandler existingFragment = (MapboxLocationHandler) fragmentManager.findFragmentById(R.id.fragmentContainer);
+            fragmentTransaction.remove(existingFragment).commit();
+            locationFragmentDisplayed = false;
+        }
     }
 }
