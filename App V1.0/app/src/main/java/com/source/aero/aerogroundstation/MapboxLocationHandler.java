@@ -45,18 +45,25 @@ public class MapboxLocationHandler extends Fragment implements PermissionsListen
         super.onCreate(savedInstanceState);
     }
 
+    //Return inflater with location handler layout
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_mapboxlocationhandler, parent, false);
     }
 
+    //Initialize UI elements
     @Override
     public void onViewCreated(View view, Bundle savedInstance) {
-        updateCurrentLocation();
-        cameraToLocation();
-        Toast.makeText(getActivity(),Location.convert(lastKnownLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(lastKnownLocation.getLongitude(), Location.FORMAT_DEGREES), Toast.LENGTH_LONG).show();
+        currentLocationButton = (Button) view.findViewById(R.id.locationButton);
+        currentLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentLocation();
+            }
+        });
     }
 
+    //Get map object from main activity
     public void passMap(MapboxMap map) {
         this.mapboxMap = map;
     }
@@ -134,6 +141,10 @@ public class MapboxLocationHandler extends Fragment implements PermissionsListen
         }
     }
 
+    //Updates map to current gps location
+    public void currentLocation() {
+        updateCurrentLocation();
+        cameraToLocation();
+        Toast.makeText(getActivity(),Location.convert(lastKnownLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(lastKnownLocation.getLongitude(), Location.FORMAT_DEGREES), Toast.LENGTH_LONG).show();
+    }
 }
-
-
