@@ -5,4 +5,8 @@
     <string name="initConfigRadioButton3Text">Configuration 3</string>
     <string name="initConfigRadioGroupText">Choose Configuration</string>
     <string name="initConfigStartButtonText">Select</string>
+    <string name="token">pk.eyJ1IjoiYWVyb2Rlc2lnbiIsImEiOiJjam9sczI0bjMwM3E4M2twMXk0NG93YXg1In0.jYhWqqiBnn4O4KrLImf-Gg</string>
+    <string name="config1PreviewText">Configuration 1</string>
+    <string name="config2PreviewText">Configuration 2</string>
+    <string name="config3PreviewText">Configuration 3</string>
 </resources>
