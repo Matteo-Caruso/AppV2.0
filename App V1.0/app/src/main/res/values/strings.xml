@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AeroGroundstation</string>
+    <string name="initConfigRadioButton1Text">Configuration 1</string>
+    <string name="initConfigRadioButton2Text">Configuration 2</string>
+    <string name="initConfigRadioButton3Text">Configuration 3</string>
+    <string name="initConfigRadioGroupText">Choose Configuration</string>
+    <string name="initConfigStartButtonText">Select</string>
 </resources>
