@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mainActivityBottomNavigationTargets"
+        android:icon="@drawable/mapbox_marker_icon_default"
+        android:title="@string/mainActivityBottomNavigationOption1Text"/>
+
+    <item
+        android:id="@+id/mainActivityBottomNavigationPath"
+        android:icon="@drawable/mapbox_compass_icon"
+        android:title="@string/mainActivityBottomNavigationOption2Text"/>
+
+    <item
+        android:id="@+id/mainActivityBottomNavigationDisplays"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/mainActivityBottomNavigationOption3Text"/>
+
+    <item
+        android:id="@+id/mainActivityBottomNavigationConfigs"
+        android:icon="@drawable/mapbox_info_icon_default"
+        android:title="@string/mainActivityBottomNavigationOption4Text"/>
+
+</menu>

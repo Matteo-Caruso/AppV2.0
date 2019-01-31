@@ -1,5 +1,6 @@
 package com.source.aero.aerogroundstation;
 
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -8,13 +9,17 @@ import com.mapbox.mapboxsdk.maps.MapView;
 public class MainActivity extends AppCompatActivity {
     private MapView mapView;
 
+    //Ui Elements
+    BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mapbox.getInstance(this, "pk.eyJ1IjoiYWVyb2Rlc2lnbiIsImEiOiJjam9sczI0bjMwM3E4M2twMXk0NG93YXg1In0.jYhWqqiBnn4O4KrLImf-Gg");
+        Mapbox.getInstance(this, getResources().getString(R.string.mapboxToken));
         setContentView(R.layout.activity_main);
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.mainActivityBottomNavigationView);
     }
 
     @Override

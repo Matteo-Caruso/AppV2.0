@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AeroGroundstation</string>
+    <string name="mapboxToken">pk.eyJ1IjoiYWVyb2Rlc2lnbiIsImEiOiJjam9sczI0bjMwM3E4M2twMXk0NG93YXg1In0.jYhWqqiBnn4O4KrLImf-Gg</string>
+    <string name="mainActivityBottomNavigationOption1Text">Targets</string>
+    <string name="mainActivityBottomNavigationOption2Text">Path</string>
+    <string name="mainActivityBottomNavigationOption3Text">Displays</string>
+    <string name="mainActivityBottomNavigationOption4Text">Config</string>
 </resources>
