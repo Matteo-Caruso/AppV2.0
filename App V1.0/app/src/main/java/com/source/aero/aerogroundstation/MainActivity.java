@@ -3,6 +3,9 @@ package com.source.aero.aerogroundstation;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.leinardi.android.speeddial.SpeedDialActionItem;
+import com.leinardi.android.speeddial.SpeedDialView;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
 
@@ -11,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     //Ui Elements
     BottomNavigationView bottomNavigationView;
+    SpeedDialView speedDialView;
+    Boolean set = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +24,42 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
+
+        //Initializing UI Elements
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.mainActivityBottomNavigationView);
+        speedDialView = findViewById(R.id.mainActivitySpeedDial);
+        speedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.mainActivitySpeedDialAction1, R.drawable.mapbox_compass_icon)
+                        .setLabel("Option 1")
+                        .create()
+        );
+        speedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.mainActivitySpeedDialAction2, R.drawable.mapbox_info_icon_default)
+                        .setLabel("Option 2")
+                        .create()
+        );
+        speedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.mainActivitySpeedDialAction3, R.drawable.ic_search_black_24dp)
+                        .setLabel("Option 3")
+                        .create()
+        );
+        speedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.mainActivitySpeedDialAction4, R.drawable.mapbox_marker_icon_default)
+                        .setLabel("Option 4")
+                        .create()
+        );
+        /*speedDialView.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {
+            @Override
+            public boolean onActionSelected(SpeedDialActionItem speedDialActionItem) {
+                switch (speedDialActionItem.getId()) {
+                    case R.id.mainActivitySpeedDialAction1:
+                        set = false;
+                    default:
+                        return false;
+                }
+            }
+        });*/
+
     }
 
     @Override
