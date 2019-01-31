@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
+    <!-- Item definitions for speed dial in main activity -->
     <item name="mainActivitySpeedDialAction1" type="id" />
     <item name="mainActivitySpeedDialAction2" type="id" />
     <item name="mainActivitySpeedDialAction3" type="id" />

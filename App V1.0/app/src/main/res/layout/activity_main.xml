@@ -8,18 +8,19 @@
     android:layout_height="match_parent"
     tools:context="com.source.aero.aerogroundstation.MainActivity">
 
+    <!-- Frame layout for fragment inflation -->
     <FrameLayout
         android:id="@+id/mainActivityFragmentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
 
+    <!-- Bottom navigation bar outline (uses menu items)-->
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/mainActivityBottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
-        android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -28,6 +29,7 @@
         app:itemTextColor="@color/highlightIcon"
         app:menu="@menu/main_bottom_navigation" />
 
+    <!-- Mapbox mapview element -->
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
@@ -37,6 +39,7 @@
         mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9"
         mapbox:mapbox_cameraZoom="11" />
 
+    <!-- Speed dial element -->
     <com.leinardi.android.speeddial.SpeedDialView
         android:id="@+id/mainActivitySpeedDial"
         android:layout_width="wrap_content"
@@ -53,6 +56,7 @@
         app:sdMainFabOpenedBackgroundColor="@color/mapbox_blue"
         app:sdOverlayLayout="@id/speedDialOverlay" />
 
+    <!-- Overlay for speed dial element -->
     <com.leinardi.android.speeddial.SpeedDialOverlayLayout
         android:id="@+id/speedDialOverlay"
         android:layout_width="match_parent"
