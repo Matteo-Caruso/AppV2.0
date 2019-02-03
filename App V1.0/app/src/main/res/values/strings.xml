@@ -7,4 +7,12 @@
     <string name="mainActivityBottomNavigationOption2Text">Path</string>
     <string name="mainActivityBottomNavigationOption3Text">Displays</string>
     <string name="mainActivityBottomNavigationOption4Text">Config</string>
+    <string name="initConfigRadioButton1Text">Configuration 1</string>
+    <string name="initConfigRadioButton2Text">Configuration 2</string>
+    <string name="initConfigRadioButton3Text">Configuration 3</string>
+    <string name="initConfigRadioGroupText">Choose Configuration</string>
+    <string name="initConfigStartButtonText">Select</string>
+    <string name="config1PreviewText">Configuration 1</string>
+    <string name="config2PreviewText">Configuration 2</string>
+    <string name="config3PreviewText">Configuration 3</string>
 </resources>
