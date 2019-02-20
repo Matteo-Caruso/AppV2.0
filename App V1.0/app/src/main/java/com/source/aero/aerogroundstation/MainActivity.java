@@ -3,21 +3,46 @@ package com.source.aero.aerogroundstation;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
+import android.view.View;
+import android.widget.Button;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Dictionary;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+    //Mapbox elements
     private MapView mapView;
+    private MapboxMap map;
+
+    //Offline Maps Objects
+    private boolean offlineMapsFragmentDisplayed = false;
+    private boolean locationFragmentDisplayed = false;
+    private Button loadOfflineMapsButton;
 
     //Ui Elements
     BottomNavigationView bottomNavigationView;
     SpeedDialView speedDialView;
+
+    //Enum to hold fragment states
+
+    public enum FragmentType {
+        OFFLINEMAPS
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +56,17 @@ public class MainActivity extends AppCompatActivity {
         initBottomNavigationBar();
         initSpeedDial();
 
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(MapboxMap mapboxMap) {
+                map = mapboxMap;
+            }
+        });
+    }
+
+    @Override
+    public void onMapReady(MapboxMap mapboxMap) {
+        this.map = mapboxMap;
     }
 
     @Override
@@ -113,7 +149,9 @@ public class MainActivity extends AppCompatActivity {
                         speedDialView.close();
                         break;
                     case R.id.mainActivitySpeedDialAction4:
-                        speedDialView.close();
+                        speedDialView.hide();
+                        bottomNavigationView.setVisibility(View.INVISIBLE);
+                        openFragment("OFFLINEMAPS");
                         break;
                     default:
                         return true;
@@ -132,5 +170,37 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    //Create fragment on top of main
+    public void openFragment(String fragmentType) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment fragment;
+
+        //Determine desired fragment type
+        switch (fragmentType) {
+            case "OFFLINEMAPS":
+                fragment = new OfflineMaps();
+                break;
+            default:
+                Log.d("MainActivity", "Failed to create fragment");
+                return;
+        }
+
+        //Add or remove fragment to backstack
+        if (fragmentManager.findFragmentByTag(fragmentType) == null) {
+            fragmentTransaction.add(R.id.mainActivityFragmentLayout, fragment).addToBackStack(null).commit();
+        }
+        else {
+            fragment = fragmentManager.findFragmentById(R.id.mainActivityFragmentLayout);
+            fragmentTransaction.remove(fragment).commit();
+        }
+    }
+
+    //Called from fragments that need access to map object
+    //TODO: Redesign fragments using Viewmodels
+    public MapboxMap passMap() {
+        return this.map;
     }
 }

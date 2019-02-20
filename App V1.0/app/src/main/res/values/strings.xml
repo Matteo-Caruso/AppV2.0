@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">AeroGroundstation</string>
     <string name="mapboxToken">pk.eyJ1IjoiYWVyb2Rlc2lnbiIsImEiOiJjam9sczI0bjMwM3E4M2twMXk0NG93YXg1In0.jYhWqqiBnn4O4KrLImf-Gg</string>
-
     <!-- Main activity UI element strings -->
     <string name="mainActivityBottomNavigationOption1Text">Targets</string>
     <string name="mainActivityBottomNavigationOption2Text">Path</string>
@@ -15,4 +14,23 @@
     <string name="config1PreviewText">Configuration 1</string>
     <string name="config2PreviewText">Configuration 2</string>
     <string name="config3PreviewText">Configuration 3</string>
+
+    <!-- Offline Maps Strings -->
+    <string name="OfflineMapButton">Load Maps</string>
+    <string name="OfflineMapDownloadButton">Download</string>
+    <string name="OfflineMapListButton">List</string>
+    <string name="OfflineMapsSetRegionNameHint">Set Region Name</string>
+    <string name="OfflineMapsDownloadRegionDialogTitle">Download Region</string>
+    <string name="OfflineMapsDownloadRegionDialogMessage">Name the region to be downloaded</string>
+    <string name="OfflineMapsDownloadRegionDialogPositive">Create</string>
+    <string name="OfflineMapsDownloadRegionDialogToast">No</string>
+    <string name="OfflineMapsDownloadRegionDialogCancel">Cancel</string>
+    <string name="OfflineMapsDownloadCompleteProgress">Done</string>
+    <string name="OfflineMapsRegionListNoRegionsToast">No Regions Downloaded Yet</string>
+    <string name="OfflineMapsRegionListDialogTitle">Regions</string>
+    <string name="OfflineMapsRegionListDialogPositive">Select</string>
+    <string name="OfflineMapsRegionListDialogNeutralButton">Delete</string>
+    <string name="OfflineMapsDeleteRegionToast">Region Deleted</string>
+    <string name="OfflineMapsRegionListDialogNegative">Cancel</string>
+    <string name="OfflineMapsRegionNameFormat">%d</string>
 </resources>
