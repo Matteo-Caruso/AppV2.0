@@ -2,8 +2,6 @@ package com.source.aero.aerogroundstation;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
-import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -14,35 +12,20 @@ import android.view.MenuItem;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 import android.view.View;
-import android.widget.Button;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-
-import java.util.Dictionary;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     //Mapbox elements
     private MapView mapView;
     private MapboxMap map;
 
-    //Offline Maps Objects
-    private boolean offlineMapsFragmentDisplayed = false;
-    private boolean locationFragmentDisplayed = false;
-    private Button loadOfflineMapsButton;
-
     //Ui Elements
     BottomNavigationView bottomNavigationView;
     SpeedDialView speedDialView;
-
-    //Enum to hold fragment states
-
-    public enum FragmentType {
-        OFFLINEMAPS
-    }
-
+    String currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
 
         //Initializing UI Elements
         initBottomNavigationBar();
@@ -140,7 +124,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public boolean onActionSelected(SpeedDialActionItem speedDialActionItem) {
                 switch (speedDialActionItem.getId()) {
                     case R.id.mainActivitySpeedDialAction1:
-                        speedDialView.close();
+                        speedDialView.hide();
+                        bottomNavigationView.setVisibility(View.INVISIBLE);
+                        openFragment("CURRENTLOCATION");
                         break;
                     case R.id.mainActivitySpeedDialAction2:
                         speedDialView.close();
@@ -183,6 +169,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case "OFFLINEMAPS":
                 fragment = new OfflineMaps();
                 break;
+            case "CURRENTLOCATION":
+                fragment = new MapboxLocationHandler();
+                break;
             default:
                 Log.d("MainActivity", "Failed to create fragment");
                 return;
@@ -190,12 +179,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Add or remove fragment to backstack
         if (fragmentManager.findFragmentByTag(fragmentType) == null) {
-            fragmentTransaction.add(R.id.mainActivityFragmentLayout, fragment).addToBackStack(null).commit();
+            fragmentTransaction.add(R.id.mainActivityFragmentLayout, fragment).addToBackStack(fragmentType).commit();
         }
         else {
             fragment = fragmentManager.findFragmentById(R.id.mainActivityFragmentLayout);
             fragmentTransaction.remove(fragment).commit();
         }
+    }
+
+    //Close current fragment on back press
+    @Override
+    public void onBackPressed() {
+        getFragmentManager().popBackStack();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment existingFragment = fragmentManager.findFragmentById(R.id.mainActivityFragmentLayout);
+        fragmentTransaction.remove(existingFragment).commit();
+        speedDialView.show();
+        bottomNavigationView.setVisibility(View.VISIBLE);
     }
 
     //Called from fragments that need access to map object

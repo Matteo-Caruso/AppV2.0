@@ -13,7 +13,9 @@
     <FrameLayout
         android:id="@+id/mainActivityFragmentLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"
+        android:translationZ="2dp"
+        android:visibility="visible"></FrameLayout>
 
     <!-- Bottom navigation bar outline (uses menu items)-->
     <android.support.design.widget.BottomNavigationView
@@ -30,7 +32,6 @@
         app:itemTextColor="@color/highlightIcon"
         app:menu="@menu/main_bottom_navigation" />
 
-    <!-- Mapbox mapview element -->
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="0dp"
@@ -67,6 +68,5 @@
         android:id="@+id/speedDialOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 </android.support.constraint.ConstraintLayout>
 

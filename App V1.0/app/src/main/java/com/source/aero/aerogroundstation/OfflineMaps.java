@@ -3,7 +3,6 @@ package com.source.aero.aerogroundstation;
 import android.app.AlertDialog;
 import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,22 +12,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
-import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.offline.OfflineManager;
 import com.mapbox.mapboxsdk.offline.OfflineRegion;
 import com.mapbox.mapboxsdk.offline.OfflineRegionError;
 import com.mapbox.mapboxsdk.offline.OfflineRegionStatus;
 import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 public class OfflineMaps extends Fragment {
@@ -57,7 +50,11 @@ public class OfflineMaps extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         offlineManager = OfflineManager.getInstance(getActivity());
-        this.map = ((MainActivity) getActivity()).passMap(); //Get reference to map object from main
+        try {
+            this.map = ((MainActivity) getActivity()).passMap(); //Get reference to map object from main
+        } catch (NullPointerException e) {
+            Log.d("MyLocation Fragment", "Couldn't get map from main activity");
+        }
     }
 
     @Override
