@@ -1,12 +1,22 @@
 package com.source.aero.aerogroundstation;
 
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
 
 public class MainActivity extends AppCompatActivity {
     private MapView mapView;
+
+    //UI Elements
+    Button startButton;
+    boolean bluetoothFragmentDisplayed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +25,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
+
+        startButton = (Button) findViewById(R.id.testButton);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                startButton.setVisibility(View.INVISIBLE);
+                startBlueTooth();
+            }
+        });
     }
 
     @Override
@@ -57,5 +77,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
+    }
+
+    public void startBlueTooth() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (!bluetoothFragmentDisplayed) {
+            //Activate bluetooth fragment
+        }
+        else {
+            //Deactivate bluetooth fragment
+        }
     }
 }

@@ -2,4 +2,8 @@
     <string name="app_name">AeroGroundstation</string>
     <string name="secure_UUID">fa87c0d0-afac-11de-8a39-0800200c9a66</string>
     <string name="insecure_UUID">8ce255c0-200a-11e0-ac64-0800200c9a66</string>
+    <string name="bluetooth_sendMsgButtonText">Send</string>
+    <string name="bluetooth_secureConnectOptionText">Secure Connect</string>
+    <string name="bluetooth_insecureConnectOptionText">Insecure Connect</string>
+    <string name="bluetooth_discoverableOptionText">Turn on Discoverability</string>
 </resources>
