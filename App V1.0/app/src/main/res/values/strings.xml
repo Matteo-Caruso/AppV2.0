@@ -1,7 +1,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">AeroGroundstation</string>
-    <string name="secure_UUID">fa87c0d0-afac-11de-8a39-0800200c9a66</string>
-    <string name="insecure_UUID">8ce255c0-200a-11e0-ac64-0800200c9a66</string>
+    <string name="secure_UUID">00001101-0000-1000-8000-00805F9B34FB</string>
+    <string name="insecure_UUID">00001101-0000-1000-8000-00805F9B34FB</string>
     <string name="bluetooth_sendMsgButtonText">Send</string>
     <string name="bluetooth_secureConnectOptionText">Secure Connect</string>
     <string name="bluetooth_insecureConnectOptionText">Insecure Connect</string>
@@ -10,4 +10,12 @@
     <string name="bluetooth_titleConnectedTo">connected to <xliff:g id="device_name">%1$s</xliff:g></string>
     <string name="bluetooth_titleNotConnectedTo"> Not connected</string>
     <string name="bluetooth_btNotEnabledToast">Bluetooth not enabled</string>
+
+    <string name="bluetooth_scanning">scanning for devices...</string>
+    <string name="bluetooth_selectDevice">select a device to connect</string>
+    <string name="bluetooth_nonePaired">No devices have been paired</string>
+    <string name="bluetooth_noneFound">No devices found</string>
+    <string name="bluetooth_titlePairedDevices">Paired Devices</string>
+    <string name="bluetooth_titleOtherDevices">Other Available Devices</string>
+    <string name="bluetooth_buttonScan">Scan for devices</string>
 </resources>

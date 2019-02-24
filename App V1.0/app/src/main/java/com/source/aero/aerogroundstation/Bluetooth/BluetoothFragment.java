@@ -56,8 +56,8 @@ public class BluetoothFragment extends Fragment {
     };
 
     //Bluetooth elements
-    private BluetoothAdapter bluetoothAdapter;
-    private BluetoothService bluetoothService;
+    private BluetoothAdapter bluetoothAdapter = null;
+    private BluetoothService bluetoothService = null;
     private StringBuffer dataBuffer;
     private int discoveryTime = 300;
     private String connectedDevice = null;
@@ -91,7 +91,7 @@ public class BluetoothFragment extends Fragment {
             Intent enableIntent = new Intent(bluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
-        else if (bluetoothAdapter == null) {
+        else if (bluetoothService == null) {
             setup();
         }
     }
