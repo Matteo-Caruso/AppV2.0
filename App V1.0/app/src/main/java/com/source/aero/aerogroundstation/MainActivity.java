@@ -5,11 +5,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
+import com.source.aero.aerogroundstation.Bluetooth.BluetoothFragment;
 
 public class MainActivity extends AppCompatActivity {
     private MapView mapView;
@@ -79,14 +81,30 @@ public class MainActivity extends AppCompatActivity {
         mapView.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onBackPressed() {
+        startButton.setVisibility(View.VISIBLE);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        BluetoothFragment existingFragment = (BluetoothFragment) fragmentManager.findFragmentById(R.id.fragmentContainer);
+        fragmentTransaction.remove(existingFragment).commit();
+        bluetoothFragmentDisplayed = false;
+    }
+
+    //Start bluetooth fragment
     public void startBlueTooth() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (!bluetoothFragmentDisplayed) {
-            //Activate bluetooth fragment
+            BluetoothFragment bluetoothfragment = new BluetoothFragment();
+            fragmentTransaction.add(R.id.fragmentContainer, bluetoothfragment).addToBackStack("BLUETOOTH").commit();
+            bluetoothFragmentDisplayed = true;
         }
         else {
-            //Deactivate bluetooth fragment
+            BluetoothFragment existingFragment = (BluetoothFragment) fragmentManager.findFragmentById(R.id.fragmentContainer);
+            fragmentTransaction.remove(existingFragment).commit();
+            bluetoothFragmentDisplayed = false;
+            startButton.setVisibility(View.VISIBLE);
         }
     }
 }
