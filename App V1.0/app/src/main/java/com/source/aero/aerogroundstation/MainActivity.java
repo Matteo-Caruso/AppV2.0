@@ -1,24 +1,66 @@
 package com.source.aero.aerogroundstation;
 
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
-import com.source.aero.aerogroundstation.Bluetooth.BluetoothFragment;
+import com.source.aero.aerogroundstation.Bluetooth.BluetoothConstantsInterface;
+import com.source.aero.aerogroundstation.Bluetooth.BluetoothDevices;
+import com.source.aero.aerogroundstation.Bluetooth.BluetoothService;
 
 public class MainActivity extends AppCompatActivity {
     private MapView mapView;
 
     //UI Elements
     Button startButton;
-    boolean bluetoothFragmentDisplayed = false;
+    boolean bluetoothDisplayed = false;
+
+    //Bluetooth Elements
+    //Request Codes
+    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+    private static final int REQUEST_ENABLE_BT = 3;
+
+    private ListView logView;
+    private EditText editTextView;
+    private Button sendButton;
+    private ArrayAdapter<String> logArrayAdapter;
+    private TextView.OnEditorActionListener writeListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+            if (i == EditorInfo.IME_NULL && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                String data = textView.getText().toString();
+                send(data);
+            }
+            return true;
+        }
+    };
+
+    private BluetoothAdapter bluetoothAdapter = null;
+    private BluetoothService bluetoothService = null;
+    private StringBuffer dataBuffer;
+    private int discoveryTime = 300;
+    private String connectedDevice = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,22 +75,83 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View view) {
-                startButton.setVisibility(View.INVISIBLE);
-                startBlueTooth();
+                if (!bluetoothDisplayed) {
+                    ((LinearLayout) findViewById(R.id.bluetoothView)).setVisibility(View.VISIBLE);
+                    bluetoothDisplayed = true;
+                } else {
+                    ((LinearLayout) findViewById(R.id.bluetoothView)).setVisibility(View.INVISIBLE);
+                    bluetoothDisplayed = false;
+                }
             }
         });
+
+        //Bluetooth Setup
+        //Get local bluetooth adapter
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        logView = (ListView) findViewById(R.id.bluetooth_messageView);
+        editTextView = (EditText) findViewById(R.id.bluetooth_sendMsgEditTextView);
+        sendButton = (Button) findViewById(R.id.bluetooth_sendMsgButton);
     }
+
+    //Make bluetooth menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_bluetoothmain, menu);
+        return true;
+    }
+
+    //Bluetooth options
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.secureConnectOption: {
+                Intent intent = new Intent(this, BluetoothDevices.class);
+                startActivityForResult(intent, REQUEST_CONNECT_DEVICE_SECURE);
+                return true;
+            }
+            case R.id.insecureConnectOption: {
+                Intent intent = new Intent(this, BluetoothDevices.class);
+                startActivityForResult(intent, REQUEST_CONNECT_DEVICE_INSECURE);
+                return true;
+            }
+            case R.id.makeDiscoverableOption: {
+                makeDiscoverable();
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public void onStart() {
         super.onStart();
         mapView.onStart();
+
+        //Bluetooth
+        //Request for bluetooth to be enabled
+        if (!bluetoothAdapter.isEnabled()) {
+            Intent enableIntent = new Intent(bluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+        }
+        else if (bluetoothService == null) {
+            setup();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
+
+        //Bluetooth
+        if (bluetoothService != null) {
+            if (bluetoothService.getState() == BluetoothService.STATE_NONE) {
+                bluetoothService.start();
+            }
+        }
     }
 
     @Override
@@ -73,6 +176,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+
+        //Bluetooth
+        if (bluetoothService != null) {
+            bluetoothService.stop();
+        }
     }
 
     @Override
@@ -81,30 +189,120 @@ public class MainActivity extends AppCompatActivity {
         mapView.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onBackPressed() {
-        startButton.setVisibility(View.VISIBLE);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        BluetoothFragment existingFragment = (BluetoothFragment) fragmentManager.findFragmentById(R.id.fragmentContainer);
-        fragmentTransaction.remove(existingFragment).commit();
-        bluetoothFragmentDisplayed = false;
+    //Bluetooth Functions
+    private void setup() {
+        logArrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_bluetoothlog);
+        logView.setAdapter(logArrayAdapter);
+
+        editTextView.setOnEditorActionListener(writeListener);
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                if (null != view) {
+                    TextView textView = (TextView) findViewById(R.id.bluetooth_sendMsgEditTextView);
+                    String data = textView.getText().toString();
+                    send(data);
+                }
+            }
+        });
+
+        //Initialize bluetooth connections
+        bluetoothService = new BluetoothService(this, handler);
+        dataBuffer = new StringBuffer("");
     }
 
-    //Start bluetooth fragment
-    public void startBlueTooth() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (!bluetoothFragmentDisplayed) {
-            BluetoothFragment bluetoothfragment = new BluetoothFragment();
-            fragmentTransaction.add(R.id.fragmentContainer, bluetoothfragment).addToBackStack("BLUETOOTH").commit();
-            bluetoothFragmentDisplayed = true;
+    private void makeDiscoverable() {
+        if (bluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+            Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+            intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, discoveryTime);
+            startActivity(intent);
         }
-        else {
-            BluetoothFragment existingFragment = (BluetoothFragment) fragmentManager.findFragmentById(R.id.fragmentContainer);
-            fragmentTransaction.remove(existingFragment).commit();
-            bluetoothFragmentDisplayed = false;
-            startButton.setVisibility(View.VISIBLE);
+    }
+
+    //Send data
+    private void send(String data) {
+        //Check device is connected
+        if (bluetoothService.getState() != BluetoothService.STATE_CONNECTED) {
+            Toast.makeText(this, R.string.bluetooth_notConnectedToast, Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        if (data.length() > 0) {
+            byte[] send = data.getBytes();
+            bluetoothService.write(send);
+
+            dataBuffer.setLength(0);
+            editTextView.setText(dataBuffer);
+        }
+    }
+
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch(msg.what) {
+                case BluetoothConstantsInterface.MESSAGE_STATE_CHANGE:
+                    switch (msg.arg1) {
+                        case BluetoothService.STATE_CONNECTED:
+                            //setStatus(getString(R.string.bluetooth_titleConnectedTo, connectedDevice));
+                            logArrayAdapter.clear();
+                            break;
+                        case BluetoothService.STATE_CONNECTING:
+                            //setStatus(R.string.bluetooth_titleConnectedTo);
+                            break;
+                        case BluetoothService.STATE_LISTENING:
+                        case BluetoothService.STATE_NONE:
+                            //setStatus(R.string.bluetooth_titleNotConnectedTo);
+                            break;
+                    }
+                    break;
+                case BluetoothConstantsInterface.MESSAGE_WRITE:
+                    byte[] writeBuffer = (byte[]) msg.obj;
+                    String writeData = new String(writeBuffer);
+                    logArrayAdapter.add("Me: " + writeData);
+                    break;
+                case BluetoothConstantsInterface.MESSAGE_READ:
+                    byte[] readBuffer = (byte[]) msg.obj;
+                    String readData = new String(readBuffer, 0, msg.arg1);
+                    logArrayAdapter.add(connectedDevice + ": " + readData);
+                    break;
+                case BluetoothConstantsInterface.MESSAGE_DEVICE_NAME:
+                    connectedDevice = msg.getData().getString(BluetoothConstantsInterface.DEVICE_NAME);
+                    Toast.makeText(getApplicationContext(), "Connected to " + connectedDevice, Toast.LENGTH_SHORT).show();
+                    break;
+                case BluetoothConstantsInterface.MESSAGE_TOAST:
+                    Toast.makeText(getApplicationContext(), msg.getData().getString(BluetoothConstantsInterface.TOAST),
+                            Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CONNECT_DEVICE_SECURE:
+                if (resultCode == Activity.RESULT_OK) {
+                    connectDevice(data, true);
+                }
+                break;
+            case REQUEST_CONNECT_DEVICE_INSECURE:
+                if (resultCode == Activity.RESULT_OK) {
+                    connectDevice(data, false);
+                }
+                break;
+            case REQUEST_ENABLE_BT:
+                if (resultCode == Activity.RESULT_OK) {
+                    setup();
+                }
+                else {
+                    Toast.makeText(this, R.string.bluetooth_btNotEnabledToast, Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
+    private void connectDevice(Intent data, boolean secure) {
+        String address = data.getExtras().getString(BluetoothDevices.EXTRA_DEVICE_ADDRESS);
+        BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
+        bluetoothService.connect(device, secure);
     }
 }
