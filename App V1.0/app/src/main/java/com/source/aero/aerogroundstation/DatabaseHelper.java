@@ -22,17 +22,22 @@ import java.util.List;
 
 
 /** Ankur Jai Sood
- * Last Modified: 12/3/2017
- * Description: A class to store and handle data for the 2017 UWO AeroDesign Team
+ * Last Modified: 01/19/2019
+ * Description: A class to store and handle data for the UWO AeroDesign Team
  **/
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     // Database Constants:
-    private String DATABASE_NAME;
+    private String DATABASE_NAME;               //Stores the name of the database
 
+    //For the session table
     private static final String SESSION_TABLE_NAME = "Sessions";
     private static final String SESSION_TABLE_COL_ID = "Session_ID";
     private static final String SESSION_TABLE_COL_FILEPATH = "Session_Filepath";
+    /*Sample Table:
+                    Sessions       
+    Session_ID      Session_Filepath
+    */
 
     private static final String FLIGHTPATH_TABLE_NAME = "Flightpaths";
     private static final String FLIGHTPATH_TABLE_COL_SESSION = "Session_ID";
@@ -42,17 +47,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String FLIGHTPATH_TABLE_COL_SPEED = "Speed";
     private static final String FLIGHTPATH_TABLE_COL_HEAD = "Heading";
     private static final String FLIGHTPATH_TABLE_COL_DROP = "DROP_HEIGHT";
-     private static final String FLIGHTPATH_TABLE_COL_ROLL = "Roll";
+    private static final String FLIGHTPATH_TABLE_COL_ROLL = "Roll";
     private static final String FLIGHTPATH_TABLE_COL_PITCH = "Pitch";
     private static final String FLIGHTPATH_TABLE_COL_YAW = "Yaw";
-
+    //Added by Joy to specify the type of flight type: Plane(P)/Glider(G)
+    private static final String FLIGHTPATH_TABLE_COL_TYPE = "Flight_Type";
+    /*Sample Table:
+                                                                    Flightpaths
+    Session_ID  Waypoint_ID     Location    Altitude    Speed   Heading     DROP_HEIGHT     Roll    Pitch   Yaw     Flight_Type 
+    */
+    
     private static final String TARGET_TABLE_NAME = "Targets";
     private static final String TARGET_TABLE_COL_ID = "Target_ID";
     private static final String TARGET_TABLE_COL_LOCATION = "Location";
+    /*
+    Sample Table:
+            Targets
+    Target_ID       Location
+    */
 
     String oldSession = "";
 
-    SQLiteDatabase db;
+    SQLiteDatabase db;  //Variable to store the database
     // Set Variables
     private static String DB_PATH = "";
 
@@ -77,12 +93,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Check to see if database exits
         File dbFile = new File(DB_PATH + DATABASE_NAME);
         Log.d("Data", "ON CREATE RUNNNNINNININNIGGG");
-        //Good idea too check if name of db already exists but we know to avoid that problem
+        //Good idea to check if name of db already exists but we know to avoid that problem
 
         boolean exists = dbFile.exists();
         db.execSQL("PRAGMA foreign_keys=TRUE;");
 
-        // If database does not exist
+        // If database does not exist, create a session table
             db.execSQL("CREATE TABLE " + SESSION_TABLE_NAME + " (" + SESSION_TABLE_COL_ID + " TEXT PRIMARY KEY, " +
                     SESSION_TABLE_COL_FILEPATH + " TEXT)");
 
@@ -96,6 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //                    "FOREIGN KEY " + FLIGHTPATH_TABLE_COL_SESSION + " `REFERENCES` " + SESSION_TABLE_NAME + " (" + SESSION_TABLE_COL_ID + ") " +
 //                    "ON DELETE CASCADE ON UPDATE NO ACTION)");
 
+        //Creating a FlightPath table
         db.execSQL("CREATE TABLE " + FLIGHTPATH_TABLE_NAME + " (" + FLIGHTPATH_TABLE_COL_SESSION + " TEXT, " +
                 FLIGHTPATH_TABLE_COL_WAYPOINT + " INTEGER, " +
                 FLIGHTPATH_TABLE_COL_LOCATION + " BLOB, " +
@@ -106,13 +123,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 FLIGHTPATH_TABLE_COL_ROLL + " REAL, " +
                 FLIGHTPATH_TABLE_COL_PITCH + " REAL, " +
                 FLIGHTPATH_TABLE_COL_YAW + " REAL, " +
+                FLIGHTPATH_TABLE_COL_TYPE + " NCHAR, " +     //Adds the flight type column specifying a nchar data type --> one character value
                 "PRIMARY KEY(" + FLIGHTPATH_TABLE_COL_SESSION + ", " + FLIGHTPATH_TABLE_COL_WAYPOINT + "), " +
                 "FOREIGN KEY(" + FLIGHTPATH_TABLE_COL_SESSION + ") " + " REFERENCES " + SESSION_TABLE_NAME + "(" + SESSION_TABLE_COL_ID + ") ON DELETE CASCADE);");
-
-            db.execSQL("CREATE TABLE " + TARGET_TABLE_NAME + " (" + TARGET_TABLE_COL_ID + " TEXT PRIMARY KEY, " + TARGET_TABLE_COL_LOCATION + " TEXT)");
+        
+        //Creating a Target table
+        db.execSQL("CREATE TABLE " + TARGET_TABLE_NAME + " (" + TARGET_TABLE_COL_ID + " TEXT PRIMARY KEY, " + TARGET_TABLE_COL_LOCATION + " TEXT)");
         //String command = "CREATE TABLE Targets (Target_ID TEXT PRIMARY KEY, Location TEXT)";
-
-
     }
 
     @Override
@@ -149,9 +166,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else
             return true;
     }
-
-    // Method to add new waypoints
-    public boolean addWaypoint(String sessionID, int ID, String location, float altitude, float speed, float heading, float dropHeight, float roll, float pitch, float yaw) {
+    
+    // Method to add new waypoints 
+    // Added new parameter char flight_type where inputs should be 'G' or 'P' for glider/plane
+    public boolean addWaypoint(String sessionID, int ID, String location, float altitude, float speed, float heading, float dropHeight, float roll, float pitch, float yaw, char flight_type) {
         // Database object
         SQLiteDatabase db = this.getWritableDatabase();
         Log.d("drop", String.valueOf(dropHeight));
@@ -184,6 +202,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(FLIGHTPATH_TABLE_COL_ROLL, roll);
         contentValues.put(FLIGHTPATH_TABLE_COL_PITCH, pitch);
         contentValues.put(FLIGHTPATH_TABLE_COL_YAW, yaw);
+        
+        //Populate the flight type column with a 'G' or a 'P'
+        contentValues.put(FLIGHTPATH_TABLE_COL_TYPE, flight_type);
 
         // Insert data
         long result = db.insert(FLIGHTPATH_TABLE_NAME, null, contentValues);
@@ -221,16 +242,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Target> getTargets() {
         // Database object
         SQLiteDatabase db = this.getReadableDatabase();
-
+        
+        //Stores the data from the Target table
         List<Target> targetList = new ArrayList<Target>();
 
         // Cursor object
         Cursor cursor = db.rawQuery("SELECT DISTINCT * FROM " + TARGET_TABLE_NAME +";", null);
         // Return data
         Log.d("Get", String.valueOf(cursor.getCount()));
-
+        
+        //Scan through all of the rows in the target table
         if(cursor.moveToFirst()){
             do{
+                //Add the target table data to the List
                 String name = cursor.getString(0);
                 String location = cursor.getString(1);
 
@@ -241,22 +265,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }while(cursor.moveToNext());
         }
 
-        //RETURN LIST
-
+        //RETURN LIST and close the database
         db.close();
-
         return targetList;
     }
+    
+    //Method to return the sessions
     public List<String> getFlightSessions() {
-
         SQLiteDatabase db = this.getReadableDatabase();
+        
+        //Stores the data from the Sessions table
         List<String> sessions = new ArrayList<>();
 
         //Cursor dbCursor = db.rawQuery("SELECT * FROM " + FLIGHTPATH_TABLE_NAME + " WHERE " + FLIGHTPATH_TABLE_COL_SESSION + " 0", null);
+        //Setting up a cursor that will scan through the Flight path table 
         Cursor cursor = db.rawQuery("SELECT DISTINCT * FROM " + FLIGHTPATH_TABLE_NAME, null);
 
-
         if (cursor.moveToFirst()) {
+            //Scan through the table adding data to the List while there is a next row
             do {
                 String name = cursor.getString(cursor.getColumnIndex(FLIGHTPATH_TABLE_COL_SESSION));
 
@@ -266,34 +292,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     sessions.add(name);
                     oldSession = name;
                 }
-
+                //Move the cursor to the next row
                 cursor.moveToNext();
-
             } while (cursor.moveToNext());
-
-
-
         }
+        //Return the list and consequently the data stored in it
         return sessions;
     }
 
     // Method to return all waypoints for a flightpath
-    public List<Waypoint> getWaypoints(String sessionID) {
+    // Added a new parameter that specifies the flight_type data we want. Example: glider data or plane data
+    public List<Waypoint> getWaypoints(String sessionID, char flight_type) {
         // Database object
         SQLiteDatabase db = this.getReadableDatabase();
-
+        
+        //List stores the data from the FlightPath table
         List<Waypoint> waypointList = new ArrayList<Waypoint>();
         Log.d("Getting", sessionID);
 
         // Cursor object
         //Cursor cursor = db.rawQuery("SELECT * FROM " + FLIGHTPATH_TABLE_NAME + " WHERE " + FLIGHTPATH_TABLE_COL_SESSION + " =" + sessionID + ";", null);
-        Cursor cursor = db.rawQuery("SELECT * FROM " + FLIGHTPATH_TABLE_NAME + " WHERE " + FLIGHTPATH_TABLE_COL_SESSION + " =?", new String[] {sessionID});
-
+        Cursor cursor = db.rawQuery("SELECT * FROM " + FLIGHTPATH_TABLE_NAME + " WHERE " + FLIGHTPATH_TABLE_COL_SESSION + " =? AND " + FLIGHTPATH_TABLE_COL_TYPE + " = " + flight_type, new String[] {sessionID});
+        //Added another condition to the query where the cursor only gathers data that matches the specified flight type
+        
         // Return data
         Log.d("Get", String.valueOf(cursor.getCount()));
 
         if(cursor.moveToFirst()){
+            //Add all of the data from the current row into the List as a Waypoint object
             do{
+                //Note: first column is at index 0
                 String name = cursor.getString(0);
                 int id = cursor.getInt(1);
                 String location = cursor.getString(2);
@@ -305,25 +333,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 double roll = cursor.getDouble(7);
                 double pitch = cursor.getDouble(8);
                 double yaw = cursor.getDouble(9);
-
-
+                
+                //Not adding the flight type to the Waypoint object
+                
+                //We could add the flight type to the waypoint object - but we would need to alter the Waypoint class
                 Waypoint waypoint = new Waypoint(name, id, location, altitude, speed, heading, dropHeight, roll, pitch, yaw);
-
-
+                
+                //Add the Waypoint object to the list
                 waypointList.add(waypoint);
 
             }while(cursor.moveToNext());
         }
 
-        // Return data
+        // Return the list 
         db.close();
         return waypointList;
-
-        ///////
-
-
-
-
     }
 
     // Method to turn a session into a .txt
@@ -381,30 +405,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //Method that removes all information from the FlightPaths database
+    //This method should be called flushFlightPaths??
     public void flushFlightPatbs(){
         SQLiteDatabase db = this.getWritableDatabase();
+        //Removing all the information from database db -> table Flightpath
         db.execSQL("DELETE FROM " + FLIGHTPATH_TABLE_NAME);
         db.close();
     }
-
+    
+    //Method that removes all information from the Targets database
     public void flushTargets(){
         SQLiteDatabase db = this.getWritableDatabase();
+        //Removing all the information from database db -> table Targets
         db.execSQL("DELETE FROM " + TARGET_TABLE_NAME);
         db.close();
     }
 
+    //Method that removes all information from the Sessions database
     public void flushSessions(){
         SQLiteDatabase db = this.getWritableDatabase();
+        //Removing all the information from database db -> table Sessions
         db.execSQL("DELETE FROM " + SESSION_TABLE_NAME);
         db.close();
     }
-
+    
+    //Method removes all information stored in all of the tables
     public void flushAll(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + FLIGHTPATH_TABLE_NAME);
         db.execSQL("DELETE FROM " + SESSION_TABLE_NAME);
         db.execSQL("DELETE FROM " + TARGET_TABLE_NAME);
-
         db.close();
 
     }
