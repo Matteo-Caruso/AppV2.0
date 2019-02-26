@@ -1,4 +1,4 @@
-package com.code.aero.groundstation;
+package com.source.aero.aerogroundstation;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
 
 
 /** Ankur Jai Sood
@@ -123,7 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 FLIGHTPATH_TABLE_COL_ROLL + " REAL, " +
                 FLIGHTPATH_TABLE_COL_PITCH + " REAL, " +
                 FLIGHTPATH_TABLE_COL_YAW + " REAL, " +
-                FLIGHTPATH_TABLE_COL_TYPE + " NCHAR, " +     //Adds the flight type column specifying a nchar data type --> one character value
+                FLIGHTPATH_TABLE_COL_TYPE + " BLOB, " +     //Adds the flight type column specifying a nchar data type --> one character value
                 "PRIMARY KEY(" + FLIGHTPATH_TABLE_COL_SESSION + ", " + FLIGHTPATH_TABLE_COL_WAYPOINT + "), " +
                 "FOREIGN KEY(" + FLIGHTPATH_TABLE_COL_SESSION + ") " + " REFERENCES " + SESSION_TABLE_NAME + "(" + SESSION_TABLE_COL_ID + ") ON DELETE CASCADE);");
         
@@ -169,7 +170,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
     // Method to add new waypoints 
     // Added new parameter char flight_type where inputs should be 'G' or 'P' for glider/plane
-    public boolean addWaypoint(String sessionID, int ID, String location, float altitude, float speed, float heading, float dropHeight, float roll, float pitch, float yaw, char flight_type) {
+    public boolean addWaypoint(String sessionID, int ID, String location, float altitude, float speed, float heading, float dropHeight, float roll, float pitch, float yaw, String flight_type) {
         // Database object
         SQLiteDatabase db = this.getWritableDatabase();
         Log.d("drop", String.valueOf(dropHeight));
@@ -302,7 +303,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Method to return all waypoints for a flightpath
     // Added a new parameter that specifies the flight_type data we want. Example: glider data or plane data
-    public List<Waypoint> getWaypoints(String sessionID, char flight_type) {
+    public List<Waypoint> getWaypoints(String sessionID, String flight_type) {
         // Database object
         SQLiteDatabase db = this.getReadableDatabase();
         
@@ -351,12 +352,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Method to turn a session into a .txt
-    public boolean session2file(String sessionID) throws IOException {
+    public boolean session2file(String sessionID, String flight_type) throws IOException {
         // Database object
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Get all waypoints for sesison
-        List<Waypoint> waypoints = getWaypoints(sessionID);
+        List<Waypoint> waypoints = getWaypoints(sessionID, flight_type);
 
         // Handle data
         if (waypoints.size() == 0) {
