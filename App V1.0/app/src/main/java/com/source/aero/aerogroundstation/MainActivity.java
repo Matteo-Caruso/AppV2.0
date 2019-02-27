@@ -31,6 +31,8 @@ import com.source.aero.aerogroundstation.Bluetooth.BluetoothService;
 public class MainActivity extends AppCompatActivity {
     private MapView mapView;
 
+    private static final String TAG = "MyActivity";
+
     //UI Elements
     Button startButton;
     boolean bluetoothDisplayed = false;
@@ -222,6 +224,12 @@ public class MainActivity extends AppCompatActivity {
 
     //Send data
     private void send(String data) {
+        
+        // Lat/Lon multiplied by 1000000 to remove decimals
+        // Test message with target GPS coordinates pointing to ACEB building for testing gnd station -> onboard
+        ////                                  start type  lat         lon         calibrate rssi drop gliders motors
+        //byte[] testMessage = fromHexString("0a    00 00 02 90 35 D0 FB 27 D2 00 01        02   01   02      00 00 00 01 00 02 00 03 00 04 00 05 00 06 00 07 00 08 00 09 00 0a 00 0b 00 0c 00 0d 00 0e 00 0f 0f");
+        
         //Check device is connected
         if (bluetoothService.getState() != BluetoothService.STATE_CONNECTED) {
             Toast.makeText(this, R.string.bluetooth_notConnectedToast, Toast.LENGTH_SHORT).show();
@@ -234,6 +242,45 @@ public class MainActivity extends AppCompatActivity {
 
             dataBuffer.setLength(0);
             editTextView.setText(dataBuffer);
+        }
+    }
+    
+    // Thiss function takes in a string that represents an incoming bluetooth msg from the HC-05
+    private void readIncomingBluetoothData(String data) {
+        if(data.length() > 0) { // Compare size to expected message size aka sizeof(struct)
+            Log.d(TAG, "Incoming bluetooth data string preparing to be parsed");
+            byte[] received = data.getBytes();
+            
+            // Print bytes
+            StringBuilder sb = new StringBuilder();
+            for (byte b : bytes){
+                sb.append(String.format("%02X ", b));
+            }
+            Log.d(TAG, "Incoming bluetooth data string bytes: " + sb.toString());
+            
+            // Wrap data in ByteBuffer so we can parse the data easily
+            ByteBuffer msgBuffer = ByteBuffer.wrap(received);  // BIG ENDIAN BY DEFAULT
+            
+            // Get first and last byte of the message
+            byte startByte = received[0];
+            byte endByte = received[received.length - 1];
+            
+            // Print out the two msg type bytes
+            Log.d(TAG, "Incoming bluetooth data string msg type bytes: " + Byte.valueOf(received[0]) + " "  Byte.valueOf(received[1]));
+                
+            // Check if start and stop bytes match message definition
+            if(Byte.compare(startByte, (byte) 10) && Byte.compare(endByte, (byte) 15)) {
+                Log.d(TAG, "Incoming bluetooth data string has correct start and stop bytes");
+                
+                // Get two bytes starting at index one and convert them to a short
+                short msgTypeValue = msgBuffer.getShort(1);
+                Log.d(TAG, "Incoming bluetooth data string has message type: " String.valueOf(msgTypeValue));
+                
+                // TODO: Parse the rest of the data packet
+            }
+        }
+        else {
+            Log.d(TAG, "Incoming bluetooth data is of size 0");
         }
     }
 
@@ -264,6 +311,9 @@ public class MainActivity extends AppCompatActivity {
                 case BluetoothConstantsInterface.MESSAGE_READ:
                     byte[] readBuffer = (byte[]) msg.obj;
                     String readData = new String(readBuffer, 0, msg.arg1);
+                    
+                    readIncomingBluetoothData(readData);
+                    
                     logArrayAdapter.add(connectedDevice + ": " + readData);
                     break;
                 case BluetoothConstantsInterface.MESSAGE_DEVICE_NAME:
