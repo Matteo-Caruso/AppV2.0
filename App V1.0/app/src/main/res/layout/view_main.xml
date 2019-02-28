@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.source.aero.aerogroundstation.MainActivity">
+
+    <!-- Frame layout for fragment inflation -->
+    <ImageButton
+        android:id="@+id/controlsTab"
+        android:layout_width="39dp"
+        android:layout_height="194dp"
+        android:background="@color/cardview_shadow_end_color"
+        android:contentDescription="@string/mainActivityControlsTabDescription"
+        android:visibility="visible"
+        android:translationZ="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.335"
+        mapbox:srcCompat="@drawable/ic_tab"/>
+
+    <FrameLayout
+        android:id="@+id/mainActivityFragmentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="2dp"
+        android:visibility="visible"></FrameLayout>
+
+    <!-- Bottom navigation bar outline (uses menu items)-->
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/mainActivityBottomNavigationView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/highlightIcon"
+        app:itemTextColor="@color/highlightIcon"
+        app:menu="@menu/main_bottom_navigation" />
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintVertical_bias="1.0"
+        mapbox:layout_constraintBottom_toBottomOf="parent"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintStart_toStartOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent"
+        mapbox:mapbox_cameraTargetLat="28.0394650"
+        mapbox:mapbox_cameraTargetLng="-81.9498040"
+        mapbox:mapbox_cameraZoom="11"
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9">
+
+    </com.mapbox.mapboxsdk.maps.MapView>
+
+    <!-- Speed dial element -->
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/mainActivitySpeedDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/mainActivityBottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:sdMainFabClosedBackgroundColor="@color/colorSecondary"
+        app:sdMainFabClosedSrc="@drawable/ic_speeddial"
+        app:sdMainFabOpenedBackgroundColor="@color/colorSecondaryDark"
+        />
+</android.support.constraint.ConstraintLayout>
+
