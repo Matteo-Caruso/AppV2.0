@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/offlineMapsDownloadMap"
+        android:icon="@drawable/ic_download"
+        app:showAsAction="ifRoom"
+        android:title="@string/OfflineMapDownloadButton"/>
+
+    <item
+        android:id="@+id/offlineMapsRegionList"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_list"
+        android:title="@string/OfflineMapListButton"/>
+</menu>

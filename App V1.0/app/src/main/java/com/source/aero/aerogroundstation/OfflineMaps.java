@@ -1,11 +1,16 @@
 package com.source.aero.aerogroundstation;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -31,6 +36,7 @@ public class OfflineMaps extends Fragment {
     private ProgressBar progressBar;
     private Button downloadButton;
     private Button listButton;
+    boolean disableOptions = false;
 
     private OfflineManager offlineManager;
     private OfflineRegion offlineRegion;
@@ -49,11 +55,20 @@ public class OfflineMaps extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
+        //Need action bar for menu items
+        try {
+            ((MainActivity) getActivity()).getSupportActionBar().show();
+        } catch (NullPointerException e) {
+            Log.d(TAG,"Couldn't get actionbar from main activity");
+        }
+
         offlineManager = OfflineManager.getInstance(getActivity());
         try {
             this.map = ((MainActivity) getActivity()).passMap(); //Get reference to map object from main
         } catch (NullPointerException e) {
-            Log.d("MyLocation Fragment", "Couldn't get map from main activity");
+            Log.d(TAG, "Couldn't get map from main activity");
         }
     }
 
@@ -63,26 +78,42 @@ public class OfflineMaps extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstance) {
-        progressBar = (ProgressBar) view.findViewById(R.id.DownloadProgressBar);
-        downloadButton = (Button) view.findViewById(R.id.DownloadButton);
-        listButton = (Button) view.findViewById(R.id.ListButton);
-        //mapView = (MapView) view.findViewById(R.id.mapView);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.offline_map, menu);
+        //Check whether flag is enabled to disable or enable buttons
+        if (disableOptions) {
+            menu.findItem(R.id.offlineMapsDownloadMap).setEnabled(false);
+            menu.findItem(R.id.offlineMapsRegionList).setEnabled(false);
+            menu.findItem(R.id.offlineMapsDownloadMap).setVisible(false);
+            menu.findItem(R.id.offlineMapsRegionList).setVisible(false);
 
-        downloadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        } else {
+            menu.findItem(R.id.offlineMapsDownloadMap).setEnabled(true);
+            menu.findItem(R.id.offlineMapsRegionList).setEnabled(true);
+            menu.findItem(R.id.offlineMapsDownloadMap).setVisible(true);
+            menu.findItem(R.id.offlineMapsRegionList).setVisible(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.offlineMapsDownloadMap: {
                 downloadRegionDialog();
+                return true;
             }
-        });
-
-        listButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            case R.id.offlineMapsRegionList: {
                 regionList();
             }
-        });
+            default:
+                Log.d(TAG, "Menu option error");
+                return false;
+        }
+    }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstance) {
+        progressBar = (ProgressBar) view.findViewById(R.id.DownloadProgressBar);
     }
 
     private void downloadRegionDialog() {
@@ -208,8 +239,13 @@ public class OfflineMaps extends Fragment {
     // Progress bar methods
     private void startDownloadProgress() {
         // Disable buttons
-        downloadButton.setEnabled(false);
-        listButton.setEnabled(false);
+        disableOptions = true;
+        try {
+            //Regenerate options menu
+            getActivity().invalidateOptionsMenu();
+        } catch (NullPointerException e) {
+            Log.d(TAG, "Couldn't hide options menu");
+        }
 
         // Start and show the progress bar
         isEndNotified = false;
@@ -229,8 +265,13 @@ public class OfflineMaps extends Fragment {
         }
 
         //Enable buttons
-        downloadButton.setEnabled(true);
-        listButton.setEnabled(true);
+        disableOptions = false;
+        try {
+            //Regenerate options menu
+            getActivity().invalidateOptionsMenu();
+        } catch (NullPointerException e) {
+            Log.d(TAG, "Couldn't show options menu");
+        }
 
         // Stop and hide the progress bar
         isEndNotified = true;

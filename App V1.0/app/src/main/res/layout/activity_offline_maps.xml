@@ -22,31 +22,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/DownloadButton"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="192dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="0.5"
-        android:text="@string/OfflineMapDownloadButton"
-        android:translationZ="2dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ListButton"
-        app:layout_constraintVertical_bias="0.941" />
-
-    <Button
-        android:id="@+id/ListButton"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="193dp"
-        android:layout_height="50dp"
-        android:layout_weight="0.5"
-        android:text="@string/OfflineMapListButton"
-        android:translationZ="2dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
 </android.support.constraint.ConstraintLayout>

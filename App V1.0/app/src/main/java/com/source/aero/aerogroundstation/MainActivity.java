@@ -156,7 +156,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                return true;
+                switch (item.getItemId()) {
+                    case R.id.mainActivityBottomNavigationMap:
+                        getSupportActionBar().show();
+                        return true;
+                    case R.id.mainActivityBottomNavigationPath:
+                        getSupportActionBar().hide();
+                        //TODO:Open path fragment
+                        return true;
+                    case R.id.mainActivityBottomNavigationTargets:
+                        getSupportActionBar().hide();
+                        //TODO:Open targets fragment
+                        return true;
+                    case R.id.mainActivityBottomNavigationPayload:
+                        getSupportActionBar().hide();
+                        //TODO:Open payloads fragment
+                        return true;
+                    case R.id.mainActivityBottomNavigationAttitude:
+                        getSupportActionBar().hide();
+                        //TODO: Open attitude fragment
+                        return true;
+                    default:
+                        return false;
+                }
             }
         });
     }
