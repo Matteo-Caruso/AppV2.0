@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
         <item android:id="@+id/navigationDrawerItem1"
-            android:icon="@drawable/ic_location"
+            android:icon="@drawable/ic_calibrate_imu"
             android:title="@string/mainActivityNavigationDrawerItem1Text"/>
         <item android:id="@+id/navigationDrawerItem2"
-            android:icon="@drawable/ic_location"
+            android:icon="@drawable/ic_calibrate_barometer"
             android:title="@string/mainActivityNavigationDrawerItem2Text"/>
         <item android:id="@+id/navigationDrawerItem3"
-            android:icon="@drawable/ic_location"
+            android:icon="@drawable/ic_calibrate_gps"
             android:title="@string/mainActivityNavigationDrawerItem3Text"/>
     </group>
 </menu>

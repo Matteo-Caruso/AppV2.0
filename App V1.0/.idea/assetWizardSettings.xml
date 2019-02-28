@@ -62,11 +62,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="300" />
-                            <entry key="outputName" value="ic_tab" />
+                            <entry key="height" value="50" />
+                            <entry key="outputName" value="ic_calibrate_gps" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\aning\Desktop\Aero\Icons\method-draw-image4.svg" />
-                            <entry key="width" value="100" />
+                            <entry key="sourceFile" value="C:\Users\aning\Desktop\Aero\Icons\navigation.svg" />
+                            <entry key="width" value="50" />
                           </map>
                         </option>
                       </PersistentState>

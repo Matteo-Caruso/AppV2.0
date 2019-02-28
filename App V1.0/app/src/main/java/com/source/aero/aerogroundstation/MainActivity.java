@@ -2,8 +2,10 @@ package com.source.aero.aerogroundstation;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Ui Elements
     BottomNavigationView bottomNavigationView;
     SpeedDialView speedDialView;
+    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Initializing UI Elements
         initBottomNavigationBar();
         initSpeedDial();
+        initNavigationDrawer();
 
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -157,6 +161,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    private void initNavigationDrawer() {
+        drawerLayout = findViewById(R.id.mainActivityDrawerLayout);
+
+        NavigationView navigationView = findViewById(R.id.mainActivityNavigationView);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.navigationDrawerItem1:
+                                drawerLayout.closeDrawers();
+                                break;
+                            case R.id.navigationDrawerItem2:
+                                drawerLayout.closeDrawers();
+                                break;
+                            case R.id.navigationDrawerItem3:
+                                drawerLayout.closeDrawers();
+                                break;
+                            default:
+                                return true;
+                        }
+                        return true;
+                    }
+                });
+    }
     //Create fragment on top of main
     public void openFragment(String fragmentType) {
         FragmentManager fragmentManager = getSupportFragmentManager();
