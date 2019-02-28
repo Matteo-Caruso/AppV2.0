@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Ui Elements
     BottomNavigationView bottomNavigationView;
     SpeedDialView speedDialView;
-    String currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,23 +98,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void initSpeedDial() {
         speedDialView = findViewById(R.id.mainActivitySpeedDial);
         speedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.mainActivitySpeedDialAction1, R.drawable.mapbox_compass_icon)
-                        .setLabel("Option 1")
+                new SpeedDialActionItem.Builder(R.id.mainActivitySpeedDialAction1, R.drawable.ic_location)
+                        .setLabel(getResources().getString(R.string.mainActivitySpeedDialOption1Text))
                         .create()
         );
         speedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.mainActivitySpeedDialAction2, R.drawable.mapbox_info_icon_default)
-                        .setLabel("Option 2")
+                new SpeedDialActionItem.Builder(R.id.mainActivitySpeedDialAction2, R.drawable.ic_record)
+                        .setLabel(getResources().getString(R.string.mainActivitySpeedDialOption2Text))
                         .create()
         );
         speedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.mainActivitySpeedDialAction3, R.drawable.ic_search_black_24dp)
-                        .setLabel("Option 3")
+                new SpeedDialActionItem.Builder(R.id.mainActivitySpeedDialAction3, R.drawable.ic_bluetoothconnect)
+                        .setLabel(getResources().getString(R.string.mainActivitySpeedDialOption3Text))
                         .create()
         );
         speedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.mainActivitySpeedDialAction4, R.drawable.mapbox_marker_icon_default)
-                        .setLabel("Option 4")
+                new SpeedDialActionItem.Builder(R.id.mainActivitySpeedDialAction4, R.drawable.ic_save)
+                        .setLabel(getResources().getString(R.string.mainActivitySpeedDialOption4Text))
                         .create()
         );
         //On click listener for speed dial options

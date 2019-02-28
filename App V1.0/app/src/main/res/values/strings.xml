@@ -3,10 +3,11 @@
     <string name="mapboxToken">pk.eyJ1IjoiYWVyb2Rlc2lnbiIsImEiOiJjam9sczI0bjMwM3E4M2twMXk0NG93YXg1In0.jYhWqqiBnn4O4KrLImf-Gg</string>
 
     <!-- Main activity UI element strings -->
-    <string name="mainActivityBottomNavigationOption1Text">Targets</string>
+    <string name="mainActivityBottomNavigationOption1Text">Map</string>
     <string name="mainActivityBottomNavigationOption2Text">Path</string>
-    <string name="mainActivityBottomNavigationOption3Text">Displays</string>
-    <string name="mainActivityBottomNavigationOption4Text">Config</string>
+    <string name="mainActivityBottomNavigationOption3Text">Targets</string>
+    <string name="mainActivityBottomNavigationOption4Text">Payload</string>
+    <string name="mainActivityBottomNavigationOption5Text">Attitude</string>
     <string name="initConfigRadioButton1Text">Configuration 1</string>
     <string name="initConfigRadioButton2Text">Configuration 2</string>
     <string name="initConfigRadioButton3Text">Configuration 3</string>
@@ -15,6 +16,10 @@
     <string name="config1PreviewText">Configuration 1</string>
     <string name="config2PreviewText">Configuration 2</string>
     <string name="config3PreviewText">Configuration 3</string>
+    <string name="mainActivitySpeedDialOption1Text">Location</string>
+    <string name="mainActivitySpeedDialOption2Text">Record</string>
+    <string name="mainActivitySpeedDialOption3Text">Connect</string>
+    <string name="mainActivitySpeedDialOption4Text">Save</string>
 
     <!-- Offline Maps Strings -->
     <string name="OfflineMapButton">Load Maps</string>

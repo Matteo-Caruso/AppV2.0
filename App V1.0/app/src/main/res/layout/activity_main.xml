@@ -58,15 +58,9 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/mainActivityBottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
-        app:sdMainFabClosedSrc="@style/RtlOverlay.Widget.AppCompat.Search.DropDown.Icon1"
-        app:sdMainFabOpenedBackgroundColor="@color/mapbox_blue"
-        app:sdOverlayLayout="@id/speedDialOverlay" />
-
-    <!-- Overlay for speed dial element -->
-    <com.leinardi.android.speeddial.SpeedDialOverlayLayout
-        android:id="@+id/speedDialOverlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        app:sdMainFabClosedBackgroundColor="@color/colorSecondary"
+        app:sdMainFabClosedSrc="@drawable/ic_speeddial"
+        app:sdMainFabOpenedBackgroundColor="@color/colorSecondaryDark"
+    />
 </android.support.constraint.ConstraintLayout>
 
