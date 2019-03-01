@@ -218,6 +218,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    //------------------------------------------------- Below is the implementation for when the display field values need to be adjusted -----------------------------------------------------------
+
+    public void changeDisplayFieldValue(String value){
+
+        //Obtain the ID's of the various text fields
+        TextView currentAltitude = (TextView) findViewById(R.id.currentAltitude);
+        TextView currentPayload = (TextView) findViewById(R.id.currentPayload);
+        TextView currentDropAltitude = (TextView) findViewById(R.id.currentDropAltitude);
+        TextView currentSpeed = (TextView) findViewById(R.id.currentSpeed);
+        TextView currentTimeToTarget = (TextView) findViewById(R.id.currentTimeToTarget);
+        TextView currentDistanceToTarget = (TextView) findViewById(R.id.currentDistanceToTarget);
+
+        //Below, we have the implementation of how each text value can be adjusted:
+        currentAltitude.setText(value);
+        currentPayload.setText("glider");
+        currentDropAltitude.setText("0");
+        currentSpeed.setText("0");
+        currentTimeToTarget.setText("0");
+        currentDistanceToTarget.setText("0");
+
+    }
+
     //Close current fragment on back press
     @Override
     public void onBackPressed() {
