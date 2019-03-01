@@ -32,10 +32,36 @@
         app:itemTextColor="@color/highlightIcon"
         app:menu="@menu/main_bottom_navigation" />
 
+    <!--The Textview below is used to display the recording dialogue to identify whether data is being recorded -->
+    <LinearLayout
+        android:id="@+id/recordingIdentifier"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/red_boarder_white_outline"
+        android:orientation="horizontal"
+        android:padding="2dp">
+        <!-- the background uses a rectangle created in the drawable folder -->
+        <TextView
+            android:id="@+id/recordingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="Not Recording"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
+    </LinearLayout>
+
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         mapbox:layout_constraintBottom_toBottomOf="parent"
         mapbox:layout_constraintEnd_toEndOf="parent"
         mapbox:layout_constraintStart_toStartOf="parent"
@@ -43,8 +69,7 @@
         mapbox:mapbox_cameraTargetLat="28.0394650"
         mapbox:mapbox_cameraTargetLng="-81.9498040"
         mapbox:mapbox_cameraZoom="11"
-        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9">
-    </com.mapbox.mapboxsdk.maps.MapView>
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9"></com.mapbox.mapboxsdk.maps.MapView>
 
     <!-- Speed dial element -->
     <com.leinardi.android.speeddial.SpeedDialView

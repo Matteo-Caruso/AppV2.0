@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -185,6 +188,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             fragment = fragmentManager.findFragmentById(R.id.mainActivityFragmentLayout);
             fragmentTransaction.remove(fragment).commit();
         }
+    }
+
+    //------------------------------------------------- Below is the implementation for when the recording identifier is adjusted -----------------------------------------------------------
+
+    public void changeRecordingIdentifier(int value){
+
+        //Obtain the ID's of the recording identifier that we are to change
+        LinearLayout messageColour = (LinearLayout) findViewById(R.id.recordingIdentifier);
+        TextView messageRecord = (TextView) findViewById(R.id.recordingText);
+
+        //Below, use the if statement to identify if the status of the recording identifier is to be changed to
+        //"recording"
+
+        //EX. If a record button is pressed, "value" should be greater than zero to identify that recording has started
+        if (value>0){
+
+            messageColour.setBackgroundDrawable(getResources().getDrawable(R.drawable.green_boarder_white_outline));
+            messageRecord.setText("Recording");
+
+        }
+
+        else{
+
+            messageColour.setBackgroundDrawable(getResources().getDrawable(R.drawable.red_boarder_white_outline));
+            messageRecord.setText("Not Recording");
+
+        }
+
     }
 
     //Close current fragment on back press
