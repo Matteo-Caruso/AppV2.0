@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, getResources().getString(R.string.mapboxToken));
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -156,24 +157,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                getSupportActionBar().hide();
                 switch (item.getItemId()) {
                     case R.id.mainActivityBottomNavigationMap:
-                        getSupportActionBar().show();
                         return true;
                     case R.id.mainActivityBottomNavigationPath:
-                        getSupportActionBar().hide();
                         //TODO:Open path fragment
                         return true;
                     case R.id.mainActivityBottomNavigationTargets:
-                        getSupportActionBar().hide();
                         //TODO:Open targets fragment
                         return true;
                     case R.id.mainActivityBottomNavigationPayload:
-                        getSupportActionBar().hide();
                         //TODO:Open payloads fragment
                         return true;
                     case R.id.mainActivityBottomNavigationAttitude:
-                        getSupportActionBar().hide();
                         //TODO: Open attitude fragment
                         return true;
                     default:
@@ -247,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fragmentTransaction.remove(existingFragment).commit();
         speedDialView.show();
         bottomNavigationView.setVisibility(View.VISIBLE);
+        getSupportActionBar().hide();
     }
 
     //Called from fragments that need access to map object

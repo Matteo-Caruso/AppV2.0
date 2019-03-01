@@ -11,18 +11,16 @@
 
     <!-- Frame layout for fragment inflation -->
     <ImageButton
-        android:id="@+id/controlsTab"
-        android:layout_width="39dp"
-        android:layout_height="194dp"
+        android:id="@+id/mainActivityControlTab"
+        android:layout_width="201dp"
+        android:layout_height="24dp"
         android:background="@color/cardview_shadow_end_color"
         android:contentDescription="@string/mainActivityControlsTabDescription"
-        android:visibility="visible"
         android:translationZ="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.335"
-        mapbox:srcCompat="@drawable/ic_tab"/>
+        app:srcCompat="@drawable/ic_tab_horizontal" />
 
     <FrameLayout
         android:id="@+id/mainActivityFragmentLayout"
@@ -50,8 +48,8 @@
         android:id="@+id/mapView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0"
         mapbox:layout_constraintBottom_toBottomOf="parent"
         mapbox:layout_constraintEnd_toEndOf="parent"
         mapbox:layout_constraintStart_toStartOf="parent"
