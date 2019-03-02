@@ -34,8 +34,6 @@ public class OfflineMaps extends Fragment {
 
     //UI Elements
     private ProgressBar progressBar;
-    private Button downloadButton;
-    private Button listButton;
     boolean disableOptions = false;
 
     private OfflineManager offlineManager;

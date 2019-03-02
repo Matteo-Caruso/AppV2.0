@@ -15,7 +15,7 @@
         android:layout_width="39dp"
         android:layout_height="194dp"
         android:background="@color/cardview_shadow_end_color"
-        android:contentDescription="@string/mainActivityControlsTabDescription"
+        android:contentDescription="@string/mainActivityStatusTabDescription"
         android:visibility="visible"
         android:translationZ="2dp"
         app:layout_constraintBottom_toBottomOf="parent"

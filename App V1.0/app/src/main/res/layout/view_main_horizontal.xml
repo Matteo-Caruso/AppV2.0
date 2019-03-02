@@ -11,11 +11,11 @@
 
     <!-- Control tab implementation -->
     <ImageButton
-        android:id="@+id/mainActivityControlTab"
+        android:id="@+id/mainActivityStatusTab"
         android:layout_width="201dp"
         android:layout_height="24dp"
         android:background="@color/cardview_shadow_end_color"
-        android:contentDescription="@string/mainActivityControlsTabDescription"
+        android:contentDescription="@string/mainActivityStatusTabDescription"
         android:translationZ="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

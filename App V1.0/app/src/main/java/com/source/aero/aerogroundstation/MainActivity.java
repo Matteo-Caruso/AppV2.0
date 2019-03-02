@@ -14,11 +14,11 @@ import android.view.MenuItem;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     DrawerLayout drawerLayout;
     Spinner spinner;
     NavigationView navigationView;
+    ImageButton statusTabButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initSpeedDial();
         initNavigationDrawer(); //Needs to be called before spinner
         initSpinner();
+        initStatusTab();
 
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -247,6 +249,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    //Initialize statustab fragment
+    public void initStatusTab() {
+        statusTabButton = (ImageButton) findViewById(R.id.mainActivityStatusTab);
+        statusTabButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFragment("STATUSTAB");
+            }
+        });
+    }
+
     //Create fragment on top of main
     public void openFragment(String fragmentType) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -260,6 +273,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case "CURRENTLOCATION":
                 fragment = new MapboxLocationHandler();
+                break;
+            case "STATUSTAB":
+                fragment = new StatusTab();
+                statusTabButton.setVisibility(View.INVISIBLE);
                 break;
             default:
                 Log.d("MainActivity", "Failed to create fragment");
@@ -277,6 +294,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     //Close current fragment on back press
+    //Status tab should always be closed
     @Override
     public void onBackPressed() {
         getFragmentManager().popBackStack();
@@ -286,6 +304,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fragmentTransaction.remove(existingFragment).commit();
         speedDialView.show();
         bottomNavigationView.setVisibility(View.VISIBLE);
+        statusTabButton.setVisibility(View.VISIBLE);
         getSupportActionBar().hide();
     }
 
