@@ -58,6 +58,8 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothConstantsInterface;
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothDevices;
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothService;
+import com.source.aero.aerogroundstation.ContainerClasses.*;
+
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG = "MainActivity";
