@@ -549,7 +549,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Lat/Lon multiplied by 1000000 to remove decimals
         // Test message with target GPS coordinates pointing to ACEB building for testing gnd station -> onboard
         ////                                  start type  lat         lon         calibrate rssi drop gliders motors
-        byte[] testMessage = hexStringToByteArray("0a0000029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000ff");
+        byte[] testMessage = hexStringToByteArray("0a0004029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000ff");
 
 
         //Check device is connected
