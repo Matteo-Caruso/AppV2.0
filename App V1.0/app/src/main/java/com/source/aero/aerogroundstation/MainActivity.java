@@ -14,12 +14,20 @@ import android.view.MenuItem;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private static final String TAG = "MainActivity";
+
     //Mapbox elements
     private MapView mapView;
     private MapboxMap map;
@@ -28,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     BottomNavigationView bottomNavigationView;
     SpeedDialView speedDialView;
     DrawerLayout drawerLayout;
+    Spinner spinner;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Initializing UI Elements
         initBottomNavigationBar();
         initSpeedDial();
-        initNavigationDrawer();
+        initNavigationDrawer(); //Needs to be called before spinner
+        initSpinner();
 
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -182,8 +193,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void initNavigationDrawer() {
         drawerLayout = findViewById(R.id.mainActivityDrawerLayout);
-
-        NavigationView navigationView = findViewById(R.id.mainActivityNavigationView);
+        navigationView = findViewById(R.id.mainActivityNavigationView);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -205,6 +215,38 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 });
     }
+
+    //Initialize spinner element
+    public void initSpinner() {
+        spinner = (Spinner) findViewById(R.id.mainActivityNavigationSpinner);
+        //Using default android spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.mainActivityNavigationSpinnerItems,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                navigationView.getMenu().clear();
+                switch (pos) {
+                    case 0:
+                        navigationView.inflateMenu(R.menu.main_navigation_calibration);
+                        //TODO: Implement spinner functionality
+                        break;
+                    case 1:
+                        navigationView.inflateMenu(R.menu.main_navigation_logs);
+                        //TODO: Implement spinner functionality
+                        break;
+                    default:
+                        Log.d(TAG,"Spinner menu error");
+                }
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+                navigationView.inflateMenu(R.menu.main_navigation_calibration);
+            }
+        });
+    }
+
     //Create fragment on top of main
     public void openFragment(String fragmentType) {
         FragmentManager fragmentManager = getSupportFragmentManager();

@@ -20,10 +20,19 @@
     <string name="mainActivitySpeedDialOption2Text">Record</string>
     <string name="mainActivitySpeedDialOption3Text">Connect</string>
     <string name="mainActivitySpeedDialOption4Text">Save</string>
-    <string name="mainActivityNavigationDrawerItem1Text">Calibrate IMU</string>
-    <string name="mainActivityNavigationDrawerItem2Text">Calibrate Barometer</string>
-    <string name="mainActivityNavigationDrawerItem3Text">Calibrate GPS</string>
+    <string name="mainActivityNavigationDrawerCalibrationItem1Text">Calibrate IMU</string>
+    <string name="mainActivityNavigationDrawerCalibrationItem2Text">Calibrate Barometer</string>
+    <string name="mainActivityNavigationDrawerCalibrationItem3Text">Calibrate GPS</string>
+    <string name="mainActivityNavigationDrawerLogItem1Text">Log 1</string>
+    <string name="mainActivityNavigationDrawerLogItem2Text">Log 2</string>
+    <string name="mainActivityNavigationDrawerLogItem3Text">Log 3</string>
     <string name="mainActivityControlsTabDescription">Controls</string>
+    <string name="mainActivityNavigationHeaderText">Groundstation</string>
+    <string name="mainActivityNavigationSpinnerPrompt">Menus</string>
+    <string-array name="mainActivityNavigationSpinnerItems">
+        <item>Calibration</item>
+        <item>Logs</item>
+    </string-array>
 
     <!-- Offline Maps Strings -->
     <string name="OfflineMapButton">Load Maps</string>

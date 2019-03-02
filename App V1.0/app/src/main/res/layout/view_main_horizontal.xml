@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     tools:context="com.source.aero.aerogroundstation.MainActivity">
 
-    <!-- Frame layout for fragment inflation -->
+    <!-- Control tab implementation -->
     <ImageButton
         android:id="@+id/mainActivityControlTab"
         android:layout_width="201dp"
@@ -22,12 +22,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_tab_horizontal" />
 
+    <!-- Frame layout for fragment inflation -->
     <FrameLayout
         android:id="@+id/mainActivityFragmentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:translationZ="2dp"
-        android:visibility="visible"></FrameLayout>
+        android:visibility="visible"/>
 
     <!-- Bottom navigation bar outline (uses menu items)-->
     <android.support.design.widget.BottomNavigationView
@@ -44,6 +45,7 @@
         app:itemTextColor="@color/highlightIcon"
         app:menu="@menu/main_bottom_navigation" />
 
+    <!-- Mapbox map view -->
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="0dp"
@@ -68,7 +70,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/mainActivityBottomNavigationView"
