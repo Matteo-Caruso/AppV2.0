@@ -555,7 +555,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         byte[] testMessage;
         //Check configuration to determine message
         if (configuration.equals("DEBUG")) {
-            testMessage = hexStringToByteArray("0a0000029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000ff");
+            testMessage = hexStringToByteArray("0a0004029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000ff");
         }
         else {
             testMessage = hexStringToByteArray("0a0000029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000aa");
