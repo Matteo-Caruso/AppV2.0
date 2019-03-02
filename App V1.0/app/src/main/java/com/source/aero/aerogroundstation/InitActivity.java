@@ -14,6 +14,9 @@ public class InitActivity extends AppCompatActivity {
     RadioGroup configGroup;
     TextView configPreview;
 
+    String configuration = "";
+    String configurationKey = "CONFIGURATION";
+
     //Required methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,18 +84,20 @@ public class InitActivity extends AppCompatActivity {
     private void changeConfig(int radioButton) {
         TextView text = (TextView) findViewById(R.id.initConfigPreviewTextView);
         switch (radioButton) {
-            case R.id.initConfigButton1: text.setText(getResources().getString(R.string.config1PreviewText));
-            break;
-            case R.id.initConfigButton2: text.setText(getResources().getString(R.string.config2PreviewText));
-            break;
-            default: text.setText(getResources().getString(R.string.config3PreviewText));
-            break;
+            case R.id.initConfigButton1:
+                text.setText(getResources().getString(R.string.config1PreviewText));
+                configuration = "COMPETITION";
+                break;
+            default:
+                text.setText(getResources().getString(R.string.config2PreviewText));
+                configuration = "DEBUG";
         }
     }
 
-    //Start main activity
+    //Start main activity (sends chosen configuration through intent)
     private void startMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(configurationKey,configuration);
         startActivity(intent);
     }
 }

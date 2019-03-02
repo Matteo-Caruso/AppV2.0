@@ -10,12 +10,10 @@
     <string name="mainActivityBottomNavigationOption5Text">Attitude</string>
     <string name="initConfigRadioButton1Text">Configuration 1</string>
     <string name="initConfigRadioButton2Text">Configuration 2</string>
-    <string name="initConfigRadioButton3Text">Configuration 3</string>
     <string name="initConfigRadioGroupText">Choose Configuration</string>
     <string name="initConfigStartButtonText">Select</string>
-    <string name="config1PreviewText">Configuration 1</string>
-    <string name="config2PreviewText">Configuration 2</string>
-    <string name="config3PreviewText">Configuration 3</string>
+    <string name="config1PreviewText">Build for competition</string>
+    <string name="config2PreviewText">Debug build: Sends debug message instead of app message</string>
     <string name="mainActivitySpeedDialOption1Text">Location</string>
     <string name="mainActivitySpeedDialOption2Text">Record</string>
     <string name="mainActivitySpeedDialOption3Text">Connect</string>

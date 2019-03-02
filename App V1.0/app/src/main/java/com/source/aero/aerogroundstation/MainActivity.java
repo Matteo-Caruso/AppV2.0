@@ -61,6 +61,7 @@ import com.source.aero.aerogroundstation.Bluetooth.BluetoothService;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG = "MainActivity";
+    String configuration;
 
     //Mapbox elements
     private MapView mapView;
@@ -74,14 +75,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     NavigationView navigationView;
     ImageButton statusTabButton;
 
-    //UI Elements
-    boolean bluetoothDisplayed = false;
-
     //Bluetooth Elements
     //Request Codes
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
     private static final int REQUEST_ENABLE_BT = 3;
+    boolean bluetoothDisplayed = false;
 
     private ListView logView;
     private EditText editTextView;
@@ -121,6 +120,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initNavigationDrawer(); //Needs to be called before spinner
         initSpinner();
         initStatusTab();
+
+        //Set configuration
+        Intent intent = getIntent();
+        configuration = intent.getStringExtra("CONFIGURATION");
 
         //Bluetooth Setup
         //Get local bluetooth adapter
@@ -549,8 +552,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Lat/Lon multiplied by 1000000 to remove decimals
         // Test message with target GPS coordinates pointing to ACEB building for testing gnd station -> onboard
         ////                                  start type  lat         lon         calibrate rssi drop gliders motors
-        byte[] testMessage = hexStringToByteArray("0a0000029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000ff");
-
+        byte[] testMessage;
+        //Check configuration to determine message
+        if (configuration.equals("DEBUG")) {
+            testMessage = hexStringToByteArray("0a0000029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000ff");
+        }
+        else {
+            testMessage = hexStringToByteArray("0a0000029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000aa");
+        }
 
         //Check device is connected
         if (bluetoothService.getState() != BluetoothService.STATE_CONNECTED) {
