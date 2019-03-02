@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/makeDiscoverableOption"
+        android:title="@string/bluetooth_discoverableOptionText" />
+    <item
+        android:id="@+id/secureConnectOption"
+        android:title="@string/bluetooth_secureConnectOptionText" />
+    <item
+        android:id="@+id/insecureConnectOption"
+        android:title="@string/bluetooth_insecureConnectOptionText" />
+</menu>

@@ -3,6 +3,8 @@
     package="com.source.aero.aerogroundstation">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-feature android:name="android.hardware.screen.landscape"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <application
         android:allowBackup="true"
@@ -27,6 +29,7 @@
             android:label="@string/app_name"
             android:screenOrientation="landscape">
         </activity>
+        <activity android:name="com.source.aero.aerogroundstation.Bluetooth.BluetoothDevices"/>
     </application>
 
 </manifest>

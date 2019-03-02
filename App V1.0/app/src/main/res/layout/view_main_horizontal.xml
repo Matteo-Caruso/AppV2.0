@@ -28,9 +28,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:translationZ="2dp"
-        android:visibility="visible"/>
+        android:visibility="visible" >
+    </FrameLayout>
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="465dp"
+        android:visibility="visible"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0"
+        mapbox:layout_constraintBottom_toBottomOf="parent"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintStart_toStartOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent"
+        mapbox:mapbox_cameraTargetLat="28.0394650"
+        mapbox:mapbox_cameraTargetLng="-81.9498040"
+        mapbox:mapbox_cameraZoom="11"
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9">
+
+    </com.mapbox.mapboxsdk.maps.MapView>
+
+    <include
+        android:id="@+id/bluetoothView"
+        layout="@layout/view_bluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="2dp"
+        android:visibility="visible" />
 
     <!-- Bottom navigation bar outline (uses menu items)-->
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/mainActivityBottomNavigationView"
         android:layout_width="0dp"
@@ -46,22 +74,6 @@
         app:menu="@menu/main_bottom_navigation" />
 
     <!-- Mapbox map view -->
-    <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0"
-        mapbox:layout_constraintBottom_toBottomOf="parent"
-        mapbox:layout_constraintEnd_toEndOf="parent"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent"
-        mapbox:mapbox_cameraTargetLat="28.0394650"
-        mapbox:mapbox_cameraTargetLng="-81.9498040"
-        mapbox:mapbox_cameraZoom="11"
-        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9">
-
-    </com.mapbox.mapboxsdk.maps.MapView>
 
     <!-- Speed dial element -->
     <com.leinardi.android.speeddial.SpeedDialView
