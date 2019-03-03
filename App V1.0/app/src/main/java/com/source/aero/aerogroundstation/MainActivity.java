@@ -128,10 +128,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView currentDistanceToTarget;
 
 
-    private ListView logView;
+    //private ListView logView;
     private EditText editTextView;
     private Button sendButton;
-    private ArrayAdapter<String> logArrayAdapter;
+    //private ArrayAdapter<String> logArrayAdapter;
     private TextView.OnEditorActionListener writeListener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Bluetooth Setup
         //Get local bluetooth adapter
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        logView = (ListView) findViewById(R.id.bluetooth_messageView);
+        //logView = (ListView) findViewById(R.id.bluetooth_messageView);
         editTextView = (EditText) findViewById(R.id.bluetooth_sendMsgEditTextView);
         sendButton = (Button) findViewById(R.id.bluetooth_sendMsgButton);
 
@@ -825,8 +825,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //Bluetooth Functions
     private void setup() {
-        logArrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_bluetoothlog);
-        logView.setAdapter(logArrayAdapter);
+        //logArrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_bluetoothlog);
+        //logView.setAdapter(logArrayAdapter);
 
         editTextView.setOnEditorActionListener(writeListener);
 
@@ -982,7 +982,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     switch (msg.arg1) {
                         case BluetoothService.STATE_CONNECTED:
                             //setStatus(getString(R.string.bluetooth_titleConnectedTo, connectedDevice));
-                            logArrayAdapter.clear();
+                            //logArrayAdapter.clear();
                             break;
                         case BluetoothService.STATE_CONNECTING:
                             //setStatus(R.string.bluetooth_titleConnectedTo);
@@ -996,7 +996,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 case BluetoothConstantsInterface.MESSAGE_WRITE:
                     byte[] writeBuffer = (byte[]) msg.obj;
                     String writeData = new String(writeBuffer);
-                    logArrayAdapter.add("Me: " + writeData);
+                    //logArrayAdapter.add("Me: " + writeData);
                     break;
                 case BluetoothConstantsInterface.MESSAGE_READ:
                     byte[] readBuffer = (byte[]) msg.obj;
@@ -1014,7 +1014,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         readIncomingBluetoothData(readBuffer);
                     }
 
-                    logArrayAdapter.add(connectedDevice + ": " + "New msg");
+                    //logArrayAdapter.add(connectedDevice + ": " + "New msg");
                     break;
                 case BluetoothConstantsInterface.MESSAGE_DEVICE_NAME:
                     connectedDevice = msg.getData().getString(BluetoothConstantsInterface.DEVICE_NAME);
