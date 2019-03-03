@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected Polyline planePath;
     protected IconFactory factory;
     protected Bitmap icon;
+    Bundle flightPathData;
 
     //Ui Elements
     BottomNavigationView bottomNavigationView;
@@ -617,6 +618,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         builderPaths.setTitle("Flight Paths")
                                 .setItems(sessions, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
+                                        flightPathData = new Bundle();
+                                        List<Waypoint> waypoints = mDatabaseHelper.getWaypoints(lmaoStringFix[which],"Plane");
+                                        ArrayList<Waypoint> bundleList = new ArrayList<Waypoint>(waypoints);
+                                        flightPathData.putSerializable("WAYPOINTS",bundleList);
+                                        openFragment("FLIGHTPATH");
                                           // TODO: Add flight path activity
 //                                        // The 'which' argument contains the index position
 //                                        // of the selected item
@@ -807,6 +813,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case "MOTORDIALOGUE":
                 fragment = new MotorDialogue();
                 break;
+            case "FLIGHTPATH":
+                fragment = new FlightPath();
+                fragment.setArguments(flightPathData);
             default:
                 Log.d("MainActivity", "Failed to create fragment");
                 return;

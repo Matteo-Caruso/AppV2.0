@@ -91,4 +91,9 @@
     <string name="bluetooth_titlePairedDevices">Paired Devices</string>
     <string name="bluetooth_titleOtherDevices">Other Available Devices</string>
     <string name="bluetooth_buttonScan">Scan for devices</string>
+
+    <!-- Flight path strings -->
+    <string name="flightPathForwardButtonContentDescription">Move to next point</string>
+    <string name="flightPathBackwardButtonContentDescription">Move to previous point</string>
+    <string name="flightPathPlayButtonContentDescription">Play path</string>
 </resources>
