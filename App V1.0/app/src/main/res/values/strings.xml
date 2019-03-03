@@ -16,8 +16,8 @@
     <string name="config2PreviewText">Debug build: Sends debug message instead of app message</string>
     <string name="mainActivitySpeedDialOption1Text">Location</string>
     <string name="mainActivitySpeedDialOption2Text">Record</string>
-    <string name="mainActivitySpeedDialOption3Text">Connect</string>
-    <string name="mainActivitySpeedDialOption4Text">Save</string>
+    <string name="mainActivitySpeedDialOption3Text">Bluetooth</string>
+    <string name="mainActivitySpeedDialOption4Text">Offline Maps</string>
 
     <string name="motorSpeedDialOption1Text">Payload</string>
     <string name="motorSpeedDialOption2Text">Gliders</string>

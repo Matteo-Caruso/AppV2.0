@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String TAG = "MainActivity";
     String configuration;
 
-    private DatabaseHelper mDatabaseHelper;
+    public DatabaseHelper mDatabaseHelper;
     private String dbName = "AeroDB";
 
     //Mapbox elements
@@ -78,7 +78,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int MAX_POINTS = 100;
     private boolean mRecording;
 
+    private String payloadString;
+    private String dropString;
+
     protected Marker planeMarker;
+    Marker mPayload;
+    Marker mCDA;
     protected Marker lastPosition;
     protected Polyline planePath;
     protected IconFactory factory;
@@ -165,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mRecording = false;
         boolean droppped = false;
 
+        payloadString = "";
+        dropString = "";
         sessionCreated = false;
 
         recordingSession = null;
@@ -416,37 +423,149 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 switch (speedDialActionItem.getId()) {
                     case R.id.motorSpeedDialAction1:
                         motorSpeedDialView.close();
+                        command = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
                         command.setDropRequest(BluetoothConstantsInterface.DROPPAYLOAD);
                         send(command.makeMessage());
                         Toast.makeText(MainActivity.this,"Dropping payloads...", Toast.LENGTH_SHORT).show();
                         updateDropped(1);
                         if(mRecording)
                         {
-                            dropped = 1;
-                            addWaypointToDb("Plane");
+
+                            //addWaypointToDb("Plane");
                         }
+
+                        if(dropString.equals(""))
+                        {
+                            if(configuration.equals("DEBUG"))
+                            {
+                                dropString = "100 ft";
+                            }
+                            else
+                            {
+                                dropString = String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude());
+                            }
+
+                        }
+                        else
+                        {
+                            if(configuration.equals("DEBUG"))
+                            {
+                                dropString += " 100 ft";
+                            }
+                            else
+                            {
+                                dropString += String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude());
+                            }
+                        }
+
+                        // TODO: HARD CODED LOCATION
+                        if(configuration.equals("DEBUG"))
+                        {
+                            mPayload = map.addMarker(new MarkerOptions()
+                                    .title("Payload")
+                                    .position(new LatLng(28.0394650, -81.9498040)));
+
+                            currentDropAltitude.setText(dropString);
+                        }
+                        else
+                            {
+                            mPayload = map.addMarker(new MarkerOptions()
+                                    .position(new LatLng(vehicleManager.getPlaneData().readPlaneLatitude(), vehicleManager.getPlaneData().readPlaneLongitude())));
+                                currentDropAltitude.setText(String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude()));
+                        }
+
+                        dropped = 1;
+
+                        // TODO: set glider text on drop of
+                        if(payloadString.equals(""))
+                        {
+                            payloadString = "Payload";
+                        }
+                        else
+                        {
+                            payloadString += " Payload";
+                        }
+                        currentPayload.setText(payloadString);
+
                         break;
                     case R.id.motorSpeedDialAction2:
                         motorSpeedDialView.close();
+                        command = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
                         command.setDropRequest(BluetoothConstantsInterface.DROPGLIDERS);
                         send(command.makeMessage());
                         Toast.makeText(MainActivity.this,"Dropping gliders...", Toast.LENGTH_SHORT).show();
                         updateDropped(2);
                         if(mRecording)
                         {
-                            dropped = 2;
-                            addWaypointToDb("Plane");
+
+                            //addWaypointToDb("Plane");
                         }
+
+                        if(dropString.equals(""))
+                        {
+                            if(configuration.equals("DEBUG"))
+                            {
+                                dropString = "50 ft";
+                            }
+                            else
+                            {
+                                dropString = String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude());
+                            }
+
+                        }
+                        else
+                        {
+                            if(configuration.equals("DEBUG"))
+                            {
+                                dropString += " 50 ft";
+                            }
+                            else
+                            {
+                                dropString += String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude());
+                            }
+                        }
+
+                        dropped = 2;
+                        if(configuration.equals("DEBUG"))
+                        {
+                            mCDA = map.addMarker(new MarkerOptions()
+                                    .title("Glider")
+                                    .position(new LatLng(28.2394650, -81.9498040)));
+                            currentDropAltitude.setText(dropString);
+                        }
+                        else
+                        {
+                            mCDA = map.addMarker(new MarkerOptions()
+                                    .position(new LatLng(vehicleManager.getPlaneData().readPlaneLatitude(), vehicleManager.getPlaneData().readPlaneLongitude())));
+                            currentDropAltitude.setText(dropString);
+                        }
+
+                        // TODO: set glider text on drop of
+                        if(payloadString.equals(""))
+                        {
+                            payloadString = "Glider";
+                        }
+                        else
+                        {
+                            payloadString += " Glider";
+                        }
+                        currentPayload.setText(payloadString);
+
+
+
+
 
                         break;
                     case R.id.motorSpeedDialAction3:
                         motorSpeedDialView.close();
+                        command = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
                         command.setGliders(BluetoothConstantsInterface.GLIDER1);
                         send(command.makeMessage());
                         Toast.makeText(MainActivity.this,"Emergency Glider 1 Pitch Up", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.motorSpeedDialAction4:
                         motorSpeedDialView.close();
+                        command = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
                         command.setGliders(BluetoothConstantsInterface.GLIDER2);
                         send(command.makeMessage());
                         Toast.makeText(MainActivity.this, "Emergency Glider 2 Pitch Up", Toast.LENGTH_SHORT).show();
@@ -733,6 +852,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mRecording = false;
             sessionCreated = false;
 
+            if(mPayload != null)
+            {
+                mPayload.remove();
+                mPayload = null;
+            }
+
+            if(mCDA != null)
+            {
+                mCDA.remove();
+                mCDA = null;
+            }
         }
 
 
@@ -746,18 +876,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Update value
         currentAltitude.setText(String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude()));
 
-        // TODO: set glider text on drop of glider
-        // currentPayload.setText("glider");
 
-        // // TODO: set drop value on drop
-        // currentDropAltitude.setText("0");
 
         currentSpeed.setText(String.valueOf(vehicleManager.getPlaneData().readPlaneSpeed()));
 
         // TODO: Calculate distance to target based on plane position and target position
         // TODO: Calculate time based on distance approximated to meters and current speed or change of speed from past lat, lons
-        //currentTimeToTarget.setText("0");
-        //currentDistanceToTarget.setText("0");
+        if(points.size() > 2)
+        {
+            LatLng curLoc = points.get(points.size()-1);
+            LatLng prevLoc = points.get(points.size()-2);
+            double distance = curLoc.distanceTo(prevLoc);
+            currentDistanceToTarget.setText(String.valueOf(distance)+ " m");
+
+            // v = d/t therefore t = d/v
+            double time = distance/vehicleManager.getPlaneData().readPlaneSpeed();
+            currentTimeToTarget.setText(String.valueOf(time) +" s");
+        }
+
 
         updatePlane();
     }
@@ -1126,7 +1262,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         // Check if recording to add to db
                         if(mRecording)
                         {
-                            addWaypointToDb("Plane");
+                            //addWaypointToDb("Plane");
                         }
 
                         updateUI();

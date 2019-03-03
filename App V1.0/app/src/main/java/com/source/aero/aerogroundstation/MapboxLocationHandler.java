@@ -2,6 +2,8 @@ package com.source.aero.aerogroundstation;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.location.Location;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import android.support.annotation.NonNull;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
@@ -21,6 +24,8 @@ import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
+
+
 public class MapboxLocationHandler extends Fragment implements PermissionsListener{
     // Permission handling object
     private PermissionsManager permissionsManager;
@@ -31,6 +36,7 @@ public class MapboxLocationHandler extends Fragment implements PermissionsListen
 
     // Storing last location of this device, received from location engine
     private Location lastKnownLocation;
+
 
     public MapboxLocationHandler() {
         //Empty fragment constructor
@@ -44,6 +50,9 @@ public class MapboxLocationHandler extends Fragment implements PermissionsListen
         } catch (NullPointerException e) {
             Log.d("MyLocation Fragment", "Couldn't get map from main activity");
         }
+
+        MainActivity activity = (MainActivity)getActivity();
+
     }
 
     //Return inflater with location handler layout
@@ -55,13 +64,14 @@ public class MapboxLocationHandler extends Fragment implements PermissionsListen
     //Initialize UI elements
     @Override
     public void onViewCreated(View view, Bundle savedInstance) {
-        currentLocationButton = (Button) view.findViewById(R.id.locationButton);
-        currentLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentLocation();
-            }
-        });
+//        currentLocationButton = (Button) view.findViewById(R.id.locationButton);
+//        currentLocationButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                currentLocation();
+//            }
+//        });
+        currentLocation();
     }
 
     // Gets current LatLng from location engine and updates last known location. Sets camera to track location.
@@ -142,5 +152,45 @@ public class MapboxLocationHandler extends Fragment implements PermissionsListen
         updateCurrentLocation();
         cameraToLocation();
         Toast.makeText(getActivity(),Location.convert(lastKnownLocation.getLatitude(), Location.FORMAT_DEGREES) + " " + Location.convert(lastKnownLocation.getLongitude(), Location.FORMAT_DEGREES), Toast.LENGTH_LONG).show();
+
+
+        // Dialog builder
+        MainActivity activity = (MainActivity)getActivity();
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View textView = inflater.inflate(R.layout.location_builder, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        builder.setView(textView)
+                .setTitle("Save Target?")
+                .setPositiveButton("Save",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        EditText editText = (EditText) textView.findViewById(R.id.nameBuild);
+                        String name = editText.getText().toString();
+                        Log.d("Builder Loc0", name);
+                        if(name.equals(""))
+                        {
+                            Toast.makeText(getActivity(), "Empty name, try again", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Log.d("Builder Loc2", name);
+                            activity.mDatabaseHelper.addTarget(name, lastKnownLocation.toString());
+                            dialog.cancel();
+                        }
+
+                    }
+                })
+                .setNegativeButton("Close",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+
+        builder.create();
+        builder.show();
     }
 }
