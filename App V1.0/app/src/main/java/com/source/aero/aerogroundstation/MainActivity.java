@@ -1,7 +1,6 @@
 package com.source.aero.aerogroundstation;
 
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -20,9 +19,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
@@ -31,21 +28,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.Mapbox;
@@ -59,14 +50,11 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
-import org.apache.commons.codec.binary.Hex;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.maps.MapView;
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothConstantsInterface;
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothDevices;
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothService;
@@ -408,7 +396,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         //TODO:Open targets fragment
                         return true;
                     case R.id.mainActivityBottomNavigationPayload:
-                        //TODO:Open payloads fragment
+                        openFragment("STATUSTAB");
                         return true;
                     case R.id.mainActivityBottomNavigationAttitude:
                         //TODO: Open attitude fragment
@@ -505,6 +493,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 fragment = new StatusTab();
                 statusTabButton.setVisibility(View.INVISIBLE);
                 break;
+            case "MOTORDIALOGUE":
+                fragment = new MotorDialogue();
+                break;
             default:
                 Log.d("MainActivity", "Failed to create fragment");
                 return;
@@ -579,6 +570,93 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         updatePlane();
     }
 
+    //------------------------------------------------- Below is the implementation of the motor dialogue when a button is selected -----------------------------------------------------------
+    // TODO: Implement the functionality of the motor dialogue
+    public void motorDialogueSelect(View view)
+    {
+        int id = view.getId();
+
+        switch(id)
+        {
+
+            case R.id.motorOneOpenButton:
+                {
+                    //Place code here
+                    break;
+                }
+
+            case R.id.motorOneCloseButton:
+            {
+                //Place code here
+                break;
+            }
+
+            case R.id.motorTwoOpenButton:
+            {
+                //Place code here
+                break;
+            }
+
+            case R.id.motorTwoCloseButton:
+            {
+                //Place code here
+                break;
+            }
+
+            case R.id.motorThreeOpenButton:
+            {
+                //Place code here
+                break;
+            }
+
+            case R.id.motorThreeCloseButton:
+            {
+                //Place code here
+                break;
+            }
+
+            case R.id.motorFourOpenButton:
+            {
+                //Place code here
+                break;
+            }
+
+            case R.id.motorFourCloseButton:
+            {
+                //Place code here
+                break;
+            }
+
+            case R.id.motorFiveOpenButton:
+            {
+                //Place code here
+                break;
+            }
+
+            case R.id.motorFiveCloseButton:
+            {
+                //Place code here
+                break;
+            }
+
+            case R.id.motorSixOpenButton:
+            {
+                //Place code here
+                break;
+            }
+
+            case R.id.motorSixCloseButton:
+            {
+                //Place code here
+                break;
+            }
+
+            default: break;
+
+
+        }
+    }
+
     void updatePlane()
     {
         Log.d(TAG, "Plane update");
@@ -626,6 +704,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     }
+
+
 
     void addWaypointToDb(String flightType)
     {

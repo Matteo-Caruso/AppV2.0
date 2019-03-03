@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="#33000000"
+    >
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@drawable/grey_boarder_dark_outline">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Motor Dialogue"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:gravity="center"/>
+
+        <!-- The linear layout below is used to contain the horizontal row of buttons -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+            <!-- The linear layout below is used to contain the vertical row for row one buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Motor 1"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+                <Button
+                    android:id="@+id/motorOneOpenButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Open"
+                    android:onClick="motorDialogueSelect"/>
+                <Button
+                    android:id="@+id/motorOneCloseButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Close"
+                    android:onClick="motorDialogueSelect"/>
+            </LinearLayout>
+
+            <!-- The linear layout below is used to contain the vertical column for column two buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Motor 2"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+                <Button
+                    android:id="@+id/motorTwoOpenButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Open"
+                    android:onClick="motorDialogueSelect"/>
+                <Button
+                    android:id="@+id/motorTwoCloseButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Close"
+                    android:onClick="motorDialogueSelect"/>
+            </LinearLayout>
+
+            <!-- The linear layout below is used to contain the vertical row for row one buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Motor 3"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+                <Button
+                    android:id="@+id/motorThreeOpenButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Open"
+                    android:onClick="motorDialogueSelect"/>
+                <Button
+                    android:id="@+id/motorThreeCloseButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Close"
+                    android:onClick="motorDialogueSelect"/>
+            </LinearLayout>
+
+            <!-- The linear layout below is used to contain the vertical row for row one buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Motor 4"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+                <Button
+                    android:id="@+id/motorFourOpenButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Open"
+                    android:onClick="motorDialogueSelect"/>
+                <Button
+                    android:id="@+id/motorFourCloseButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Close"
+                    android:onClick="motorDialogueSelect"/>
+            </LinearLayout>
+
+            <!-- The linear layout below is used to contain the vertical row for row one buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Motor 5"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+                <Button
+                    android:id="@+id/motorFiveOpenButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Open"
+                    android:onClick="motorDialogueSelect"/>
+                <Button
+                    android:id="@+id/motorFiveCloseButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Close"
+                    android:onClick="motorDialogueSelect"/>
+            </LinearLayout>
+
+            <!-- The linear layout below is used to contain the vertical row for row one buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Motor 6"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+                <Button
+                    android:id="@+id/motorSixOpenButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Open"
+                    android:onClick="motorDialogueSelect"/>
+                <Button
+                    android:id="@+id/motorSixCloseButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Close"
+                    android:onClick="motorDialogueSelect"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
