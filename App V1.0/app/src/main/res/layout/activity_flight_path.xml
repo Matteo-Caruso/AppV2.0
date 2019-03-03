@@ -8,20 +8,20 @@
     android:layout_height="match_parent">
 
     <TableLayout
-        android:layout_width="119dp"
+        android:layout_width="139dp"
         android:layout_height="133dp"
         android:background="#80009688">
 
         <TableRow
+            android:id="@+id/flightPathAltitudeRow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/flightPathAltitudeRow">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/flightPathAltitude"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Altitude" />
 
             <TextView
                 android:id="@+id/flightPathAltitudeVal"
@@ -31,15 +31,15 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/flightPathSpeedRow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/flightPathSpeedRow">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/flightPathSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Speed" />
 
             <TextView
                 android:id="@+id/flightPathSpeedVal"
@@ -49,15 +49,15 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/flightHeadingRow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/flightHeadingRow">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/flightPathHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Heading" />
 
             <TextView
                 android:id="@+id/flightPathHeadingVal"
@@ -67,15 +67,15 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/flightPathDropHeightRow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/flightPathDropHeightRow">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/flightPathDropHeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Drop Height" />
 
             <TextView
                 android:id="@+id/flightPathDropHeightVal"
@@ -86,15 +86,15 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/flightPathRollRow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/flightPathRollRow">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/flightPathRoll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Roll" />
 
             <TextView
                 android:id="@+id/flightPathRollVal"
@@ -104,15 +104,15 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/flightPathPitchRow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/flightPathPitchRow">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/flightPathPitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Pitch" />
 
             <TextView
                 android:id="@+id/flightPathPitchVal"
@@ -122,21 +122,21 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/flightPathYawRow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/flightPathYawRow">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/flightPathYaw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Yaw" />
 
             <TextView
                 android:id="@+id/flightPathYawVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"/>
+                android:text="TextView" />
         </TableRow>
     </TableLayout>
 

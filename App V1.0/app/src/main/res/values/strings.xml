@@ -96,4 +96,15 @@
     <string name="flightPathForwardButtonContentDescription">Move to next point</string>
     <string name="flightPathBackwardButtonContentDescription">Move to previous point</string>
     <string name="flightPathPlayButtonContentDescription">Play path</string>
+    <string name="flightPathAltitudeFormatString">%1$.2f ft</string>
+    <string name="flightPathSpeedFormatString">%1$.2f ft/s</string>
+    <string name="flightPathHeadingFormatString">%1$.2f deg</string>
+    <string name="flightPathRollFormatString">%1$.2f deg</string>
+    <string name="flightPathPitchFormatString">%1$.2f deg</string>
+    <string name="flightPathYawFormatString">%1$.2f deg</string>
+
+
+
+
+
 </resources>

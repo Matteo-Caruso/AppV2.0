@@ -158,6 +158,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onCreate(savedInstanceState);
 
         mapView.getMapAsync(this);
+
+        //Create test values
+        DatabaseHelper helper = new DatabaseHelper(this,"AeroDB");
+        helper.populate();
         
         //Initializing UI Elements
         initBottomNavigationBar();
@@ -619,7 +623,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 .setItems(sessions, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         flightPathData = new Bundle();
-                                        List<Waypoint> waypoints = mDatabaseHelper.getWaypoints(lmaoStringFix[which],"Plane");
+                                        List<Waypoint> waypoints = mDatabaseHelper.getWaypoints(lmaoStringFix[which],"P");
                                         ArrayList<Waypoint> bundleList = new ArrayList<Waypoint>(waypoints);
                                         flightPathData.putSerializable("WAYPOINTS",bundleList);
                                         openFragment("FLIGHTPATH");

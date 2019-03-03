@@ -444,5 +444,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
     }
+
+    //Method to populate database for testing
+    public void populate() {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyy_MM_dd-HH:mm:ss_z");
+        String sessionId = formatter.format(date);
+        boolean session = createSession(date);
+        float altitude = 100;
+        float speed = 10;
+        float heading = 90;
+        String location = "10101010101";
+        int sid = 0;
+        float drop = 10;
+        float gliderDropHeight = 11;
+        float roll = 0;
+        float pitch = 0;
+        float yaw = 0;
+        String flight_type = "P";
+
+        for (int i = 0; i < 100; i++) {
+            altitude += 1;
+            speed += 1;
+            heading += 1;
+            sid += 1;
+            drop += 1;
+            roll += 1;
+            pitch += 1;
+            yaw += 1;
+            boolean w = addWaypoint(sessionId, sid, location, altitude, speed, heading, drop, gliderDropHeight, roll, pitch, yaw, flight_type);
+        }
+
+    }
 }
 
