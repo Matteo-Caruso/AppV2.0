@@ -60,7 +60,6 @@ import com.source.aero.aerogroundstation.Bluetooth.BluetoothDevices;
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothService;
 import com.source.aero.aerogroundstation.ContainerClasses.*;
 
-
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG = "MainActivity";
     String configuration;
@@ -494,11 +493,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment existingFragment = fragmentManager.findFragmentById(R.id.mainActivityFragmentLayout);
-        fragmentTransaction.remove(existingFragment).commit();
-        speedDialView.show();
-        bottomNavigationView.setVisibility(View.VISIBLE);
-        statusTabButton.setVisibility(View.VISIBLE);
-        getSupportActionBar().hide();
+        if (existingFragment != null) {
+            fragmentTransaction.remove(existingFragment).commit();
+            speedDialView.show();
+            bottomNavigationView.setVisibility(View.VISIBLE);
+            statusTabButton.setVisibility(View.VISIBLE);
+            getSupportActionBar().hide();
+        }
     }
 
     //Called from fragments that need access to map object
