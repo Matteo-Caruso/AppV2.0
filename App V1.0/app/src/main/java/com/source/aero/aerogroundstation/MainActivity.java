@@ -807,6 +807,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case "MOTORDIALOGUE":
                 fragment = new MotorDialogue();
                 break;
+            case "INFLATEDDISPLAYFIELDS":
+                fragment = new InflatedDisplayFields();
+                break;
             default:
                 Log.d("MainActivity", "Failed to create fragment");
                 return;
@@ -1061,6 +1064,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        if (dropped) {
 //            droppedCount = wayPointCount;
 //        }
+
+
+    }
+
+    //------------------------------------------------- Below is the implementation of increasing or decreasing display field font size when selected -----------------------------------------------------------
+    public void increaseFontSize(View view)
+    {
+        onBackPressed();
+        openFragment("MOTORDIALOGUE");
+
+        //The field values can be changed as follows:
+        TextView payloadDropAltitude = (TextView) findViewById(R.id.payloadDropAltitude);
+        payloadDropAltitude.setText("N/A");
+
+        TextView cdaDropAltitude = (TextView) findViewById(R.id.cdaDropAltitude);
+        cdaDropAltitude.setText("N/A");
+
+        //NOTE: The values can be changed as above using any function
+
 
 
     }
