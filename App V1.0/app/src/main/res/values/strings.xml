@@ -18,6 +18,12 @@
     <string name="mainActivitySpeedDialOption2Text">Record</string>
     <string name="mainActivitySpeedDialOption3Text">Connect</string>
     <string name="mainActivitySpeedDialOption4Text">Save</string>
+
+    <string name="motorSpeedDialOption1Text">Payload</string>
+    <string name="motorSpeedDialOption2Text">Gliders</string>
+    <string name="motorSpeedDialOption3Text">G1 Pitch</string>
+    <string name="motorSpeedDialOption4Text">G2 Pitch</string>
+
     <string name="mainActivityNavigationDrawerCalibrationItem1Text">Calibrate IMU</string>
     <string name="mainActivityNavigationDrawerCalibrationItem2Text">Calibrate Barometer</string>
     <string name="mainActivityNavigationDrawerCalibrationItem3Text">Calibrate GPS</string>

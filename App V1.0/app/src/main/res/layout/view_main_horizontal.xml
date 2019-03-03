@@ -9,18 +9,18 @@
     android:layout_height="match_parent"
     tools:context="com.source.aero.aerogroundstation.MainActivity">
 
-    <!-- Control tab implementation -->
-    <ImageButton
-        android:id="@+id/mainActivityStatusTab"
-        android:layout_width="201dp"
-        android:layout_height="24dp"
-        android:background="@color/cardview_shadow_end_color"
-        android:contentDescription="@string/mainActivityStatusTabDescription"
-        android:translationZ="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_tab_horizontal" />
+    <!--&lt;!&ndash; Control tab implementation &ndash;&gt;-->
+    <!--<ImageButton-->
+        <!--android:id="@+id/mainActivityStatusTab"-->
+        <!--android:layout_width="201dp"-->
+        <!--android:layout_height="24dp"-->
+        <!--android:background="@color/cardview_shadow_end_color"-->
+        <!--android:contentDescription="@string/mainActivityStatusTabDescription"-->
+        <!--android:translationZ="2dp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:srcCompat="@drawable/ic_tab_horizontal" />-->
 
     <!-- Frame layout for fragment inflation -->
     <FrameLayout
@@ -85,11 +85,30 @@
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/mainActivityBottomNavigationView"
+        app:sdExpansionMode="top"
         app:layout_constraintEnd_toEndOf="parent"
         app:sdMainFabClosedBackgroundColor="@color/colorSecondary"
         app:sdMainFabClosedSrc="@drawable/ic_speeddial"
         app:sdMainFabOpenedBackgroundColor="@color/colorSecondaryDark"
         />
+
+    <!-- Speed dial element -->
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/motorSpeedDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="876dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/mainActivityBottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:sdExpansionMode="top"
+        app:sdMainFabClosedBackgroundColor="@color/colorSecondary"
+        app:sdMainFabClosedSrc="@drawable/ic_speeddial"
+        app:sdMainFabOpenedBackgroundColor="@color/colorSecondaryDark" />
+
+
 
     <!--The LinearLayout below is used to display the recording dialogue to identify whether data is being recorded -->
     <LinearLayout

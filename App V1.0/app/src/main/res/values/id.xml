@@ -6,4 +6,9 @@
     <item name="mainActivitySpeedDialAction2" type="id" />
     <item name="mainActivitySpeedDialAction3" type="id" />
     <item name="mainActivitySpeedDialAction4" type="id" />
+
+    <item name="motorSpeedDialAction1" type="id" />
+    <item name="motorSpeedDialAction2" type="id" />
+    <item name="motorSpeedDialAction3" type="id" />
+    <item name="motorSpeedDialAction4" type="id" />
 </resources>

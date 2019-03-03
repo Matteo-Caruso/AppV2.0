@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Ui Elements
     BottomNavigationView bottomNavigationView;
     SpeedDialView speedDialView;
+    SpeedDialView motorSpeedDialView;
     DrawerLayout drawerLayout;
     Spinner spinner;
     NavigationView navigationView;
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initSpeedDial();
         initNavigationDrawer(); //Needs to be called before spinner
         initSpinner();
-        initStatusTab();
+        // initStatusTab();
 
         //Points for creating polyline
         points = new ArrayList<>();
@@ -392,6 +393,55 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return true;
             }
         });
+
+        motorSpeedDialView = findViewById(R.id.motorSpeedDial);
+        motorSpeedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction1, R.drawable.ic_speeddial)
+                        .setLabel(getResources().getString(R.string.motorSpeedDialOption1Text))
+                        .create()
+        );
+        motorSpeedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction2, R.drawable.ic_speeddial)
+                        .setLabel(getResources().getString(R.string.motorSpeedDialOption2Text))
+                        .create()
+        );
+        motorSpeedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction3, R.drawable.ic_speeddial)
+                        .setLabel(getResources().getString(R.string.motorSpeedDialOption3Text))
+                        .create()
+        );
+        motorSpeedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction4, R.drawable.ic_speeddial)
+                        .setLabel(getResources().getString(R.string.motorSpeedDialOption4Text))
+                        .create()
+        );
+
+        motorSpeedDialView.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {
+            @Override
+            public boolean onActionSelected(SpeedDialActionItem speedDialActionItem) {
+                switch (speedDialActionItem.getId()) {
+                    case R.id.motorSpeedDialAction1:
+                        motorSpeedDialView.close();
+                        // TODO: Payload drop command
+                        break;
+                    case R.id.motorSpeedDialAction2:
+                        motorSpeedDialView.close();
+                        // TODO: Glider drop command
+                        break;
+                    case R.id.motorSpeedDialAction3:
+                        motorSpeedDialView.close();
+                        // TODO: Glider1 pitch up command
+                        break;
+                    case R.id.motorSpeedDialAction4:
+                        motorSpeedDialView.close();
+                        // TODO: Glider2 pitch up command
+                        break;
+                    default:
+                        return true;
+                }
+                return true;
+            }
+        });
     }
 
     //Initialize bottom navigation bar
@@ -559,16 +609,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    //Initialize statustab fragment
-    public void initStatusTab() {
-        statusTabButton = (ImageButton) findViewById(R.id.mainActivityStatusTab);
-        statusTabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openFragment("STATUSTAB");
-            }
-        });
-    }
+//    //Initialize statustab fragment
+//    public void initStatusTab() {
+//        statusTabButton = (ImageButton) findViewById(R.id.mainActivityStatusTab);
+//        statusTabButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openFragment("STATUSTAB");
+//            }
+//        });
+//    }
 
     //Create fragment on top of main
     public void openFragment(String fragmentType) {
