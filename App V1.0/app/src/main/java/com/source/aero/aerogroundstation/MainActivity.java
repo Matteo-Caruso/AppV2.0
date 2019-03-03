@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     int dropped;
 
-    boolean[] motorState;
+    boolean[] motorState = new boolean[16];
 
     //Bluetooth Elements
     //Request Codes
@@ -480,8 +480,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 getSupportActionBar().hide();
                 switch (item.getItemId()) {
                     case R.id.mainActivityBottomNavigationMap:
+                        onBackPressed();
                         return true;
                     case R.id.mainActivityBottomNavigationPath:
+                        onBackPressed();
                         //TODO:Open path fragment
                         // Get list of database sessions
                         List<String> sessionList = mDatabaseHelper.getFlightSessions();
@@ -526,6 +528,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         return true;
                     case R.id.mainActivityBottomNavigationTargets:
+                        onBackPressed();
                         //TODO:Open targets fragment
                         // Get list of database targets
 
@@ -568,6 +571,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         return true;
                     case R.id.mainActivityBottomNavigationPayload:
+                        onBackPressed();
                         openFragment("MOTORDIALOGUE");
                         return true;
                     case R.id.mainActivityBottomNavigationAttitude:
@@ -925,8 +929,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-
-
     void addWaypointToDb(String flightType)
     {
         // do nothing
@@ -997,7 +999,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             fragmentTransaction.remove(existingFragment).commit();
             speedDialView.show();
             bottomNavigationView.setVisibility(View.VISIBLE);
-            statusTabButton.setVisibility(View.VISIBLE);
+            //statusTabButton.setVisibility(View.VISIBLE);
             getSupportActionBar().hide();
         }
     }
