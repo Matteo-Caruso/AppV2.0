@@ -1,21 +1,27 @@
 package com.source.aero.aerogroundstation;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class InitActivity extends AppCompatActivity {
     //UI elements
     Button startButton;
     RadioGroup configGroup;
     TextView configPreview;
+    AlertDialog.Builder databaseDialogBuilder;
+    AlertDialog databaseAlert;
 
-    String configuration = "";
-    String configurationKey = "CONFIGURATION";
+    private String configuration = "";
+    private String configurationKey = "CONFIGURATION";
+    private String dbName = "AeroDB";
 
     //Required methods
     @Override
@@ -28,11 +34,39 @@ public class InitActivity extends AppCompatActivity {
         configGroup = (RadioGroup) findViewById(R.id.initConfigRadioGroup);
         configPreview = (TextView) findViewById(R.id.initConfigPreviewTextView);
 
+        //Database clearing dialog
+        databaseDialogBuilder = new AlertDialog.Builder(this);
+        databaseDialogBuilder.setMessage(getResources().getString(R.string.initConfigDatabaseClearPrompt))
+        .setCancelable(true)
+        .setPositiveButton(getResources().getString(R.string.initConfigDatabaseClearPromptAffirmativePrompt), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int id) {
+
+                DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(),dbName);
+                databaseHelper.flushAll();
+                Toast.makeText(getApplicationContext(),getResources().getString(R.string.initConfigDatabaseClearPromptAffirmativeToast),Toast.LENGTH_SHORT).show();
+            }
+        })
+        .setNegativeButton(getResources().getString(R.string.initConfigDatabaseClearPromptNegativePrompt), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int id) {
+                dialogInterface.cancel();
+                Toast.makeText(getApplicationContext(),getResources().getString(R.string.initConfigDatabaseClearPromptNegativeToast),Toast.LENGTH_SHORT).show();
+            }
+        });
+
         //Register on click events
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMainActivity();
+                if (configuration.equals("CLEARDB")) {
+                    databaseAlert = databaseDialogBuilder.create();
+                    databaseAlert.setTitle(getResources().getString(R.string.initConfigDatabaseClearDialogTitle));
+                    databaseAlert.show();
+                }
+                else {
+                    startMainActivity();
+                }
             }
         });
         //Send id of radio button to config method
@@ -87,6 +121,10 @@ public class InitActivity extends AppCompatActivity {
             case R.id.initConfigButton1:
                 text.setText(getResources().getString(R.string.config1PreviewText));
                 configuration = "COMPETITION";
+                break;
+            case R.id.initConfigButton3:
+                text.setText(getResources().getString(R.string.config3PreviewText));
+                configuration = "CLEARDB";
                 break;
             default:
                 text.setText(getResources().getString(R.string.config2PreviewText));
