@@ -8,6 +8,8 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:layout_marginTop="10dp"
 android:orientation="vertical"
+    android:clickable="true"
+    android:onClick="increaseFontSize"
     android:background="#804298f4">
 
     <!-- The layout below is for the payload information-->
@@ -26,9 +28,7 @@ android:orientation="vertical"
             android:text="Payload: "
             android:textStyle="bold"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
         <TextView
             android:id="@+id/currentPayload"
             android:layout_width="wrap_content"
@@ -37,9 +37,7 @@ android:orientation="vertical"
             android:layout_marginRight="8dp"
             android:text="glider"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
     </LinearLayout>
 
     <!-- The layout below is for the drop altitude information-->
@@ -58,9 +56,7 @@ android:orientation="vertical"
             android:text="Drop Alt: "
             android:textStyle="bold"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
         <TextView
             android:id="@+id/currentDropAltitude"
             android:layout_width="wrap_content"
@@ -69,9 +65,7 @@ android:orientation="vertical"
             android:layout_marginRight="8dp"
             android:text="0"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,9 +73,7 @@ android:orientation="vertical"
             android:layout_marginRight="8dp"
             android:text="ft"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
     </LinearLayout>
 
     <!-- The layout below is for the altitude information-->
@@ -100,9 +92,7 @@ android:orientation="vertical"
             android:text="Altitude: "
             android:textStyle="bold"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
         <TextView
             android:id="@+id/currentAltitude"
             android:layout_width="wrap_content"
@@ -111,9 +101,7 @@ android:orientation="vertical"
             android:layout_marginRight="8dp"
             android:text="0"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -121,9 +109,7 @@ android:orientation="vertical"
             android:layout_marginRight="8dp"
             android:text="ft"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
     </LinearLayout>
 
     <!-- The layout below is for the speed information-->
@@ -142,9 +128,7 @@ android:orientation="vertical"
             android:text="Speed: "
             android:textStyle="bold"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
         <TextView
             android:id="@+id/currentSpeed"
             android:layout_width="wrap_content"
@@ -153,9 +137,7 @@ android:orientation="vertical"
             android:layout_marginRight="8dp"
             android:text="0"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -163,9 +145,7 @@ android:orientation="vertical"
             android:layout_marginRight="8dp"
             android:text="ft/s"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
     </LinearLayout>
 
     <!-- The layout below is for the time to target information-->
@@ -184,9 +164,7 @@ android:orientation="vertical"
             android:text="T-to-T: "
             android:textStyle="bold"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
         <TextView
             android:id="@+id/currentTimeToTarget"
             android:layout_width="wrap_content"
@@ -195,9 +173,7 @@ android:orientation="vertical"
             android:layout_marginRight="8dp"
             android:text="0"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -205,9 +181,7 @@ android:orientation="vertical"
             android:layout_marginRight="8dp"
             android:text="s"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
     </LinearLayout>
 
     <!-- The layout below is for the distance to target information-->
@@ -226,9 +200,7 @@ android:orientation="vertical"
             android:text="D-to-T: "
             android:textStyle="bold"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
         <TextView
             android:id="@+id/currentDistanceToTarget"
             android:layout_width="wrap_content"
@@ -237,9 +209,7 @@ android:orientation="vertical"
             android:layout_marginRight="8dp"
             android:text="0"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -247,9 +217,7 @@ android:orientation="vertical"
             android:layout_marginRight="8dp"
             android:text="ft"
             android:textColor="#6600CC"
-            android:textSize="10pt"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="10pt" />
     </LinearLayout>
 
 

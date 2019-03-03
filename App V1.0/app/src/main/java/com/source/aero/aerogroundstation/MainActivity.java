@@ -829,6 +829,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             fragment = fragmentManager.findFragmentById(R.id.mainActivityFragmentLayout);
             fragmentTransaction.remove(fragment).commit();
         }
+
     }
 
     //------------------------------------------------- Below is the implementation for when the recording identifier is adjusted -----------------------------------------------------------
@@ -1077,16 +1078,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //------------------------------------------------- Below is the implementation of increasing or decreasing display field font size when selected -----------------------------------------------------------
     public void increaseFontSize(View view)
     {
+        onBackPressed();
         openFragment("INFLATEDDISPLAYFIELDS");
-
-        //The field values can be changed as follows:
-        TextView payloadDropAltitude = (TextView) findViewById(R.id.payloadDropAltitude);
-        payloadDropAltitude.setText("N/A");
-
-        TextView cdaDropAltitude = (TextView) findViewById(R.id.cdaDropAltitude);
-        cdaDropAltitude.setText("N/A");
-
-        //NOTE: The values can be changed as above using any function
+        InflatedDisplayFields fragment_obj = (InflatedDisplayFields)getSupportFragmentManager().findFragmentByTag("INFLATEDDISPLAYFIELDS");
+        //fragment_obj.adjustTextValues("YEE", "YEE");
 
 
 
