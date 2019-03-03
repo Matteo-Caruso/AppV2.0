@@ -61,7 +61,9 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 import org.apache.commons.codec.binary.Hex;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -75,9 +77,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String TAG = "MainActivity";
     String configuration;
 
+    private DatabaseHelper mDatabaseHelper;
+    private String dbName = "AeroDB";
+
     //Mapbox elements
     private MapView mapView;
     private MapboxMap map;
+
+    private int MAX_POINTS = 100;
+    private boolean mRecording;
 
     protected Marker planeMarker;
     protected Marker lastPosition;
@@ -93,6 +101,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     NavigationView navigationView;
     ImageButton statusTabButton;
     ArrayList<LatLng> points;
+
+    private boolean sessionCreated;
+
+    protected String recordingSession;
+    private int waypointID;
+
+    boolean dropped;
 
     //Bluetooth Elements
     //Request Codes
@@ -152,6 +167,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Points for creating polyline
         points = new ArrayList<>();
+        mRecording = false;
+        boolean droppped = false;
+
+        sessionCreated = false;
+
+        recordingSession = null;
+        waypointID = 0;
+
+        mDatabaseHelper = new DatabaseHelper(this, dbName);
 
         //Creating Factory and Icon ONCE to avoid lag in updatePlane()
         factory = IconFactory.getInstance(MainActivity.this);
@@ -337,6 +361,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         break;
                     case R.id.mainActivitySpeedDialAction2:
                         speedDialView.close();
+                        isRecording(!mRecording);
                         break;
                     case R.id.mainActivitySpeedDialAction3:
                         if (!bluetoothDisplayed) {
@@ -497,7 +522,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //------------------------------------------------- Below is the implementation for when the recording identifier is adjusted -----------------------------------------------------------
 
-    public void changeRecordingIdentifier(int value){
+    public void isRecording(boolean value){
 
         //Obtain the ID's of the recording identifier that we are to change
         LinearLayout messageColour = (LinearLayout) findViewById(R.id.recordingIdentifier);
@@ -507,19 +532,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //"recording"
 
         //EX. If a record button is pressed, "value" should be greater than zero to identify that recording has started
-        if (value>0){
+        if (value == true){
 
             messageColour.setBackgroundDrawable(getResources().getDrawable(R.drawable.green_boarder_white_outline));
             messageRecord.setText("Recording");
+            mRecording = true;
 
+            // Create new session for db
+            recordingSession = new Date().toString();
+            waypointID = 0;
         }
 
         else{
 
             messageColour.setBackgroundDrawable(getResources().getDrawable(R.drawable.red_boarder_white_outline));
             messageRecord.setText("Not Recording");
+            mRecording = false;
+            sessionCreated = false;
 
         }
+
+
 
     }
 
@@ -569,7 +602,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .icon(factory.fromBitmap(rotatedBitmap)));
 
         //Past Position Markers
-        if(points.size() > 2){
+        if(points.size() > 2 && (points.size() % 10 == 0)){
 
             Bitmap circle = factory.fromResource(R.drawable.black_circle).getBitmap();
             circle = Bitmap.createScaledBitmap(circle, 10, 10, false);
@@ -582,7 +615,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         planePath = map.addPolyline(new PolylineOptions()
                 .addAll(points)
                 .color(Color.parseColor("#3bb2d0"))
-                .width(3));
+                .width(1));
 
 //        //From old code, leaving in till we deal with drop
 //        wayPointCount++;
@@ -592,6 +625,49 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        }
 
 
+    }
+
+    void addWaypointToDb(String flightType)
+    {
+        // do nothing
+        if(!sessionCreated){
+            Date currentTime = new Date();
+            //;Date formattedDate = new Date();
+            recordingSession = new SimpleDateFormat("yyyy_MM_dd-HH_mm_ss_z").format(currentTime);
+            Log.d("Formatted", recordingSession);
+            sessionCreated = true;
+        }
+        else{
+            waypointID += 1;
+            boolean g = false;
+             // TODO: Add payload drop type
+            if(dropped){
+                  g =mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
+                          (float)vehicleManager.getPlaneData().readPlaneAltitude(),
+                          (float)vehicleManager.getPlaneData().readPlaneSpeed(),
+                          (float)vehicleManager.getPlaneData().readPlaneYaw(),
+                          (float)vehicleManager.getPlaneData().readPlaneAltitude(),
+                          (float)vehicleManager.getPlaneData().readPlaneRoll(),
+                          (float)vehicleManager.getPlaneData().readPlanePitch(),
+                          (float)vehicleManager.getPlaneData().readPlaneYaw(),
+                          flightType);
+                dropped = false;
+            }
+            else{
+                g =mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
+                        (float)vehicleManager.getPlaneData().readPlaneAltitude(),
+                        (float)vehicleManager.getPlaneData().readPlaneSpeed(),
+                        (float)vehicleManager.getPlaneData().readPlaneYaw(),
+                        (float) 0.0,
+                        (float)vehicleManager.getPlaneData().readPlaneRoll(),
+                        (float)vehicleManager.getPlaneData().readPlanePitch(),
+                        (float)vehicleManager.getPlaneData().readPlaneYaw(),
+                        flightType);
+            }
+
+            Log.d("Waypointc", String.valueOf(g));
+
+        }
     }
 
     //Close current fragment on back press
@@ -715,11 +791,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         // PLANE
                         Log.d(TAG, "Message came from plane");
 
-                        // CHECK IF RECORDING MODE AND ADD TO DB
+
                         vehicleManager.updatePlane(parser);
 
                         LatLng planePoint =  new LatLng(vehicleManager.getPlaneData().readPlaneLatitude(), vehicleManager.getPlaneData().readPlaneLongitude());
+                        if(points.size() > MAX_POINTS)
+                        {
+                            points.remove(0);
+                        }
                         points.add(planePoint);
+
+                        // Check if recording to add to db
+                        if(mRecording)
+                        {
+                            addWaypointToDb("Plane");
+                        }
 
                         updateUI();
                         break;
@@ -729,6 +815,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         // GLIDER 1
                         Log.d(TAG, "Message came from glider1");
                         vehicleManager.updateGliderOne(parser);
+
+                        // Check if recording to add to db
+                        if(mRecording)
+                        {
+                            addWaypointToDb("Glider 1");
+                        }
+
                         break;
                     }
                     case 3:
@@ -736,6 +829,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         // GLIDER 2
                         Log.d(TAG, "Message came from glider2");
                         vehicleManager.updateGliderTwo(parser);
+
+                        // Check if recording to add to db
+                        if(mRecording)
+                        {
+                            addWaypointToDb("Glider 2");
+                        }
                         break;
                     }
                 }
