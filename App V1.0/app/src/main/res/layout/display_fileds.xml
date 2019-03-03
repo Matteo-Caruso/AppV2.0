@@ -9,6 +9,70 @@ android:layout_height="wrap_content"
 android:layout_marginTop="10dp"
 android:orientation="vertical">
 
+    <!-- The layout below is for the payload information-->
+    <LinearLayout
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="1dp">
+        <!-- the background uses a rectangle created in the drawable folder -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="2dp"
+            android:text="Payload: "
+            android:textStyle="bold"
+            android:textColor="#6600CC"
+            android:textSize="1in"/>
+        <TextView
+            android:id="@+id/currentPayload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="8dp"
+            android:text="glider"
+            android:textColor="#6600CC"
+            android:textSize="1in"/>
+    </LinearLayout>
+
+    <!-- The layout below is for the drop altitude information-->
+    <LinearLayout
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="1dp">
+        <!-- the background uses a rectangle created in the drawable folder -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="2dp"
+            android:text="Drop Alt: "
+            android:textStyle="bold"
+            android:textColor="#6600CC"
+            android:textSize="1in"/>
+        <TextView
+            android:id="@+id/currentDropAltitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="8dp"
+            android:text="0"
+            android:textColor="#6600CC"
+            android:textSize="1in"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="8dp"
+            android:text="ft"
+            android:textColor="#6600CC"
+            android:textSize="1in"/>
+    </LinearLayout>
+
     <!-- The layout below is for the altitude information-->
     <LinearLayout
         android:visibility="visible"
@@ -28,70 +92,6 @@ android:orientation="vertical">
             android:textSize="10pt"/>
         <TextView
             android:id="@+id/currentAltitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="8dp"
-            android:text="0"
-            android:textColor="#6600CC"
-            android:textSize="10pt"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="8dp"
-            android:text="ft"
-            android:textColor="#6600CC"
-            android:textSize="10pt"/>
-    </LinearLayout>
-
-    <!-- The layout below is for the payload information-->
-    <LinearLayout
-        android:visibility="visible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="1dp">
-        <!-- the background uses a rectangle created in the drawable folder -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="2dp"
-            android:text="Payload: "
-            android:textStyle="bold"
-            android:textColor="#6600CC"
-            android:textSize="10pt"/>
-        <TextView
-            android:id="@+id/currentPayload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="8dp"
-            android:text="glider"
-            android:textColor="#6600CC"
-            android:textSize="10pt"/>
-    </LinearLayout>
-
-    <!-- The layout below is for the drop altitude information-->
-    <LinearLayout
-        android:visibility="visible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="1dp">
-        <!-- the background uses a rectangle created in the drawable folder -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="2dp"
-            android:text="Drop Alt: "
-            android:textStyle="bold"
-            android:textColor="#6600CC"
-            android:textSize="10pt"/>
-        <TextView
-            android:id="@+id/currentDropAltitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
