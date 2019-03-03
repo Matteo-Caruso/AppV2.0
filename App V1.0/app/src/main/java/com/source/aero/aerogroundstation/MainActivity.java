@@ -1,5 +1,6 @@
 // TODO: ALTITUDE IN METRES WITH ONE DECIMAL PRECISION
 // TODO: SPEED IN METRES WITH TWO DECIMAL PRECISION in m/s
+// TODO: ADD 4 BIT ERROR CODE FOR SATELITTES
 
 package com.source.aero.aerogroundstation;
 
@@ -427,6 +428,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     case R.id.motorSpeedDialAction1:
                         motorSpeedDialView.close();
                         command = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
+                        command.setMsgType((short)1);
                         command.setDropRequest(BluetoothConstantsInterface.DROPPAYLOAD);
                         send(command.makeMessage());
                         Toast.makeText(MainActivity.this,"Dropping payloads...", Toast.LENGTH_SHORT).show();
@@ -494,6 +496,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     case R.id.motorSpeedDialAction2:
                         motorSpeedDialView.close();
                         command = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
+                        command.setMsgType((short)1);
                         command.setDropRequest(BluetoothConstantsInterface.DROPGLIDERS);
                         send(command.makeMessage());
                         Toast.makeText(MainActivity.this,"Dropping gliders...", Toast.LENGTH_SHORT).show();
@@ -554,14 +557,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                         currentPayload.setText(payloadString);
 
-
-
-
-
                         break;
                     case R.id.motorSpeedDialAction3:
                         motorSpeedDialView.close();
                         command = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
+                        command.setMsgType((short)2);
                         command.setGliders(BluetoothConstantsInterface.GLIDER1);
                         send(command.makeMessage());
                         Toast.makeText(MainActivity.this,"Emergency Glider 1 Pitch Up", Toast.LENGTH_SHORT).show();
@@ -569,6 +569,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     case R.id.motorSpeedDialAction4:
                         motorSpeedDialView.close();
                         command = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
+                        command.setMsgType((short)3);
                         command.setGliders(BluetoothConstantsInterface.GLIDER2);
                         send(command.makeMessage());
                         Toast.makeText(MainActivity.this, "Emergency Glider 2 Pitch Up", Toast.LENGTH_SHORT).show();
@@ -717,6 +718,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         switch (menuItem.getItemId()) {
                             case R.id.navigationDrawerItem1:
                                 if (drawerMenu == 0) {
+                                    message = new BluetoothMessage();
+                                    message.setMsgType((short)1);
                                     message.setCalibrate(BluetoothConstantsInterface.CALIBRATEIMU);
                                     send(message.makeMessage());
                                     Toast.makeText(getApplicationContext(),"IMU Calibration Command Sent", Toast.LENGTH_SHORT).show();
@@ -727,7 +730,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 if (drawerMenu == 0) {
 
                                     // TODO: Request current altitude to use as offset for incoming altitude values
-
+                                    message = new BluetoothMessage();
+                                    message.setMsgType((short)1);
                                     message.setCalibrate(BluetoothConstantsInterface.CALIBRATEGPS);
                                     send(message.makeMessage());
                                     Toast.makeText(getApplicationContext(),"GPS Calibration Command Sent", Toast.LENGTH_SHORT).show();
@@ -736,6 +740,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 break;
                             case R.id.navigationDrawerItem3:
                                 if (drawerMenu == 0) {
+                                    message = new BluetoothMessage();
+                                    message.setMsgType((short)1);
                                     message.setCalibrate(BluetoothConstantsInterface.CALIBRATEBAROMETER);
                                     send(message.makeMessage());
                                     Toast.makeText(getApplicationContext(),"Barometer Calibration Command Sent", Toast.LENGTH_SHORT).show();
@@ -1078,7 +1084,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void increaseFontSize(View view)
     {
         onBackPressed();
-        openFragment("MOTORDIALOGUE");
+        openFragment("INFLATEDDISPLAYFIELDS");
 
         //The field values can be changed as follows:
         TextView payloadDropAltitude = (TextView) findViewById(R.id.payloadDropAltitude);
@@ -1224,7 +1230,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         byte[] send;
         //Check configuration to determine message
         if (configuration.equals("DEBUG")) {
-            send = hexStringToByteArray("0a0004029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000ff");
+            //send = hexStringToByteArray("0a0004029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000ff");
+            send = data;
         }
         else {
             send = data;
