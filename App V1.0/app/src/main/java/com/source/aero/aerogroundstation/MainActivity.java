@@ -1,9 +1,6 @@
 package com.source.aero.aerogroundstation;
 
-
-
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 
 import android.graphics.Bitmap;
@@ -41,7 +38,6 @@ import android.view.MenuInflater;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.Mapbox;
@@ -63,6 +59,7 @@ import java.util.List;
 
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothConstantsInterface;
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothDevices;
+import com.source.aero.aerogroundstation.Bluetooth.BluetoothMessage;
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothService;
 import com.source.aero.aerogroundstation.ContainerClasses.*;
 
@@ -91,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     SpeedDialView speedDialView;
     SpeedDialView motorSpeedDialView;
     DrawerLayout drawerLayout;
+    int drawerMenu = 0;
     Spinner spinner;
     NavigationView navigationView;
     ImageButton statusTabButton;
@@ -122,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private EditText editTextView;
     private Button sendButton;
     //private ArrayAdapter<String> logArrayAdapter;
-    private TextView.OnEditorActionListener writeListener = new TextView.OnEditorActionListener() {
+    /*private TextView.OnEditorActionListener writeListener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
             if (i == EditorInfo.IME_NULL && keyEvent.getAction() == KeyEvent.ACTION_UP) {
@@ -131,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             return true;
         }
-    };
+    };*/
 
     private BluetoothAdapter bluetoothAdapter = null;
     private BluetoothService bluetoothService = null;
@@ -157,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initSpeedDial();
         initNavigationDrawer(); //Needs to be called before spinner
         initSpinner();
-        // initStatusTab();
+        //initStatusTab();
 
         //Points for creating polyline
         points = new ArrayList<>();
@@ -183,8 +181,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Get local bluetooth adapter
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         //logView = (ListView) findViewById(R.id.bluetooth_messageView);
-        editTextView = (EditText) findViewById(R.id.bluetooth_sendMsgEditTextView);
-        sendButton = (Button) findViewById(R.id.bluetooth_sendMsgButton);
+        //editTextView = (EditText) findViewById(R.id.bluetooth_sendMsgEditTextView);
+        //sendButton = (Button) findViewById(R.id.bluetooth_sendMsgButton);
 
         initTextDisplay();
 
@@ -359,14 +357,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         break;
                     case R.id.mainActivitySpeedDialAction3:
                         if (!bluetoothDisplayed) {
-                            ((LinearLayout) findViewById(R.id.bluetoothView)).setVisibility(View.VISIBLE);
                             getSupportActionBar().show();
-                            ((BottomNavigationView) findViewById(R.id.mainActivityBottomNavigationView)).setVisibility(View.INVISIBLE);
                             bluetoothDisplayed = true;
                         }
                         else {
-                            ((LinearLayout) findViewById(R.id.bluetoothView)).setVisibility(View.INVISIBLE);
-                            ((BottomNavigationView) findViewById(R.id.mainActivityBottomNavigationView)).setVisibility(View.VISIBLE);
                             getSupportActionBar().hide();
                             bluetoothDisplayed = false;
                         }
@@ -410,16 +404,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .create()
         );
 
-
-
-
         motorSpeedDialView.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {
             @Override
             public boolean onActionSelected(SpeedDialActionItem speedDialActionItem) {
+                BluetoothMessage command = new BluetoothMessage();
                 switch (speedDialActionItem.getId()) {
                     case R.id.motorSpeedDialAction1:
                         motorSpeedDialView.close();
-                        // TODO: Payload drop command
+                        command.setDropRequest(BluetoothConstantsInterface.DROPPAYLOAD);
+                        send(command.makeMessage());
                         Toast.makeText(MainActivity.this,"Dropping payloads...", Toast.LENGTH_SHORT).show();
                         updateDropped(1);
                         if(mRecording)
@@ -430,7 +423,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         break;
                     case R.id.motorSpeedDialAction2:
                         motorSpeedDialView.close();
-                        // TODO: Glider drop command
+                        command.setDropRequest(BluetoothConstantsInterface.DROPGLIDERS);
+                        send(command.makeMessage());
                         Toast.makeText(MainActivity.this,"Dropping gliders...", Toast.LENGTH_SHORT).show();
                         updateDropped(2);
                         if(mRecording)
@@ -442,13 +436,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         break;
                     case R.id.motorSpeedDialAction3:
                         motorSpeedDialView.close();
-                        // TODO: Glider1 pitch up command
+                        command.setGliders(BluetoothConstantsInterface.GLIDER1);
+                        send(command.makeMessage());
                         Toast.makeText(MainActivity.this,"Emergency Glider 1 Pitch Up", Toast.LENGTH_SHORT).show();
-
                         break;
                     case R.id.motorSpeedDialAction4:
                         motorSpeedDialView.close();
-                        // TODO: Glider2 pitch up command
+                        command.setGliders(BluetoothConstantsInterface.GLIDER2);
+                        send(command.makeMessage());
                         Toast.makeText(MainActivity.this, "Emergency Glider 2 Pitch Up", Toast.LENGTH_SHORT).show();
                         break;
                     default:
@@ -964,9 +959,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //logArrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_bluetoothlog);
         //logView.setAdapter(logArrayAdapter);
 
-        editTextView.setOnEditorActionListener(writeListener);
+        //editTextView.setOnEditorActionListener(writeListener);
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        /*sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View view) {
                 if (null != view) {
@@ -975,7 +970,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     send(data);
                 }
             }
-        });
+        });*/
 
         //Initialize bluetooth connections
         bluetoothService = new BluetoothService(this, handler);
@@ -1001,19 +996,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     //Send data
-    private void send(String data) {
+    private void send(byte[] data) {
         Log.d(TAG, "Sending data...");
         
         // Lat/Lon multiplied by 1000000 to remove decimals
         // Test message with target GPS coordinates pointing to ACEB building for testing gnd station -> onboard
         ////                                  start type  lat         lon         calibrate rssi drop gliders motors
-        byte[] testMessage;
+        byte[] send;
         //Check configuration to determine message
         if (configuration.equals("DEBUG")) {
-            testMessage = hexStringToByteArray("0a0004029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000ff");
+            send = hexStringToByteArray("0a0004029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000ff");
         }
         else {
-            testMessage = hexStringToByteArray("0a0000029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000aa");
+            send = data;
         }
 
         //Check device is connected
@@ -1022,7 +1017,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         }
 
-        if (data.length() > 0) {
+        bluetoothService.write(send);
+
+        //For sending strings
+        /*if (data.length() > 0) {
             byte[] send = data.getBytes();
 
             //bluetoothService.write(send);
@@ -1030,7 +1028,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             dataBuffer.setLength(0);
             editTextView.setText(dataBuffer);
-        }
+        }*/
     }
     
     // Thiss function takes in a string that represents an incoming bluetooth msg from the HC-05

@@ -17,8 +17,7 @@ public class BluetoothMessage {
     private short[] motors = new short[16];
     private short error = (short) 0;
 
-    public BluetoothMessage(short type) {
-        msgType = type;
+    public BluetoothMessage() {
         //Initialize default values for motors
         for (int i = 0; i < 16; i++) {
             motors[i] = BluetoothConstantsInterface.MOTOROFF;
@@ -28,6 +27,10 @@ public class BluetoothMessage {
     public void setTarget(double lat, double lon) {
         targetLat = (int) (lat*10000000);
         targetLon = (int) (lon*10000000);
+    }
+
+    public void setMsgType(short type) {
+        msgType = type;
     }
 
     public void setCalibrate(byte device) {

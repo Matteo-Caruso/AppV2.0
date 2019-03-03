@@ -49,13 +49,13 @@
 
     </com.mapbox.mapboxsdk.maps.MapView>
 
-    <include
+    <!-- include
         android:id="@+id/bluetoothView"
         layout="@layout/view_bluetooth"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:translationZ="2dp"
-        android:visibility="gone" />
+        android:visibility="gone" / -->
 
     <!-- Bottom navigation bar outline (uses menu items)-->
 
@@ -90,6 +90,7 @@
         app:sdMainFabClosedBackgroundColor="@color/colorSecondary"
         app:sdMainFabClosedSrc="@drawable/ic_speeddial"
         app:sdMainFabOpenedBackgroundColor="@color/colorSecondaryDark"
+        app:sdUseReverseAnimationOnClose="true"
         />
 
     <!-- Speed dial element -->
@@ -103,10 +104,12 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/mainActivityBottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:barrierDirection="right"
         app:sdExpansionMode="top"
         app:sdMainFabClosedBackgroundColor="@color/colorSecondary"
         app:sdMainFabClosedSrc="@drawable/ic_speeddial"
-        app:sdMainFabOpenedBackgroundColor="@color/colorSecondaryDark" />
+        app:sdMainFabOpenedBackgroundColor="@color/colorSecondaryDark"
+        app:sdUseReverseAnimationOnClose="true"/>
 
 
 
