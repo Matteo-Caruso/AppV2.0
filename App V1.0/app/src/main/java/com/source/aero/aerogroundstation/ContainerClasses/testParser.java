@@ -13,7 +13,6 @@ public class testParser {
         try {
             byte[] testMessage = Hex.decodeHex("0a0000029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000ff");
             ByteBuffer testBuffer = ByteBuffer.wrap(testMessage);
-            messageParser testParser = new messageParser(testBuffer);
 
 
         }catch(DecoderException exception)

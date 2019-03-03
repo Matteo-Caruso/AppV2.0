@@ -586,7 +586,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             // Wrap data in ByteBuffer so we can parse the data easily
             ByteBuffer msgBuffer = ByteBuffer.wrap(data);  // BIG ENDIAN BY DEFAULT
-            
+            messageParser parser = new messageParser(msgBuffer);
+
+            Log.d(TAG, "Parser result: " + parser.toString());
+
             // Get first and last byte of the message
             byte startByte = data[0];
             byte endByte = data[data.length - 1];
@@ -595,14 +598,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d(TAG, "Incoming bluetooth data string msg type bytes: " + Byte.valueOf(data[0]) + " "  + Byte.valueOf(data[1]));
                 
             // Check if start and stop bytes match message definition
-            if((Byte.compare(startByte, (byte) 10) == 0) && (Byte.compare(endByte, (byte) 15) == 0)) {
+            if((Byte.compare(startByte, (byte) 10) == 0) && (Byte.compare(endByte, (byte) 255) == 0)) {
                 Log.d(TAG, "Incoming bluetooth data string has correct start and stop bytes");
-                
-                // Get two bytes starting at index one and convert them to a short
-                short msgTypeValue = msgBuffer.getShort(1);
-                Log.d(TAG, "Incoming bluetooth data string has message type: " + String.valueOf(msgTypeValue));
-                
-                // TODO: Parse the rest of the data packet
+
             }
     }
 
