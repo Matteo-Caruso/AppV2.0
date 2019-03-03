@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class InflatedDisplayFields extends Fragment{
 
@@ -27,13 +28,26 @@ public class InflatedDisplayFields extends Fragment{
         return inflater.inflate(R.layout.view_inflated_display_fields, parent, false);
     }
 
-    /*@Override
+    @Override
     public void onViewCreated(View view, Bundle savedInstance) {
-        LinearLayout displayFields = (LinearLayout) view.findViewById(R.id.displayFieldsLayout);
-        displayFields.setVisibility(View.INVISIBLE);
+//        LinearLayout displayFields = (LinearLayout) view.findViewById(R.id.displayFieldsLayout);
+//        displayFields.setVisibility(View.INVISIBLE);
+
+            adjustTextValues("N/A", "N/A");
     }
 
-    @Override
+    public void adjustTextValues(String payloadHeight, String cdaHeight)
+    {
+        TextView payloadDropAltitude = (TextView) getView().findViewById(R.id.payloadDropAltitude);
+        payloadDropAltitude.setText(payloadHeight);
+
+        TextView cdaDropAltitude = (TextView) getView().findViewById(R.id.cdaDropAltitude);
+        cdaDropAltitude.setText(cdaHeight);
+
+        //NOTE: The values can be changed as above using any function
+    }
+
+/*    @Override
     public void onDestroyView() {
         LinearLayout displayFields = (LinearLayout) view.findViewById(R.id.displayFieldsLayout);
         displayFields.setVisibility(View.VISIBLE);

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:gravity="center"
-    android:background="#66000000">
+    android:background="#99000000">
 
     <!-- The layout below is for the payload drop altitude information-->
     <LinearLayout
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="8dp"
-            android:text="0"
+            android:text="999"
             android:textColor="#6600CC"
             android:textSize="1in"
             android:clickable="true"
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="8dp"
-            android:text="0"
+            android:text="999"
             android:textColor="#6600CC"
             android:textSize="1in"
             android:clickable="true"

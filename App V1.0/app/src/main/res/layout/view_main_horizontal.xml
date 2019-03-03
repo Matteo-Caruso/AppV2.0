@@ -31,6 +31,8 @@
         android:visibility="visible" >
     </FrameLayout>
 
+
+
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
@@ -48,6 +50,16 @@
         mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9">
 
     </com.mapbox.mapboxsdk.maps.MapView>
+
+    <!-- Below, we include the layout for the display fields, allowing them to be viewed in the main activity-->
+    <include
+        layout="@layout/display_fileds"
+        android:layout_width="188dp"
+        android:layout_height="194dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recordingIdentifier" />
 
     <!-- include
         android:id="@+id/bluetoothView"
@@ -112,6 +124,7 @@
 
 
 
+
     <!--The LinearLayout below is used to display the recording dialogue to identify whether data is being recorded -->
     <LinearLayout
         android:id="@+id/recordingIdentifier"
@@ -136,14 +149,6 @@
             android:textSize="20dp" />
     </LinearLayout>
 
-    <!-- Below, we include the layout for the display fields, allowing them to be viewed in the main activity-->
-    <include
-        layout="@layout/display_fileds"
-        android:layout_width="188dp"
-        android:layout_height="194dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recordingIdentifier" />
+
 </android.support.constraint.ConstraintLayout>
 
