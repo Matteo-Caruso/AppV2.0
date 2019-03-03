@@ -55,6 +55,11 @@ public class BluetoothService {
     public static final int STATE_CONNECTING    = 2;
     public static final int STATE_CONNECTED     = 3;
 
+    private byte[] validPacket;
+    private boolean started;
+    private boolean ended;
+    private int index = 0;
+
     /**
      * Constructor. Prepares a new Bluetooth service session.
      *
@@ -71,6 +76,11 @@ public class BluetoothService {
         // Set unique user id based on value in strings.xml
         MY_UUID_SECURE = UUID.fromString(context.getResources().getString(R.string.secure_UUID));
         MY_UUID_INSECURE = UUID.fromString(context.getResources().getString(R.string.insecure_UUID));
+
+        validPacket = new byte[47];
+        started = false;
+        ended = false;
+        index = 0;
     }
 
     /**
@@ -497,9 +507,68 @@ public class BluetoothService {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
 
-                    // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(BluetoothConstantsInterface.MESSAGE_READ, bytes, -1, buffer)
-                            .sendToTarget();
+                    // Print bytes received and how many we received
+                    StringBuilder sb = new StringBuilder();
+                    for (int j = 0; j < bytes; ++j){
+                        sb.append(String.format("%02X ", buffer[j]));
+                    }
+                    Log.d(TAG, "Incoming bluetooth data string bytes len: : " + String.valueOf(bytes) + " contents: " + sb.toString());
+
+
+                    // For every received byte, verify how it fits in the packet
+                    for(int i = 0; i < bytes; ++i)
+                    {
+                        // Get a received byte from the buffer
+                        byte inByte = buffer[i];
+
+                        // If byte == the start byte and we have not yet started, clear the valid packet and insert the first byte
+                        if((Byte.compare(inByte, (byte) 10) == 0) && started == false)
+                        {
+                            validPacket = new byte[47];
+                            validPacket[index] = inByte;
+                            started = true;
+                            index += 1;
+                        }
+                        // If byte == the end byte and we have started, finish the valid packet
+                        else if((Byte.compare(inByte, (byte) 255) == 0) && started == true && index == 46)
+                        {
+                            // 47 bytes in a message, therefore index should be 45 before the end byte is received
+                            if(index !=  46)
+                            {
+                                Log.d(TAG, "End of msg index error");
+                            }
+                            validPacket[index] = inByte;
+                            ended = true;
+                        }
+                        // If we have started reading in data, then the incoming byte is somewhere in the packet
+                        else if(started == true)
+                        {
+                            if(index > 46)
+                            {
+                                Log.d(TAG, "Index overflow");
+                            }
+
+                            validPacket[index] = inByte;
+                            index += 1;
+                        }
+
+                        // If we have hit both the start and end flags, send the valid packet to the handler and reset the packet
+                        if(started == true && ended == true)
+                        {
+                            // Send the obtained bytes to the UI Activity
+                            mHandler.obtainMessage(BluetoothConstantsInterface.MESSAGE_READ, validPacket.length, -1, validPacket)
+                                    .sendToTarget();
+
+                            // Reset flags and index and fail counter
+                            started = false;
+                            ended = false;
+                            index = 0;
+
+                            validPacket = new byte[]{};
+                        }
+
+                    }
+
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();

@@ -580,17 +580,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     
     // Thiss function takes in a string that represents an incoming bluetooth msg from the HC-05
     private void readIncomingBluetoothData(byte[] data) {
-        //if(data.length() > 0) { // Compare size to expected message size aka sizeof(struct)
             Log.d(TAG, "Incoming bluetooth data string preparing to be parsed");
-            //byte[] received = data.getBytes();
-            
-            // Print bytes
-//            StringBuilder sb = new StringBuilder();
-//            for (byte b : received){
-//                sb.append(String.format("%02X ", b));
-//            }
-//            Log.d(TAG, "Incoming bluetooth data string bytes: " + sb.toString());
-            
+
             // Wrap data in ByteBuffer so we can parse the data easily
             ByteBuffer msgBuffer = ByteBuffer.wrap(data);  // BIG ENDIAN BY DEFAULT
             
@@ -611,10 +602,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 
                 // TODO: Parse the rest of the data packet
             }
-        //}
-        //else {
-         //   Log.d(TAG, "Incoming bluetooth data is of size 0");
-        //}
     }
 
     private final Handler handler = new Handler() {
@@ -643,14 +630,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     break;
                 case BluetoothConstantsInterface.MESSAGE_READ:
                     byte[] readBuffer = (byte[]) msg.obj;
+
                     String readData = new String(readBuffer, 0, msg.arg1);
+
+                    // Print bytes received and how many we received
+                    StringBuilder sb = new StringBuilder();
+                    for (int j = 0; j < readBuffer.length; ++j){
+                        sb.append(String.format("%02X ", readBuffer[j]));
+                    }
+                    Log.d(TAG, "VALID PACKET LEN: : " + String.valueOf(readBuffer.length) + " CONTENTS: " + sb.toString());
 
                     if(readData.length() > 0){
                         readIncomingBluetoothData(readBuffer);
                     }
 
-                    
-                    logArrayAdapter.add(connectedDevice + ": " + readData);
+                    logArrayAdapter.add(connectedDevice + ": " + "New msg");
                     break;
                 case BluetoothConstantsInterface.MESSAGE_DEVICE_NAME:
                     connectedDevice = msg.getData().getString(BluetoothConstantsInterface.DEVICE_NAME);
