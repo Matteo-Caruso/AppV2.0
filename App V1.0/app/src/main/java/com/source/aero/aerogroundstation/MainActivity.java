@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected String recordingSession;
     private int waypointID;
 
-    boolean dropped;
+    int dropped;
 
     //Bluetooth Elements
     //Request Codes
@@ -395,26 +395,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         motorSpeedDialView = findViewById(R.id.motorSpeedDial);
-        motorSpeedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction1, R.drawable.ic_speeddial)
-                        .setLabel(getResources().getString(R.string.motorSpeedDialOption1Text))
-                        .create()
-        );
-        motorSpeedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction2, R.drawable.ic_speeddial)
-                        .setLabel(getResources().getString(R.string.motorSpeedDialOption2Text))
-                        .create()
-        );
-        motorSpeedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction3, R.drawable.ic_speeddial)
-                        .setLabel(getResources().getString(R.string.motorSpeedDialOption3Text))
-                        .create()
-        );
+        // Payload drop
         motorSpeedDialView.addActionItem(
                 new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction4, R.drawable.ic_speeddial)
                         .setLabel(getResources().getString(R.string.motorSpeedDialOption4Text))
                         .create()
         );
+        // Glider drop
+        motorSpeedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction3, R.drawable.ic_speeddial)
+                        .setLabel(getResources().getString(R.string.motorSpeedDialOption3Text))
+                        .create()
+        );
+        // Glider 1 pup
+        motorSpeedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction2, R.drawable.ic_speeddial)
+                        .setLabel(getResources().getString(R.string.motorSpeedDialOption2Text))
+                        .create()
+        );
+        // Glider 1 pup
+        motorSpeedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction1, R.drawable.ic_speeddial)
+                        .setLabel(getResources().getString(R.string.motorSpeedDialOption1Text))
+                        .create()
+        );
+
+
+
 
         motorSpeedDialView.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {
             @Override
@@ -423,18 +430,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     case R.id.motorSpeedDialAction1:
                         motorSpeedDialView.close();
                         // TODO: Payload drop command
+                        Toast.makeText(MainActivity.this,"Dropping payloads...", Toast.LENGTH_SHORT).show();
+                        updateDropped(1);
+                        if(mRecording)
+                        {
+                            dropped = 1;
+                            addWaypointToDb("Plane");
+                        }
                         break;
                     case R.id.motorSpeedDialAction2:
                         motorSpeedDialView.close();
                         // TODO: Glider drop command
+                        Toast.makeText(MainActivity.this,"Dropping gliders...", Toast.LENGTH_SHORT).show();
+                        updateDropped(2);
+                        if(mRecording)
+                        {
+                            dropped = 2;
+                            addWaypointToDb("Plane");
+                        }
+
                         break;
                     case R.id.motorSpeedDialAction3:
                         motorSpeedDialView.close();
                         // TODO: Glider1 pitch up command
+                        Toast.makeText(MainActivity.this,"Emergency Glider 1 Pitch Up", Toast.LENGTH_SHORT).show();
+
                         break;
                     case R.id.motorSpeedDialAction4:
                         motorSpeedDialView.close();
                         // TODO: Glider2 pitch up command
+                        Toast.makeText(MainActivity.this, "Emergency Glider 2 Pitch Up", Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         return true;
@@ -442,6 +467,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return true;
             }
         });
+    }
+
+    private void updateDropped(int dropCode)
+    {
+        if(dropCode == 1)
+        {
+            // TODO: Add payload marker to lat/lon
+        }
+        else if(dropCode == 2)
+        {
+            // TODO: Add glider market to lat/lon
+        }
     }
 
     //Initialize bottom navigation bar
@@ -774,23 +811,38 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             waypointID += 1;
             boolean g = false;
              // TODO: Add payload drop type
-            if(dropped){
+            if(dropped == 1){
                   g =mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
                           (float)vehicleManager.getPlaneData().readPlaneAltitude(),
                           (float)vehicleManager.getPlaneData().readPlaneSpeed(),
                           (float)vehicleManager.getPlaneData().readPlaneYaw(),
                           (float)vehicleManager.getPlaneData().readPlaneAltitude(),
+                          (float) 0.0,
                           (float)vehicleManager.getPlaneData().readPlaneRoll(),
                           (float)vehicleManager.getPlaneData().readPlanePitch(),
                           (float)vehicleManager.getPlaneData().readPlaneYaw(),
                           flightType);
-                dropped = false;
+                dropped = 0;
+            }
+            else if(dropped == 2){
+                g =mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
+                        (float)vehicleManager.getPlaneData().readPlaneAltitude(),
+                        (float)vehicleManager.getPlaneData().readPlaneSpeed(),
+                        (float)vehicleManager.getPlaneData().readPlaneYaw(),
+                        (float) 0.0,
+                        (float)vehicleManager.getPlaneData().readPlaneAltitude(),
+                        (float)vehicleManager.getPlaneData().readPlaneRoll(),
+                        (float)vehicleManager.getPlaneData().readPlanePitch(),
+                        (float)vehicleManager.getPlaneData().readPlaneYaw(),
+                        flightType);
+                dropped = 0;
             }
             else{
                 g =mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
                         (float)vehicleManager.getPlaneData().readPlaneAltitude(),
                         (float)vehicleManager.getPlaneData().readPlaneSpeed(),
                         (float)vehicleManager.getPlaneData().readPlaneYaw(),
+                        (float) 0.0,
                         (float) 0.0,
                         (float)vehicleManager.getPlaneData().readPlaneRoll(),
                         (float)vehicleManager.getPlaneData().readPlanePitch(),

@@ -13,6 +13,7 @@ public class Waypoint implements Serializable {
     private double speed;
     private double heading;
     private double drop;
+    private double gliderDrop;
 
     private double roll;
     private double pitch;
@@ -27,7 +28,7 @@ public class Waypoint implements Serializable {
         heading = 0;
     }
 
-    Waypoint(String n, int i, String l, double a, double s, double h, double dh, double r, double p, double y){
+    Waypoint(String n, int i, String l, double a, double s, double h, double dh, double gdh, double r, double p, double y){
         name = n;
         id = i;
         location = l;
@@ -35,6 +36,7 @@ public class Waypoint implements Serializable {
         speed = s;
         heading = h;
         drop = dh;
+        gliderDrop = gdh;
         roll = r;
         pitch  = p;
         yaw = y;
@@ -67,6 +69,8 @@ public class Waypoint implements Serializable {
     public double getDrop(){
         return drop;
     }
+
+    public double getGliderDrop(){return gliderDrop;}
 
     public double getRoll(){
         return roll;

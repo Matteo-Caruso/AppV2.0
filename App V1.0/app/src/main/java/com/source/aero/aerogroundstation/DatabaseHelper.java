@@ -48,6 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String FLIGHTPATH_TABLE_COL_SPEED = "Speed";
     private static final String FLIGHTPATH_TABLE_COL_HEAD = "Heading";
     private static final String FLIGHTPATH_TABLE_COL_DROP = "DROP_HEIGHT";
+    private static final String FLIGHTPATH_TABLE_COL_DROP_GLIDER = "GLIDER_DROP_HEIGHT";
     private static final String FLIGHTPATH_TABLE_COL_ROLL = "Roll";
     private static final String FLIGHTPATH_TABLE_COL_PITCH = "Pitch";
     private static final String FLIGHTPATH_TABLE_COL_YAW = "Yaw";
@@ -121,6 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 FLIGHTPATH_TABLE_COL_SPEED + " REAL, " +
                 FLIGHTPATH_TABLE_COL_HEAD + " REAL, " +
                 FLIGHTPATH_TABLE_COL_DROP + " REAL, " +
+                FLIGHTPATH_TABLE_COL_DROP_GLIDER + " REAL, " +
                 FLIGHTPATH_TABLE_COL_ROLL + " REAL, " +
                 FLIGHTPATH_TABLE_COL_PITCH + " REAL, " +
                 FLIGHTPATH_TABLE_COL_YAW + " REAL, " +
@@ -170,7 +172,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
     // Method to add new waypoints 
     // Added new parameter char flight_type where inputs should be 'G' or 'P' for glider/plane
-    public boolean addWaypoint(String sessionID, int ID, String location, float altitude, float speed, float heading, float dropHeight, float roll, float pitch, float yaw, String flight_type) {
+    public boolean addWaypoint(String sessionID, int ID, String location, float altitude, float speed, float heading, float dropHeight, float gliderDropHeight, float roll, float pitch, float yaw, String flight_type) {
         // Database object
         SQLiteDatabase db = this.getWritableDatabase();
         Log.d("drop", String.valueOf(dropHeight));
@@ -199,6 +201,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(FLIGHTPATH_TABLE_COL_SPEED, speed);
         contentValues.put(FLIGHTPATH_TABLE_COL_HEAD, heading);
         contentValues.put(FLIGHTPATH_TABLE_COL_DROP, dropHeight);
+        contentValues.put(FLIGHTPATH_TABLE_COL_DROP_GLIDER, gliderDropHeight);
 
         contentValues.put(FLIGHTPATH_TABLE_COL_ROLL, roll);
         contentValues.put(FLIGHTPATH_TABLE_COL_PITCH, pitch);
@@ -330,15 +333,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 double speed = cursor.getDouble(4);
                 double heading = cursor.getDouble(5);
                 double dropHeight = cursor.getDouble(6);
+                double gliderDropHeight = cursor.getDouble(7);
 
-                double roll = cursor.getDouble(7);
-                double pitch = cursor.getDouble(8);
-                double yaw = cursor.getDouble(9);
+                double roll = cursor.getDouble(8);
+                double pitch = cursor.getDouble(9);
+                double yaw = cursor.getDouble(10);
                 
                 //Not adding the flight type to the Waypoint object
                 
                 //We could add the flight type to the waypoint object - but we would need to alter the Waypoint class
-                Waypoint waypoint = new Waypoint(name, id, location, altitude, speed, heading, dropHeight, roll, pitch, yaw);
+                Waypoint waypoint = new Waypoint(name, id, location, altitude, speed, heading, dropHeight, gliderDropHeight, roll, pitch, yaw);
                 
                 //Add the Waypoint object to the list
                 waypointList.add(waypoint);
