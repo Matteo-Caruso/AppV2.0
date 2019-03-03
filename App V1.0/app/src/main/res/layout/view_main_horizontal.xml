@@ -139,6 +139,8 @@
     <!-- Below, we include the layout for the display fields, allowing them to be viewed in the main activity-->
     <include
         layout="@layout/display_fileds"
+        android:clickable="true"
+        android:onClick="increaseFontSize"
         android:layout_width="188dp"
         android:layout_height="194dp"
         android:layout_marginLeft="4dp"
