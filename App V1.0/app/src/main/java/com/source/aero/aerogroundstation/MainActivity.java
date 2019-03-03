@@ -54,6 +54,7 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -100,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int waypointID;
 
     int dropped;
+
+    boolean[] motorState;
 
     //Bluetooth Elements
     //Request Codes
@@ -168,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         waypointID = 0;
 
         mDatabaseHelper = new DatabaseHelper(this, dbName);
+
+        Arrays.fill(motorState,false);
 
         //Creating Factory and Icon ONCE to avoid lag in updatePlane()
         factory = IconFactory.getInstance(MainActivity.this);
@@ -758,85 +763,117 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void motorDialogueSelect(View view)
     {
         int id = view.getId();
-
+        BluetoothMessage message = new BluetoothMessage();
         switch(id)
         {
 
-            case R.id.motorOneOpenButton:
-                {
-                    //Place code here
-                    break;
-                }
+            case R.id.motorOneOpenButton: {
+                message.setMotor(0,BluetoothConstantsInterface.MOTORON);
+                send(message.makeMessage());
+                motorState[0] = true;
+                Toast.makeText(getApplicationContext(),"Turning Motor 1 On", Toast.LENGTH_SHORT).show();
+                break;
+            }
 
             case R.id.motorOneCloseButton:
             {
-                //Place code here
+                message.setMotor(0,BluetoothConstantsInterface.MOTOROFF);
+                send(message.makeMessage());
+                motorState[0] = false;
+                Toast.makeText(getApplicationContext(),"Turning Motor 1 Off", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.motorTwoOpenButton:
             {
-                //Place code here
+                message.setMotor(1,BluetoothConstantsInterface.MOTORON);
+                send(message.makeMessage());
+                motorState[1] = true;
+                Toast.makeText(getApplicationContext(),"Turning Motor 2 On", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.motorTwoCloseButton:
             {
-                //Place code here
+                message.setMotor(1,BluetoothConstantsInterface.MOTOROFF);
+                send(message.makeMessage());
+                motorState[1] = false;
+                Toast.makeText(getApplicationContext(),"Turning Motor 2 Off", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.motorThreeOpenButton:
             {
-                //Place code here
+                message.setMotor(2,BluetoothConstantsInterface.MOTORON);
+                send(message.makeMessage());
+                motorState[2] = true;
+                Toast.makeText(getApplicationContext(),"Turning Motor 3 On", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.motorThreeCloseButton:
             {
-                //Place code here
+                message.setMotor(2,BluetoothConstantsInterface.MOTOROFF);
+                send(message.makeMessage());
+                motorState[2] = false;
+                Toast.makeText(getApplicationContext(),"Turning Motor 3 Off", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.motorFourOpenButton:
             {
-                //Place code here
+                message.setMotor(3,BluetoothConstantsInterface.MOTORON);
+                send(message.makeMessage());
+                motorState[3] = true;
+                Toast.makeText(getApplicationContext(),"Turning Motor 4 On", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.motorFourCloseButton:
             {
-                //Place code here
+                message.setMotor(3,BluetoothConstantsInterface.MOTOROFF);
+                send(message.makeMessage());
+                motorState[3] = false;
+                Toast.makeText(getApplicationContext(),"Turning Motor 4 Off", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.motorFiveOpenButton:
             {
-                //Place code here
+                message.setMotor(4,BluetoothConstantsInterface.MOTORON);
+                send(message.makeMessage());
+                motorState[4] = true;
+                Toast.makeText(getApplicationContext(),"Turning Motor 5 On", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.motorFiveCloseButton:
             {
-                //Place code here
+                message.setMotor(4,BluetoothConstantsInterface.MOTOROFF);
+                send(message.makeMessage());
+                motorState[4] = false;
+                Toast.makeText(getApplicationContext(),"Turning Motor 5 Off", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.motorSixOpenButton:
             {
-                //Place code here
+                message.setMotor(5,BluetoothConstantsInterface.MOTORON);
+                send(message.makeMessage());
+                motorState[5] = true;
+                Toast.makeText(getApplicationContext(),"Turning Motor 6 On", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.motorSixCloseButton:
             {
-                //Place code here
+                message.setMotor(5,BluetoothConstantsInterface.MOTOROFF);
+                send(message.makeMessage());
+                motorState[5] = false;
+                Toast.makeText(getApplicationContext(),"Turning Motor 6 Off", Toast.LENGTH_SHORT).show();
                 break;
             }
-
             default: break;
-
-
         }
     }
 
