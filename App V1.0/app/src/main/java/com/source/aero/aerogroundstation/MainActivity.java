@@ -1086,7 +1086,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     {
         onBackPressed();
         openFragment("INFLATEDDISPLAYFIELDS");
-<<<<<<< HEAD
+
 
         //The field values can be changed as follows:
         TextView payloadDropAltitude = (TextView) findViewById(R.id.payloadDropAltitude);
@@ -1096,10 +1096,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         cdaDropAltitude.setText("N/A");
 
         //NOTE: The values can be changed as above using any function
-=======
+
         InflatedDisplayFields fragment_obj = (InflatedDisplayFields)getSupportFragmentManager().findFragmentByTag("INFLATEDDISPLAYFIELDS");
         //fragment_obj.adjustTextValues("YEE", "YEE");
->>>>>>> 3d7ad65fb6afb637d3a89ceb6c8805fdbb9ad544
+
 
 
 
