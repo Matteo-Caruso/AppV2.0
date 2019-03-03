@@ -10,14 +10,24 @@
     <string name="mainActivityBottomNavigationOption5Text">Attitude</string>
     <string name="initConfigRadioButton1Text">Configuration 1</string>
     <string name="initConfigRadioButton2Text">Configuration 2</string>
+    <string name="initConfigRadioButton3Text">Configuration 3</string>
     <string name="initConfigRadioGroupText">Choose Configuration</string>
     <string name="initConfigStartButtonText">Select</string>
     <string name="config1PreviewText">Build for competition</string>
     <string name="config2PreviewText">Debug build: Sends debug message instead of app message</string>
+    <string name="config3PreviewText">Debug build: Cleared database</string>
     <string name="mainActivitySpeedDialOption1Text">Location</string>
     <string name="mainActivitySpeedDialOption2Text">Record</string>
     <string name="mainActivitySpeedDialOption3Text">Connect</string>
     <string name="mainActivitySpeedDialOption4Text">Save</string>
+
+    <!-- Initial configuration strings -->
+    <string name="initConfigDatabaseClearPrompt">Are you sure you want to clear the database?</string>
+    <string name="initConfigDatabaseClearPromptAffirmativePrompt">Yes</string>
+    <string name="initConfigDatabaseClearPromptNegativePrompt">No</string>
+    <string name="initConfigDatabaseClearPromptAffirmativeToast">Clearing database</string>
+    <string name="initConfigDatabaseClearPromptNegativeToast">Database not cleared</string>
+    <string name="initConfigDatabaseClearDialogTitle">Clear Database</string>
 
     <string name="motorSpeedDialOption1Text">Payload</string>
     <string name="motorSpeedDialOption2Text">Gliders</string>
