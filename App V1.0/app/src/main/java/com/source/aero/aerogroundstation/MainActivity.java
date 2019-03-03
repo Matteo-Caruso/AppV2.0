@@ -1,3 +1,6 @@
+// TODO: ALTITUDE IN METRES WITH ONE DECIMAL PRECISION
+// TODO: SPEED IN METRES WITH TWO DECIMAL PRECISION in m/s
+
 package com.source.aero.aerogroundstation;
 
 import android.app.AlertDialog;
@@ -722,6 +725,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 break;
                             case R.id.navigationDrawerItem2:
                                 if (drawerMenu == 0) {
+
+                                    // TODO: Request current altitude to use as offset for incoming altitude values
+
                                     message.setCalibrate(BluetoothConstantsInterface.CALIBRATEGPS);
                                     send(message.makeMessage());
                                     Toast.makeText(getApplicationContext(),"GPS Calibration Command Sent", Toast.LENGTH_SHORT).show();
