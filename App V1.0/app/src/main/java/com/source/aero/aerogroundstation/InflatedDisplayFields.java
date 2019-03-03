@@ -27,13 +27,13 @@ public class InflatedDisplayFields extends Fragment{
         return inflater.inflate(R.layout.view_inflated_display_fields, parent, false);
     }
 
-    /*@Override
+    @Override
     public void onViewCreated(View view, Bundle savedInstance) {
-        LinearLayout displayFields = (LinearLayout) view.findViewById(R.id.displayFieldsLayout);
-        displayFields.setVisibility(View.INVISIBLE);
+//        LinearLayout displayFields = (LinearLayout) view.findViewById(R.id.displayFieldsLayout);
+//        displayFields.setVisibility(View.INVISIBLE);
     }
 
-    @Override
+/*    @Override
     public void onDestroyView() {
         LinearLayout displayFields = (LinearLayout) view.findViewById(R.id.displayFieldsLayout);
         displayFields.setVisibility(View.VISIBLE);

@@ -1077,8 +1077,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //------------------------------------------------- Below is the implementation of increasing or decreasing display field font size when selected -----------------------------------------------------------
     public void increaseFontSize(View view)
     {
-        onBackPressed();
-        openFragment("MOTORDIALOGUE");
+        openFragment("INFLATEDDISPLAYFIELDS");
 
         //The field values can be changed as follows:
         TextView payloadDropAltitude = (TextView) findViewById(R.id.payloadDropAltitude);
