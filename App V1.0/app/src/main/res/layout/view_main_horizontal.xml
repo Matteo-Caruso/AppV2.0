@@ -83,7 +83,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/mainActivityBottomNavigationView"
         app:sdExpansionMode="top"
         app:layout_constraintEnd_toEndOf="parent"
@@ -98,18 +98,17 @@
         android:id="@+id/motorSpeedDial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="876dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/mainActivityBottomNavigationView"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:barrierDirection="right"
-        app:sdExpansionMode="top"
+        app:layout_constraintTop_toTopOf="parent"
+        app:sdExpansionMode="bottom"
         app:sdMainFabClosedBackgroundColor="@color/colorSecondary"
         app:sdMainFabClosedSrc="@drawable/ic_speeddial"
         app:sdMainFabOpenedBackgroundColor="@color/colorSecondaryDark"
-        app:sdUseReverseAnimationOnClose="true"/>
+        app:sdUseReverseAnimationOnClose="true" />
 
 
 

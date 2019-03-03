@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Bluetooth Setup
         //Get local bluetooth adapter
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        //bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         //logView = (ListView) findViewById(R.id.bluetooth_messageView);
         //editTextView = (EditText) findViewById(R.id.bluetooth_sendMsgEditTextView);
         //sendButton = (Button) findViewById(R.id.bluetooth_sendMsgButton);
@@ -266,13 +266,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Bluetooth
         //Request for bluetooth to be enabled
-        if (!bluetoothAdapter.isEnabled()) {
+        /*if (!bluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(bluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
         else if (bluetoothService == null) {
             setup();
-        }
+        }*/
     }
 
     @Override
@@ -386,26 +386,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         motorSpeedDialView = findViewById(R.id.motorSpeedDial);
         // Payload drop
         motorSpeedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction4, R.drawable.ic_speeddial)
-                        .setLabel(getResources().getString(R.string.motorSpeedDialOption4Text))
+                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction1, R.drawable.ic_payload)
+                        .setLabel(getResources().getString(R.string.motorSpeedDialOption1Text))
                         .create()
         );
         // Glider drop
         motorSpeedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction3, R.drawable.ic_speeddial)
-                        .setLabel(getResources().getString(R.string.motorSpeedDialOption3Text))
-                        .create()
-        );
-        // Glider 1 pup
-        motorSpeedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction2, R.drawable.ic_speeddial)
+                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction2, R.drawable.ic_path)
                         .setLabel(getResources().getString(R.string.motorSpeedDialOption2Text))
                         .create()
         );
         // Glider 1 pup
         motorSpeedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction1, R.drawable.ic_speeddial)
-                        .setLabel(getResources().getString(R.string.motorSpeedDialOption1Text))
+                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction3, R.drawable.ic_glider1)
+                        .setLabel(getResources().getString(R.string.motorSpeedDialOption3Text))
+                        .create()
+        );
+        // Glider 1 pup
+        motorSpeedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.motorSpeedDialAction4, R.drawable.ic_glider2)
+                        .setLabel(getResources().getString(R.string.motorSpeedDialOption4Text))
                         .create()
         );
 
