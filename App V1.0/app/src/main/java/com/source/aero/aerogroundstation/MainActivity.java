@@ -582,14 +582,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        BluetoothMessage message = new BluetoothMessage();
                         switch (menuItem.getItemId()) {
                             case R.id.navigationDrawerItem1:
+                                if (drawerMenu == 0) {
+                                    message.setCalibrate(BluetoothConstantsInterface.CALIBRATEIMU);
+                                    send(message.makeMessage());
+                                    Toast.makeText(getApplicationContext(),"IMU Calibration Command Sent", Toast.LENGTH_SHORT).show();
+                                }
                                 drawerLayout.closeDrawers();
                                 break;
                             case R.id.navigationDrawerItem2:
+                                if (drawerMenu == 0) {
+                                    message.setCalibrate(BluetoothConstantsInterface.CALIBRATEGPS);
+                                    send(message.makeMessage());
+                                    Toast.makeText(getApplicationContext(),"GPS Calibration Command Sent", Toast.LENGTH_SHORT).show();
+                                }
                                 drawerLayout.closeDrawers();
                                 break;
                             case R.id.navigationDrawerItem3:
+                                if (drawerMenu == 0) {
+                                    message.setCalibrate(BluetoothConstantsInterface.CALIBRATEBAROMETER);
+                                    send(message.makeMessage());
+                                    Toast.makeText(getApplicationContext(),"Barometer Calibration Command Sent", Toast.LENGTH_SHORT).show();
+                                }
                                 drawerLayout.closeDrawers();
                                 break;
                             default:
@@ -614,12 +630,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 navigationView.getMenu().clear();
                 switch (pos) {
                     case 0:
+                        drawerMenu = 0;
                         navigationView.inflateMenu(R.menu.main_navigation_calibration);
-                        //TODO: Implement spinner functionality
                         break;
                     case 1:
+                        drawerMenu = 1;
                         navigationView.inflateMenu(R.menu.main_navigation_logs);
-                        //TODO: Implement spinner functionality
                         break;
                     default:
                         Log.d(TAG,"Spinner menu error");
