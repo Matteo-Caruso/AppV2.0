@@ -106,7 +106,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:sdExpansionMode="bottom"
         app:sdMainFabClosedBackgroundColor="@color/colorSecondary"
-        app:sdMainFabClosedSrc="@drawable/ic_speeddial"
+        app:sdMainFabClosedSrc="@drawable/ic_controller"
         app:sdMainFabOpenedBackgroundColor="@color/colorSecondaryDark"
         app:sdUseReverseAnimationOnClose="true" />
 
@@ -139,8 +139,8 @@
     <!-- Below, we include the layout for the display fields, allowing them to be viewed in the main activity-->
     <include
         layout="@layout/display_fileds"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="188dp"
+        android:layout_height="194dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="4dp"
         app:layout_constraintLeft_toLeftOf="parent"

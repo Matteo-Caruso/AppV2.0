@@ -7,7 +7,8 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:layout_marginTop="10dp"
-android:orientation="vertical">
+android:orientation="vertical"
+    android:background="#804298f4">
 
     <!-- The layout below is for the payload information-->
     <LinearLayout
@@ -25,7 +26,7 @@ android:orientation="vertical">
             android:text="Payload: "
             android:textStyle="bold"
             android:textColor="#6600CC"
-            android:textSize="1in"/>
+            android:textSize="10pt"/>
         <TextView
             android:id="@+id/currentPayload"
             android:layout_width="wrap_content"
@@ -34,7 +35,7 @@ android:orientation="vertical">
             android:layout_marginRight="8dp"
             android:text="glider"
             android:textColor="#6600CC"
-            android:textSize="1in"/>
+            android:textSize="10pt"/>
     </LinearLayout>
 
     <!-- The layout below is for the drop altitude information-->
@@ -53,7 +54,7 @@ android:orientation="vertical">
             android:text="Drop Alt: "
             android:textStyle="bold"
             android:textColor="#6600CC"
-            android:textSize="1in"/>
+            android:textSize="10pt"/>
         <TextView
             android:id="@+id/currentDropAltitude"
             android:layout_width="wrap_content"
@@ -62,7 +63,7 @@ android:orientation="vertical">
             android:layout_marginRight="8dp"
             android:text="0"
             android:textColor="#6600CC"
-            android:textSize="1in"/>
+            android:textSize="10pt"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +71,7 @@ android:orientation="vertical">
             android:layout_marginRight="8dp"
             android:text="ft"
             android:textColor="#6600CC"
-            android:textSize="1in"/>
+            android:textSize="10pt"/>
     </LinearLayout>
 
     <!-- The layout below is for the altitude information-->
