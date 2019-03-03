@@ -1,7 +1,9 @@
 package com.source.aero.aerogroundstation;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -64,6 +66,7 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -403,9 +406,89 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         return true;
                     case R.id.mainActivityBottomNavigationPath:
                         //TODO:Open path fragment
+                        // Get list of database sessions
+                        List<String> sessionList = mDatabaseHelper.getFlightSessions();
+
+                        String[] sessions = new String[sessionList.size()];
+                        sessions = sessionList.toArray(sessions);
+
+                        // Final copy
+                        final String[] lmaoStringFix = sessions;
+
+                        AlertDialog.Builder builderPaths = new AlertDialog.Builder(MainActivity.this);
+                        builderPaths.setTitle("Flight Paths")
+                                .setItems(sessions, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                          // TODO: Add flight path activity
+//                                        // The 'which' argument contains the index position
+//                                        // of the selected item
+//
+//                                        Intent intent = new Intent(MainActivity.this, FlightPathActivity.class);
+//
+//                                        //Session is the name of the flight path we want to go through
+//                                        // TODO: Get plane vs get glider
+//                                        List<Waypoint> waypoints = mDatabaseHelper.getWaypoints(lmaoStringFix[which], "Plane");
+//
+//                                        //Log.d("Waypoints", waypoints.get(0).getName() + " " + waypoints.get(0).getLocation());
+//                                        ArrayList<Waypoint> intentList = new ArrayList<Waypoint>(waypoints);
+//
+//                                        intent.putExtra("waypoints", intentList);
+//                                        MainActivity.this.startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("Close",new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        // if this button is clicked, just close
+                                        // the dialog box and do nothing
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        builderPaths.create();
+                        builderPaths.show();
+
                         return true;
                     case R.id.mainActivityBottomNavigationTargets:
                         //TODO:Open targets fragment
+                        // Get list of database targets
+
+                        List<Target> targetList = mDatabaseHelper.getTargets();
+//                        List<Target> targetList = new ArrayList<Target>();
+//                        targetList.add(new Target("Hello", "Test"));
+//                        targetList.add(new Target("Hello", "Test"));
+
+                        List<String> targetNames = new ArrayList<String>();
+                        for(Target target : targetList)
+                        {
+                            targetNames.add(target.getName());
+                        }
+
+                        String[] targets = new String[targetNames.size()];
+                        targets = targetNames.toArray(targets);
+
+                        // Final copy
+                        final String[] lmaoTargetFix = targets;
+
+                        AlertDialog.Builder builderTarget = new AlertDialog.Builder(MainActivity.this);
+                        builderTarget.setTitle("Targets")
+                                .setItems(lmaoTargetFix, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+//                                        // The 'which' argument contains the index position
+//                                        // of the selected item
+                                          // TODO: SEND OFF TARGET
+                                    }
+                                })
+                                .setNegativeButton("Close",new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        // if this button is clicked, just close
+                                        // the dialog box and do nothing
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        builderTarget.create();
+                        builderTarget.show();
+
                         return true;
                     case R.id.mainActivityBottomNavigationPayload:
                         //TODO:Open payloads fragment
