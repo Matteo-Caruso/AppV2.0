@@ -37,12 +37,12 @@ public class Vehicles
         mainPlane.updatePlaneRoll(messageData.rollFromMessaage);
         mainPlane.updatePlaneSpeed(messageData.speedFromMessage);
         mainPlane.updatePlaneAltitude(messageData.altFromMessage);
-        mainPlane.updatePlaneLatitude(messageData.latFromMessage);
-        mainPlane.updatePlaneLongitude(messageData.lonFromMessage);
+        mainPlane.updatePlaneLatitude(messageData.latFromMessage/10000000.0);
+        mainPlane.updatePlaneLongitude(messageData.lonFromMessage/10000000.0);
 
         // here we set the drop location for the plane
-        mainPlane.dropGliderPointLatitude(messageData.gDropLatFromMessage);
-        mainPlane.dropGliderPointLongitude(messageData.gDropLonFromMessage);
+        mainPlane.dropGliderPointLatitude(messageData.gDropLatFromMessage/10000000.0);
+        mainPlane.dropGliderPointLongitude(messageData.gDropLonFromMessage/10000000.0);
 
     }
 
@@ -80,7 +80,7 @@ public class Vehicles
     }
 
     // come here if message is for glider 2
-    public void  updateGlidertwo(messageParser messageData)
+    public void  updateGliderTwo(messageParser messageData)
     {
         // here we create a new glider if this glider wasn't already created
         if(gliderCheck(glidertwo))

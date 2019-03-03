@@ -2,6 +2,9 @@ package com.source.aero.aerogroundstation;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -46,12 +49,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
+import com.mapbox.mapboxsdk.annotations.Marker;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.annotations.Polyline;
+import com.mapbox.mapboxsdk.annotations.PolylineOptions;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 import org.apache.commons.codec.binary.Hex;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -69,6 +79,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private MapView mapView;
     private MapboxMap map;
 
+    protected Marker planeMarker;
+    protected Marker lastPosition;
+    protected Polyline planePath;
+    protected IconFactory factory;
+    protected Bitmap icon;
+
     //Ui Elements
     BottomNavigationView bottomNavigationView;
     SpeedDialView speedDialView;
@@ -76,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Spinner spinner;
     NavigationView navigationView;
     ImageButton statusTabButton;
+    ArrayList<LatLng> points;
 
     //Bluetooth Elements
     //Request Codes
@@ -83,6 +100,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
     private static final int REQUEST_ENABLE_BT = 3;
     boolean bluetoothDisplayed = false;
+
+    private TextView currentAltitude;
+    private TextView currentPayload;
+    private TextView currentDropAltitude;
+    private TextView currentSpeed;
+    private TextView currentTimeToTarget;
+    private TextView currentDistanceToTarget;
+
 
     private ListView logView;
     private EditText editTextView;
@@ -105,6 +130,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int discoveryTime = 300;
     private String connectedDevice = null;
 
+    private Vehicles vehicleManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +150,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initSpinner();
         initStatusTab();
 
+        //Points for creating polyline
+        points = new ArrayList<>();
+
+        //Creating Factory and Icon ONCE to avoid lag in updatePlane()
+        factory = IconFactory.getInstance(MainActivity.this);
+        icon = factory.fromResource(R.drawable.ic_plane).getBitmap();
+
         //Set configuration
         Intent intent = getIntent();
         configuration = intent.getStringExtra("CONFIGURATION");
@@ -134,12 +168,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         editTextView = (EditText) findViewById(R.id.bluetooth_sendMsgEditTextView);
         sendButton = (Button) findViewById(R.id.bluetooth_sendMsgButton);
 
+        initTextDisplay();
+
+        vehicleManager = new Vehicles();
+
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
                 map = mapboxMap;
             }
         });
+    }
+
+    private void initTextDisplay()
+    {
+        currentAltitude = (TextView) findViewById(R.id.currentAltitude);
+        currentAltitude.setText("N/A");
+
+        currentPayload = (TextView) findViewById(R.id.currentPayload);
+        currentPayload.setText("N/A");
+
+        currentDropAltitude = (TextView) findViewById(R.id.currentDropAltitude);
+        currentDropAltitude.setText("N/A");
+
+        currentSpeed = (TextView) findViewById(R.id.currentSpeed);
+        currentSpeed.setText("N/A");
+
+        currentTimeToTarget = (TextView) findViewById(R.id.currentTimeToTarget);
+        currentTimeToTarget.setText("N/A");
+
+        currentDistanceToTarget = (TextView) findViewById(R.id.currentDistanceToTarget);
+        currentDistanceToTarget.setText("N/A");
     }
 
     @Override
@@ -466,23 +525,72 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //------------------------------------------------- Below is the implementation for when the display field values need to be adjusted -----------------------------------------------------------
 
-    public void changeDisplayFieldValue(String value){
+    void updateUI()
+    {
+        // Update value
+        currentAltitude.setText(String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude()));
 
-        //Obtain the ID's of the various text fields
-        TextView currentAltitude = (TextView) findViewById(R.id.currentAltitude);
-        TextView currentPayload = (TextView) findViewById(R.id.currentPayload);
-        TextView currentDropAltitude = (TextView) findViewById(R.id.currentDropAltitude);
-        TextView currentSpeed = (TextView) findViewById(R.id.currentSpeed);
-        TextView currentTimeToTarget = (TextView) findViewById(R.id.currentTimeToTarget);
-        TextView currentDistanceToTarget = (TextView) findViewById(R.id.currentDistanceToTarget);
+        // TODO: set glider text on drop of glider
+        // currentPayload.setText("glider");
 
-        //Below, we have the implementation of how each text value can be adjusted:
-        currentAltitude.setText(value);
-        currentPayload.setText("glider");
-        currentDropAltitude.setText("0");
-        currentSpeed.setText("0");
-        currentTimeToTarget.setText("0");
-        currentDistanceToTarget.setText("0");
+        // // TODO: set drop value on drop
+        // currentDropAltitude.setText("0");
+
+        currentSpeed.setText(String.valueOf(vehicleManager.getPlaneData().readPlaneSpeed()));
+
+        // TODO: Calculate distance to target based on plane position and target position
+        // TODO: Calculate time based on distance approximated to meters and current speed or change of speed from past lat, lons
+        //currentTimeToTarget.setText("0");
+        //currentDistanceToTarget.setText("0");
+
+        updatePlane();
+    }
+
+    void updatePlane()
+    {
+        Log.d(TAG, "Plane update");
+
+        if(planeMarker != null)
+        {
+            planeMarker.remove();
+        }
+
+        // TODO: REPLACE YAW WITH HEADING
+        Matrix matrix = new Matrix();
+        matrix.postRotate((float)vehicleManager.getPlaneData().readPlaneYaw());
+        Bitmap rotatedBitmap = Bitmap.createBitmap(icon, 0, 0, icon.getWidth(), icon.getHeight(), matrix, true);
+        rotatedBitmap = Bitmap.createScaledBitmap(rotatedBitmap, 40, 50, false);
+
+        //Plane Marker
+        LatLng point = new LatLng(vehicleManager.getPlaneData().readPlaneLatitude(), vehicleManager.getPlaneData().readPlaneLongitude());
+        Log.d(TAG, "Plane position: " + point.toString());
+        planeMarker = map.addMarker(new MarkerOptions()
+                .position(point)
+                .icon(factory.fromBitmap(rotatedBitmap)));
+
+        //Past Position Markers
+        if(points.size() > 2){
+
+            Bitmap circle = factory.fromResource(R.drawable.black_circle).getBitmap();
+            circle = Bitmap.createScaledBitmap(circle, 10, 10, false);
+
+            lastPosition = map.addMarker(new MarkerOptions()
+                    .position(points.get(points.size()-2))
+                    .icon(factory.fromBitmap(circle)));
+        }
+
+        planePath = map.addPolyline(new PolylineOptions()
+                .addAll(points)
+                .color(Color.parseColor("#3bb2d0"))
+                .width(3));
+
+//        //From old code, leaving in till we deal with drop
+//        wayPointCount++;
+//
+//        if (dropped) {
+//            droppedCount = wayPointCount;
+//        }
+
 
     }
 
@@ -584,12 +692,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void readIncomingBluetoothData(byte[] data) {
             Log.d(TAG, "Incoming bluetooth data string preparing to be parsed");
 
-            // Wrap data in ByteBuffer so we can parse the data easily
-            ByteBuffer msgBuffer = ByteBuffer.wrap(data);  // BIG ENDIAN BY DEFAULT
-            messageParser parser = new messageParser(msgBuffer);
-
-            Log.d(TAG, "Parser result: " + parser.toString());
-
             // Get first and last byte of the message
             byte startByte = data[0];
             byte endByte = data[data.length - 1];
@@ -599,8 +701,44 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 
             // Check if start and stop bytes match message definition
             if((Byte.compare(startByte, (byte) 10) == 0) && (Byte.compare(endByte, (byte) 255) == 0)) {
-                Log.d(TAG, "Incoming bluetooth data string has correct start and stop bytes");
+                // Wrap data in ByteBuffer so we can parse the data easily
+                ByteBuffer msgBuffer = ByteBuffer.wrap(data);  // BIG ENDIAN BY DEFAULT
+                messageParser parser = new messageParser(msgBuffer);
 
+                Log.d(TAG, "Parser result: " + parser.toString());
+
+                switch (parser.whoIsThisMesssageFor)
+                {
+                    case 1:
+                    case 4:
+                    {
+                        // PLANE
+                        Log.d(TAG, "Message came from plane");
+
+                        // CHECK IF RECORDING MODE AND ADD TO DB
+                        vehicleManager.updatePlane(parser);
+
+                        LatLng planePoint =  new LatLng(vehicleManager.getPlaneData().readPlaneLatitude(), vehicleManager.getPlaneData().readPlaneLongitude());
+                        points.add(planePoint);
+
+                        updateUI();
+                        break;
+                    }
+                    case 2:
+                    {
+                        // GLIDER 1
+                        Log.d(TAG, "Message came from glider1");
+                        vehicleManager.updateGliderOne(parser);
+                        break;
+                    }
+                    case 3:
+                    {
+                        // GLIDER 2
+                        Log.d(TAG, "Message came from glider2");
+                        vehicleManager.updateGliderTwo(parser);
+                        break;
+                    }
+                }
             }
     }
 
