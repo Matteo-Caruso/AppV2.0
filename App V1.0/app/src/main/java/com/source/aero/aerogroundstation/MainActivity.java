@@ -1,12 +1,11 @@
 package com.source.aero.aerogroundstation;
 
 
-<<<<<<< HEAD
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-=======
->>>>>>> feature/motor_dialogue
+
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onCreate(savedInstanceState);
 
         mapView.getMapAsync(this);
-
+        
         //Initializing UI Elements
         initBottomNavigationBar();
         initSpeedDial();
@@ -570,7 +569,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         return true;
                     case R.id.mainActivityBottomNavigationPayload:
-                        openFragment("STATUSTAB");
+                        openFragment("MOTORDIALOGUE");
                         return true;
                     case R.id.mainActivityBottomNavigationAttitude:
                         //TODO: Open attitude fragment
