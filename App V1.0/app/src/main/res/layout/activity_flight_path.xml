@@ -9,7 +9,7 @@
 
     <TableLayout
         android:layout_width="166dp"
-        android:layout_height="165dp"
+        android:layout_height="172dp"
         android:background="#80009688"
         android:translationZ="2dp">
 
@@ -187,7 +187,7 @@
 
     <ImageButton
         android:id="@+id/flightPathPlayButton"
-        android:layout_width="match_parent"
+        android:layout_width="523dp"
         android:layout_height="55dp"
         android:background="#00000000"
         android:contentDescription="@string/flightPathForwardButtonContentDescription"
@@ -195,7 +195,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_play"/>
+        app:srcCompat="@drawable/ic_play" />
 
     <ImageButton
         android:id="@+id/flightPathForwardButton"

@@ -88,7 +88,6 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
                 boolean run = (boolean) message.obj;
             }
         };
-        thread = new playThread();
     }
 
     @Override
@@ -187,13 +186,16 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
             thread.interrupt();
         }
         else {
-            updatePlane(waypoints.get(0),0,0);
+            points.clear();
+            showing = new int[waypoints.size()];
+            Arrays.fill(showing,0);
             updateData(waypoints.get(0));
             currentPoint = 0;
             lastPoint = 0;
             endPath = false;
             playButton.setImageResource(R.drawable.ic_pause_symbol);
             playMode = true;
+            thread = new playThread();
             thread.start();
         }
     }
@@ -293,7 +295,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     //Update path for all previous points in case points were skipped
     public void updatePath(int last, int current) {
         if (path != null) {
-            map.clear();
+            path.remove();
         }
         if (current > last) {
             for (int i = last; i <= current; i++) {
@@ -313,7 +315,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
             }
         }
         else {
-            for (int i = current; i < last; i++) {
+            for (int i = current + 1 ; i <= last; i++) {
                 if (showing[i] == 1) {
                     points.remove(i);
                     showing[i] = 0;
@@ -356,25 +358,21 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onStart() {
         super.onStart();
-        running = true;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        running = true;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        running = false;
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        running = false;
     }
 
     @Override
@@ -385,7 +383,6 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        running = false;
     }
 
 
