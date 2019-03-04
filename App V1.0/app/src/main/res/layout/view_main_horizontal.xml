@@ -45,7 +45,8 @@
         mapbox:mapbox_cameraTargetLat="28.0394650"
         mapbox:mapbox_cameraTargetLng="-81.9498040"
         mapbox:mapbox_cameraZoom="11"
-        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9">
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9"
+        >
 
     </com.mapbox.mapboxsdk.maps.MapView>
 

@@ -30,6 +30,7 @@
             android:screenOrientation="landscape">
         </activity>
         <activity android:name="com.source.aero.aerogroundstation.Bluetooth.BluetoothDevices"/>
+        <activity android:name=".FlightPath"/>
     </application>
 
 </manifest>

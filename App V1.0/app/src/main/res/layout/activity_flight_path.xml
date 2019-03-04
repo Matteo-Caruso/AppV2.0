@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
+    android:id="@+id/constrainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TableLayout
         android:layout_width="139dp"
-        android:layout_height="133dp"
-        android:background="#80009688">
+        android:layout_height="138dp"
+        android:background="#80009688"
+        android:translationZ="2dp">
 
         <TableRow
             android:id="@+id/flightPathAltitudeRow"
@@ -141,9 +142,9 @@
     </TableLayout>
 
     <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/flightPathMapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:visibility="visible"
         mapbox:layout_constraintBottom_toBottomOf="parent"
         mapbox:layout_constraintEnd_toEndOf="parent"
@@ -152,7 +153,8 @@
         mapbox:mapbox_cameraTargetLat="28.0394650"
         mapbox:mapbox_cameraTargetLng="-81.9498040"
         mapbox:mapbox_cameraZoom="11"
-        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9"/>
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9"
+        mapbox:mapbox_renderTextureMode="true"/>
 
     <ImageButton
         android:id="@+id/flightPathBackwardsButton"
@@ -163,7 +165,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_media_rew" />
+        app:srcCompat="@drawable/ic_backwards"/>
 
     <ImageButton
         android:id="@+id/flightPathPlayButton"
@@ -171,10 +173,11 @@
         android:layout_height="55dp"
         android:background="#00000000"
         android:contentDescription="@string/flightPathForwardButtonContentDescription"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_play"/>
 
     <ImageButton
         android:id="@+id/flightPathForwardButton"
@@ -185,6 +188,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_media_ff" />
+        app:srcCompat="@drawable/ic_forward" />
 
 </android.support.constraint.ConstraintLayout>

@@ -32,10 +32,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -158,10 +156,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onCreate(savedInstanceState);
 
         mapView.getMapAsync(this);
-
-        //Create test values
-        DatabaseHelper helper = new DatabaseHelper(this,"AeroDB");
-        helper.populate();
         
         //Initializing UI Elements
         initBottomNavigationBar();
@@ -173,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Points for creating polyline
         points = new ArrayList<>();
         mRecording = false;
-        boolean droppped = false;
+        boolean dropped = false;
 
         payloadString = "";
         dropString = "";
@@ -196,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Bluetooth Setup
         //Get local bluetooth adapter
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        //bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         //logView = (ListView) findViewById(R.id.bluetooth_messageView);
         //editTextView = (EditText) findViewById(R.id.bluetooth_sendMsgEditTextView);
         //sendButton = (Button) findViewById(R.id.bluetooth_sendMsgButton);
@@ -274,23 +268,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onStart() {
         super.onStart();
-        mapView.onStart();
+        //mapView.onStart();
 
         //Bluetooth
         //Request for bluetooth to be enabled
-        if (!bluetoothAdapter.isEnabled()) {
+        /*if (!bluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(bluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
         else if (bluetoothService == null) {
             setup();
-        }
+        }*/
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mapView.onResume();
+        //mapView.onResume();
 
         //Bluetooth
         if (bluetoothService != null) {
@@ -303,25 +297,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onPause() {
         super.onPause();
-        mapView.onPause();
+        //mapView.onPause();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mapView.onStop();
+        //mapView.onStop();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mapView.onLowMemory();
+        //mapView.onLowMemory();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
+        //mapView.onDestroy();
 
         //Bluetooth
         if (bluetoothService != null) {
@@ -332,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
+        //mapView.onSaveInstanceState(outState);
     }
 
     //Performs speed dial initialization
@@ -622,10 +616,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         builderPaths.setTitle("Flight Paths")
                                 .setItems(sessions, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        flightPathData = new Bundle();
-                                        List<Waypoint> waypoints = mDatabaseHelper.getWaypoints(lmaoStringFix[which],"P");
+                                        /*flightPathData = new Bundle();
+                                        List<Waypoint> waypoints = mDatabaseHelper.getWaypoints(lmaoStringFix[which],"Plane");
                                         ArrayList<Waypoint> bundleList = new ArrayList<Waypoint>(waypoints);
-                                        flightPathData.putSerializable("WAYPOINTS",bundleList);
+                                        flightPathData.putSerializable("WAYPOINTS",bundleList);*/
                                         openFragment("FLIGHTPATH");
                                           // TODO: Add flight path activity
 //                                        // The 'which' argument contains the index position
@@ -818,8 +812,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 fragment = new MotorDialogue();
                 break;
             case "FLIGHTPATH":
-                fragment = new FlightPath();
-                fragment.setArguments(flightPathData);
+                fragment = new FlightPathFragment();
+                //fragment.setArguments(flightPathData);
+                break;
             default:
                 Log.d("MainActivity", "Failed to create fragment");
                 return;

@@ -2,8 +2,14 @@ package com.source.aero.aerogroundstation;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Marker;
@@ -13,9 +19,11 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
-public class FlightPath extends AppCompatActivity implements OnMapReadyCallback {
+public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     private final static String TAG = "FLIGHTPATH";
 
     private Polyline path;
@@ -38,18 +46,26 @@ public class FlightPath extends AppCompatActivity implements OnMapReadyCallback 
     int currentPoint;
     Bundle data;
 
-    public FlightPath() {
-        //Empty constructor
+    public FlightPathFragment() {
+
     }
 
+    //Required methods
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mapbox.getInstance(this,getResources().getString(R.string.mapboxToken));
-        setContentView(R.layout.activity_flight_path);
-        mapView = (MapView) findViewById(R.id.flightPathMapView);
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(this);
+        Mapbox.getInstance(getActivity(),getResources().getString(R.string.mapboxToken));
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_flight_path,parent,false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstance) {
+        mapView = (MapView) view.findViewById(R.id.flightPathMapView);
+        mapView.onCreate(savedInstance);
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
@@ -57,32 +73,29 @@ public class FlightPath extends AppCompatActivity implements OnMapReadyCallback 
             }
         });
 
-
         //Get waypoints
         //data = getArguments();
         //Retrieve data sent from activity
-        /*try {
+        try {
             //waypoints = (ArrayList<Waypoint>) data.getSerializable("WAYPOINTS");
             //Test data
             waypoints = populate();
         } catch (NullPointerException e) {
             Log.d(TAG,"Couldn't receive waypoints from main activity");
-            finish();
+            getActivity().onBackPressed();
         } catch (ClassCastException e) {
             Log.d(TAG,"Data from main activity in wrong format");
-            finish();
+            getActivity().onBackPressed();
         }
 
         //Set current point to first point;
         currentPoint = 0;
 
-        forwardButton = (ImageButton) findViewById(R.id.flightPathForwardButton);
-        backwardsButton = (ImageButton) findViewById(R.id.flightPathBackwardsButton);
-        playButton = (ImageButton) findViewById(R.id.flightPathPlayButton);*/
+        forwardButton = (ImageButton) view.findViewById(R.id.flightPathForwardButton);
+        backwardsButton = (ImageButton) view.findViewById(R.id.flightPathBackwardsButton);
+        playButton = (ImageButton) view.findViewById(R.id.flightPathPlayButton);
 
-
-
-        /*forwardButton.setOnClickListener(new View.OnClickListener() {
+        forwardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 forward();
@@ -99,23 +112,18 @@ public class FlightPath extends AppCompatActivity implements OnMapReadyCallback 
             public void onClick(View view) {
                 play();
             }
-        });*/
+        });
     }
 
-    @Override
-    public void onMapReady(MapboxMap mapboxMap) {
-        this.map = mapboxMap;
-    }
-
-    /*public void updateData(Waypoint point) {
+    public void updateData(Waypoint point) {
         //Initialize textview elements
-        TextView altitudeVal = (TextView) findViewById(R.id.flightPathAltitudeVal);
-        TextView speedVal = (TextView) findViewById(R.id.flightPathSpeedVal);
-        TextView headingVal = (TextView) findViewById(R.id.flightPathHeadingVal);
-        TextView dropHeightVal = (TextView) findViewById(R.id.flightPathDropHeightVal);
-        TextView rollVal = (TextView) findViewById(R.id.flightPathRollVal);
-        TextView pitchVal = (TextView) findViewById(R.id.flightPathPitchVal);
-        TextView yawVal = (TextView) findViewById(R.id.flightPathYawVal);
+        TextView altitudeVal = (TextView) getView().findViewById(R.id.flightPathAltitudeVal);
+        TextView speedVal = (TextView)  getView().findViewById(R.id.flightPathSpeedVal);
+        TextView headingVal = (TextView)  getView().findViewById(R.id.flightPathHeadingVal);
+        TextView dropHeightVal = (TextView)  getView().findViewById(R.id.flightPathDropHeightVal);
+        TextView rollVal = (TextView)  getView().findViewById(R.id.flightPathRollVal);
+        TextView pitchVal = (TextView)  getView().findViewById(R.id.flightPathPitchVal);
+        TextView yawVal = (TextView)  getView().findViewById(R.id.flightPathYawVal);
 
         //Update textviews for current point
         altitudeVal.setText(getString(R.string.flightPathAltitudeFormatString,point.getAltitude()));
@@ -137,7 +145,7 @@ public class FlightPath extends AppCompatActivity implements OnMapReadyCallback 
             updateData(waypoints.get(currentPoint));
         }
         else {
-            Toast.makeText(this,"End of path reached",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"End of path reached",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -146,7 +154,7 @@ public class FlightPath extends AppCompatActivity implements OnMapReadyCallback 
             currentPoint -= 1;
             updateData(waypoints.get(currentPoint));
         } else {
-            Toast.makeText(this,"Start of path reached",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"Start of path reached",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -182,6 +190,11 @@ public class FlightPath extends AppCompatActivity implements OnMapReadyCallback 
 
         return testArray;
 
-    }*/
+    }
 
+    @Override
+    public void onMapReady(MapboxMap mapboxMap) {
+        this.map = mapboxMap;
+    }
 }
+
