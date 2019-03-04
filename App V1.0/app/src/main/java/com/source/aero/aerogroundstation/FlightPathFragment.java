@@ -1,8 +1,13 @@
 package com.source.aero.aerogroundstation;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.os.Process;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
@@ -28,6 +34,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+
+import static java.lang.Thread.sleep;
 
 public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     private final static String TAG = "FLIGHTPATH";
@@ -50,10 +58,18 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     //Data elements
     ArrayList<Waypoint> waypoints;
     ArrayList<LatLng> points;
-    int[] showing; //0 = not showing, 1 = passed point (in polyline), 2 = possed point and showing black circle
-    int currentPoint;
-    int lastPoint;
+    int[] showing; //0 = not showing, 1 = passed point (in polyline), 2 = passed point and showing black circle
+    int currentPoint = 0;
+    int lastPoint = 0;
     Bundle data;
+    boolean endPath = false;
+    boolean startPath = true;
+    boolean running = false;
+    boolean playMode = false;
+
+    Handler handler;
+
+    int playbackRate = 1000;
 
     public FlightPathFragment() {
         //Empty constructor
@@ -64,6 +80,12 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(getActivity(),getResources().getString(R.string.mapboxToken));
+        handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message message) {
+                boolean run = (boolean) message.obj;
+            }
+        };
     }
 
     @Override
@@ -156,9 +178,24 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
 
     public void play() {
         //TODO: Add play functionality
+        updatePlane(waypoints.get(0),0,0);
+        updateData(waypoints.get(0));
+        currentPoint = 0;
+        lastPoint = 0;
+        if (playMode) {
+            playMode = false;
+        }
+        else {
+            playMode = true;
+            playThread thread = new playThread();
+            thread.start();
+        }
     }
 
     public void forward() {
+        if (currentPoint == waypoints.size()-1) {
+            endPath = true;
+        }
         if (currentPoint < waypoints.size()-1) {
             currentPoint += 1;
             updateData(waypoints.get(currentPoint));
@@ -170,7 +207,11 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    //move marker backwards
     public void backward() {
+        if (currentPoint == 0) {
+            startPath = true;
+        }
         if (currentPoint > 0) {
             currentPoint -= 1;
             updateData(waypoints.get(currentPoint));
@@ -181,6 +222,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    //Test method to make test points
     public ArrayList<Waypoint> populate() {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyy_MM_dd-HH:mm:ss_z");
@@ -218,6 +260,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
+    //Update plane marker
     public void updatePlane(Waypoint point,int last,int current) {
         if (planeMarker != null) {
             planeMarker.remove();
@@ -233,6 +276,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         updatePath(last,current);
     }
 
+    //Convert string location to LatLng
     public LatLng convertToLatLng(String locat) {
         String[] split = locat.split(",");
         double latitude = Double.parseDouble(split[0]);
@@ -274,6 +318,68 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
             }
         }
         path = map.addPolyline(new PolylineOptions().addAll(points).color(getResources().getColor(R.color.colorSecondary)).width(3));
+    }
+
+    //Thread implements delay in between updating the position of the marker
+    //Actual UI changes are made on the UI thread since only the main activity thread can access the UI
+    private class playThread extends Thread {
+        private static final String TAG = "Play Thread";
+        @Override
+        public void run() {
+            Log.d(TAG,"Running thread");
+            //Run forward until the end of the path is reached
+            while (!endPath) {
+                try {
+                    sleep(playbackRate);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            forward();
+                        }
+                    });
+                }catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        running = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        running = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        running = false;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        running = false;
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        running = false;
     }
 
 
