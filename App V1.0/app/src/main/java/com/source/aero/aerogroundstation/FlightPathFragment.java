@@ -71,6 +71,8 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
 
     int playbackRate = 1000;
 
+    Thread thread;
+
     public FlightPathFragment() {
         //Empty constructor
     }
@@ -86,6 +88,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
                 boolean run = (boolean) message.obj;
             }
         };
+        thread = new playThread();
     }
 
     @Override
@@ -182,12 +185,13 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         updateData(waypoints.get(0));
         currentPoint = 0;
         lastPoint = 0;
+        endPath = false;
         if (playMode) {
             playMode = false;
+            thread.interrupt();
         }
         else {
             playMode = true;
-            playThread thread = new playThread();
             thread.start();
         }
     }
@@ -288,7 +292,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     //Update path for all previous points in case points were skipped
     public void updatePath(int last, int current) {
         if (path != null) {
-            path.remove();
+            map.removePolyline(path);
         }
         if (current > last) {
             for (int i = last; i <= current; i++) {
@@ -312,7 +316,8 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
                 if (showing[i] == 1) {
                     points.remove(i);
                     showing[i] = 0;
-                } else if (showing[i] == 2) {
+                }
+                 if (showing[i] == 2) {
                     lastPosition.remove();
                 }
             }
