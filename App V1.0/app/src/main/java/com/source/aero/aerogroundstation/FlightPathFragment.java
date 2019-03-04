@@ -181,16 +181,18 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
 
     public void play() {
         //TODO: Add play functionality
-        updatePlane(waypoints.get(0),0,0);
-        updateData(waypoints.get(0));
-        currentPoint = 0;
-        lastPoint = 0;
-        endPath = false;
         if (playMode) {
+            playButton.setImageResource(R.drawable.ic_play);
             playMode = false;
             thread.interrupt();
         }
         else {
+            updatePlane(waypoints.get(0),0,0);
+            updateData(waypoints.get(0));
+            currentPoint = 0;
+            lastPoint = 0;
+            endPath = false;
+            playButton.setImageResource(R.drawable.ic_pause_symbol);
             playMode = true;
             thread.start();
         }
@@ -275,9 +277,8 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         matrix.postRotate((float)point.getYaw());
         Bitmap rotatedBitmap = Bitmap.createBitmap(icon,0,0,icon.getWidth(),icon.getHeight(),matrix,true);
         rotatedBitmap = Bitmap.createScaledBitmap(rotatedBitmap,40,50,false);
-        planeMarker = map.addMarker(new MarkerOptions().position(location).icon(factory.fromBitmap(rotatedBitmap)));
-
         updatePath(last,current);
+        planeMarker = map.addMarker(new MarkerOptions().position(location).icon(factory.fromBitmap(rotatedBitmap)));
     }
 
     //Convert string location to LatLng
@@ -292,7 +293,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     //Update path for all previous points in case points were skipped
     public void updatePath(int last, int current) {
         if (path != null) {
-            map.removePolyline(path);
+            map.clear();
         }
         if (current > last) {
             for (int i = last; i <= current; i++) {
@@ -318,7 +319,8 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
                     showing[i] = 0;
                 }
                  if (showing[i] == 2) {
-                    lastPosition.remove();
+                    map.removeMarker(lastPosition);
+                    showing[i] = 0;
                 }
             }
         }
@@ -343,12 +345,11 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
                         }
                     });
                 }catch (InterruptedException e) {
-                    e.printStackTrace();
+                    return;
                 }
 
             }
         }
-
     }
 
 

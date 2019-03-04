@@ -8,8 +8,8 @@
     android:layout_height="match_parent">
 
     <TableLayout
-        android:layout_width="158dp"
-        android:layout_height="153dp"
+        android:layout_width="166dp"
+        android:layout_height="165dp"
         android:background="#80009688"
         android:translationZ="2dp">
 
@@ -200,7 +200,7 @@
     <ImageButton
         android:id="@+id/flightPathForwardButton"
         android:layout_width="71dp"
-        android:layout_height="match_parent"
+        android:layout_height="206dp"
         android:background="#00000000"
         android:contentDescription="@string/flightPathPlayButtonContentDescription"
         app:layout_constraintBottom_toBottomOf="parent"
