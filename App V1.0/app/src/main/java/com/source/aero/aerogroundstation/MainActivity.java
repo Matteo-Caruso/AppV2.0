@@ -614,6 +614,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         AlertDialog.Builder builderPaths = new AlertDialog.Builder(MainActivity.this);
                         builderPaths.setTitle("Flight Paths")
+                                .setPositiveButton("Open", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        openFragment("FLIGHTPATH");
+                                    }
+                                })
                                 .setItems(sessions, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         /*flightPathData = new Bundle();

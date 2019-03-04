@@ -8,10 +8,28 @@
     android:layout_height="match_parent">
 
     <TableLayout
-        android:layout_width="139dp"
-        android:layout_height="138dp"
+        android:layout_width="158dp"
+        android:layout_height="153dp"
         android:background="#80009688"
         android:translationZ="2dp">
+
+        <TableRow
+            android:id="@+id/flightPathLocationRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightpathLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location" />
+
+            <TextView
+                android:id="@+id/flightPathLocationVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+        </TableRow>
 
         <TableRow
             android:id="@+id/flightPathAltitudeRow"
