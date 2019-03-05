@@ -622,10 +622,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 })
                                 .setItems(sessions, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        /*flightPathData = new Bundle();
+                                        flightPathData = new Bundle();
                                         List<Waypoint> waypoints = mDatabaseHelper.getWaypoints(lmaoStringFix[which],"Plane");
                                         ArrayList<Waypoint> bundleList = new ArrayList<Waypoint>(waypoints);
-                                        flightPathData.putSerializable("WAYPOINTS",bundleList);*/
+                                        flightPathData.putSerializable("WAYPOINTS",bundleList);
+                                        openFragment("FLIGHTPATH");
+
                                         openFragment("FLIGHTPATH");
                                           // TODO: Add flight path activity
 //                                        // The 'which' argument contains the index position

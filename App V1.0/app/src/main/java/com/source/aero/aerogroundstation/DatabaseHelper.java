@@ -316,7 +316,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Cursor object
         //Cursor cursor = db.rawQuery("SELECT * FROM " + FLIGHTPATH_TABLE_NAME + " WHERE " + FLIGHTPATH_TABLE_COL_SESSION + " =" + sessionID + ";", null);
-        Cursor cursor = db.rawQuery("SELECT * FROM " + FLIGHTPATH_TABLE_NAME + " WHERE " + FLIGHTPATH_TABLE_COL_SESSION + " =? AND " + FLIGHTPATH_TABLE_COL_TYPE + " = " + flight_type, new String[] {sessionID});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + FLIGHTPATH_TABLE_NAME + " WHERE " + FLIGHTPATH_TABLE_COL_SESSION + " =? AND " + FLIGHTPATH_TABLE_COL_TYPE + " = '" + flight_type + "'", new String[] {sessionID});
         //Added another condition to the query where the cursor only gathers data that matches the specified flight type
         
         // Return data
