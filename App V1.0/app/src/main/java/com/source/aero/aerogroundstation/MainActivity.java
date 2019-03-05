@@ -1088,17 +1088,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         openFragment("INFLATEDDISPLAYFIELDS");
 
 
-        //The field values can be changed as follows:
-        TextView payloadDropAltitude = (TextView) findViewById(R.id.payloadDropAltitude);
-        payloadDropAltitude.setText("N/A");
-
-        TextView cdaDropAltitude = (TextView) findViewById(R.id.cdaDropAltitude);
-        cdaDropAltitude.setText("N/A");
-
-        //NOTE: The values can be changed as above using any function
-
-        InflatedDisplayFields fragment_obj = (InflatedDisplayFields)getSupportFragmentManager().findFragmentByTag("INFLATEDDISPLAYFIELDS");
-        //fragment_obj.adjustTextValues("YEE", "YEE");
+//        //The field values can be changed as follows:
+//        TextView payloadDropAltitude = (TextView) findViewById(R.id.payloadDropAltitude);
+//        payloadDropAltitude.setText("N/A");
+//
+//        TextView cdaDropAltitude = (TextView) findViewById(R.id.cdaDropAltitude);
+//        cdaDropAltitude.setText("N/A");
+//
+//        //NOTE: The values can be changed as above using any function
+//
+//        InflatedDisplayFields fragment_obj = (InflatedDisplayFields)getSupportFragmentManager().findFragmentByTag("INFLATEDDISPLAYFIELDS");
+//        //fragment_obj.adjustTextValues("YEE", "YEE");
 
 
 
