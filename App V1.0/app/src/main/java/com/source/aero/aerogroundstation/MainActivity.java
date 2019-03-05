@@ -623,11 +623,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 .setItems(sessions, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         flightPathData = new Bundle();
-                                        List<Waypoint> waypoints = mDatabaseHelper.getWaypoints(lmaoStringFix[which],"Plane");
+                                        List<Waypoint> waypoints = populate();
                                         ArrayList<Waypoint> bundleList = new ArrayList<Waypoint>(waypoints);
                                         flightPathData.putSerializable("WAYPOINTS",bundleList);
-                                        openFragment("FLIGHTPATH");
-
                                         openFragment("FLIGHTPATH");
                                           // TODO: Add flight path activity
 //                                        // The 'which' argument contains the index position
@@ -821,7 +819,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case "FLIGHTPATH":
                 fragment = new FlightPathFragment();
-                //fragment.setArguments(flightPathData);
+                fragment.setArguments(flightPathData);
                 break;
             default:
                 Log.d("MainActivity", "Failed to create fragment");
@@ -1395,5 +1393,43 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String address = data.getExtras().getString(BluetoothDevices.EXTRA_DEVICE_ADDRESS);
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
         bluetoothService.connect(device, secure);
+    }
+
+    //Test method to make test points
+    public ArrayList<Waypoint> populate() {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyy_MM_dd-HH:mm:ss_z");
+        String sessionId = formatter.format(date);
+        double altitude = 100;
+        double speed = 10;
+        double heading = 90;
+        String location = "28.0394650,-81.9498040";
+        int sid = 0;
+        double drop = 10;
+        double gliderDropHeight = 11;
+        double roll = 0;
+        double pitch = 0;
+        double yaw = 20;
+        String flight_type = "P";
+        ArrayList<Waypoint> testArray = new ArrayList<Waypoint>();
+
+        for (int i = 0; i < 100; i++) {
+            altitude += 1;
+            speed += 1;
+            heading += 1;
+            sid += 1;
+            String[] split = location.split(",");
+            double latitude = Double.parseDouble(split[0]);
+            double longitude = Double.parseDouble(split[1]);
+            latitude += 0.001;
+            longitude += 0.001;
+            yaw += 0.1;
+            location = Double.toString(latitude) + "," + Double.toString(longitude);
+            Waypoint point = new Waypoint(sessionId,sid,location,altitude,speed,heading,drop,gliderDropHeight,roll,pitch,yaw);
+            testArray.add(point);
+        }
+
+        return testArray;
+
     }
 }

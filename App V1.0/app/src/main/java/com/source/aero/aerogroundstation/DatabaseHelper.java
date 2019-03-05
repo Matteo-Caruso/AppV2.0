@@ -444,8 +444,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
     }
-
-    //Method to populate database for testing
-
 }
 

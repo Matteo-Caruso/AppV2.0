@@ -31,11 +31,13 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 
 import static java.lang.Thread.sleep;
 
@@ -75,6 +77,8 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
 
     Thread thread;
 
+    ArrayList<Marker> intermediatePoints;
+
 
 
     public FlightPathFragment() {
@@ -111,12 +115,12 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         });
 
         //Get waypoints
-        //data = getArguments();
+        data = getArguments();
         //Retrieve data sent from activity
         try {
-            //waypoints = (ArrayList<Waypoint>) data.getSerializable("WAYPOINTS");
+            waypoints = (ArrayList<Waypoint>) data.getSerializable("WAYPOINTS");
             //Test data
-            waypoints = populate();
+            //waypoints = populate();
         } catch (NullPointerException e) {
             Log.d(TAG,"Couldn't receive waypoints from main activity");
             getActivity().onBackPressed();
@@ -129,6 +133,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         currentPoint = 0;
         lastPoint = 0;
         showing = new int[waypoints.size()];
+        intermediatePoints = new ArrayList<Marker>();
         Arrays.fill(showing,0);
 
         points = new ArrayList<LatLng>();
@@ -191,6 +196,14 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         }
         else {
             points.clear();
+            //Remove intermediate points (marked by black circles)
+            Iterator<Marker> removePoints = intermediatePoints.iterator();
+            while (removePoints.hasNext()) {
+                Marker temp = removePoints.next();
+                temp.remove();
+                removePoints.remove();
+            }
+            //Resetting path
             showing = new int[waypoints.size()];
             Arrays.fill(showing,0);
             updateData(waypoints.get(0));
@@ -234,44 +247,6 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    //Test method to make test points
-    public ArrayList<Waypoint> populate() {
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyy_MM_dd-HH:mm:ss_z");
-        String sessionId = formatter.format(date);
-        double altitude = 100;
-        double speed = 10;
-        double heading = 90;
-        String location = "28.0394650,-81.9498040";
-        int sid = 0;
-        double drop = 10;
-        double gliderDropHeight = 11;
-        double roll = 0;
-        double pitch = 0;
-        double yaw = 20;
-        String flight_type = "P";
-        ArrayList<Waypoint> testArray = new ArrayList<Waypoint>();
-
-        for (int i = 0; i < 100; i++) {
-            altitude += 1;
-            speed += 1;
-            heading += 1;
-            sid += 1;
-            String[] split = location.split(",");
-            double latitude = Double.parseDouble(split[0]);
-            double longitude = Double.parseDouble(split[1]);
-            latitude += 0.001;
-            longitude += 0.001;
-            yaw += 0.1;
-            location = Double.toString(latitude) + "," + Double.toString(longitude);
-            Waypoint point = new Waypoint(sessionId,sid,location,altitude,speed,heading,drop,gliderDropHeight,roll,pitch,yaw);
-            testArray.add(point);
-        }
-
-        return testArray;
-
-    }
-
     //Update plane marker
     public void updatePlane(Waypoint point,int last,int current) {
         if (planeMarker != null) {
@@ -309,6 +284,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
                         Bitmap circle = factory.fromResource(R.drawable.black_circle).getBitmap();
                         circle = Bitmap.createScaledBitmap(circle,10,10,false);
                         lastPosition = map.addMarker(new MarkerOptions().position(points.get(points.size()-2)).icon(factory.fromBitmap(circle)));
+                        intermediatePoints.add(lastPosition);
                         showVal += 1;
                     }
                     Waypoint point = waypoints.get(i);
@@ -321,13 +297,13 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         else {
             for (int i = current + 1 ; i <= last; i++) {
                 if (showing[i] == 1) {
-                    points.remove(i);
                     showing[i] = 0;
                 }
                  if (showing[i] == 2) {
                     map.removeMarker(lastPosition);
                     showing[i] = 0;
                 }
+                points.remove(i);
             }
         }
         path = map.addPolyline(new PolylineOptions().addAll(points).color(getResources().getColor(R.color.colorSecondary)).width(3));
@@ -358,7 +334,6 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -376,16 +351,26 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onStop() {
+        if (thread != null) {
+            thread.interrupt();
+        }
         super.onStop();
     }
 
     @Override
     public void onLowMemory() {
+        if (thread != null) {
+            thread.interrupt();
+        }
+        Toast.makeText(getActivity(),"Memory resources low, stopping playback",Toast.LENGTH_SHORT).show();
         super.onLowMemory();
     }
 
     @Override
     public void onDestroy() {
+        if (thread != null) {
+            thread.interrupt();
+        }
         super.onDestroy();
     }
 
