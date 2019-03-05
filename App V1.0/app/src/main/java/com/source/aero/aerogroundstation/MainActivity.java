@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Bluetooth Setup
         //Get local bluetooth adapter
-        //bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         //logView = (ListView) findViewById(R.id.bluetooth_messageView);
         //editTextView = (EditText) findViewById(R.id.bluetooth_sendMsgEditTextView);
         //sendButton = (Button) findViewById(R.id.bluetooth_sendMsgButton);
@@ -272,13 +272,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Bluetooth
         //Request for bluetooth to be enabled
-        /*if (!bluetoothAdapter.isEnabled()) {
+        if (!bluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(bluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
         else if (bluetoothService == null) {
             setup();
-        }*/
+        }
     }
 
     @Override

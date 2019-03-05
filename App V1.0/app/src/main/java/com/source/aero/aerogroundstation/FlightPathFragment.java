@@ -68,18 +68,15 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     Bundle data;
     boolean endPath = false;
     boolean startPath = true;
-    boolean running = false;
     boolean playMode = false;
 
     Handler handler;
 
-    int playbackRate = 1000;
+    int playbackRate = 100;
 
     Thread thread;
 
     ArrayList<Marker> intermediatePoints;
-
-
 
     public FlightPathFragment() {
         //Empty constructor
@@ -111,6 +108,9 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
                 map = mapboxMap;
+                //Initialize plane position and data view now that map is loaded
+                updateData(waypoints.get(0));
+                updatePlane(waypoints.get(0),currentPoint,lastPoint);
             }
         });
 
@@ -225,6 +225,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
             currentPoint += 1;
             updateData(waypoints.get(currentPoint));
             updatePlane(waypoints.get(currentPoint),lastPoint, currentPoint);
+            updatePath(lastPoint,currentPoint);
             lastPoint = currentPoint;
         }
         else {
@@ -241,6 +242,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
             currentPoint -= 1;
             updateData(waypoints.get(currentPoint));
             updatePlane(waypoints.get(currentPoint),lastPoint,currentPoint);
+            updatePath(lastPoint,currentPoint);
             lastPoint = currentPoint;
         } else {
             Toast.makeText(getActivity(),"Start of path reached",Toast.LENGTH_SHORT).show();
@@ -258,7 +260,6 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         matrix.postRotate((float)point.getYaw());
         Bitmap rotatedBitmap = Bitmap.createBitmap(icon,0,0,icon.getWidth(),icon.getHeight(),matrix,true);
         rotatedBitmap = Bitmap.createScaledBitmap(rotatedBitmap,40,50,false);
-        updatePath(last,current);
         planeMarker = map.addMarker(new MarkerOptions().position(location).icon(factory.fromBitmap(rotatedBitmap)));
     }
 

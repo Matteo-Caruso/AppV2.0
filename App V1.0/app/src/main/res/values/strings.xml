@@ -102,6 +102,7 @@
     <string name="flightPathRollFormatString">%1$.2f deg</string>
     <string name="flightPathPitchFormatString">%1$.2f deg</string>
     <string name="flightPathYawFormatString">%1$.2f deg</string>
+    <string name="flightPathDataText">Loading &#8230;</string>
 
 
 

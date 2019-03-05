@@ -28,7 +28,7 @@
                 android:id="@+id/flightPathLocationVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="@string/flightPathDataText" />
         </TableRow>
 
         <TableRow
@@ -46,7 +46,7 @@
                 android:id="@+id/flightPathAltitudeVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="@string/flightPathDataText" />
         </TableRow>
 
         <TableRow
@@ -64,7 +64,7 @@
                 android:id="@+id/flightPathSpeedVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="@string/flightPathDataText" />
         </TableRow>
 
         <TableRow
@@ -82,7 +82,7 @@
                 android:id="@+id/flightPathHeadingVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="@string/flightPathDataText" />
         </TableRow>
 
         <TableRow
@@ -100,7 +100,7 @@
                 android:id="@+id/flightPathDropHeightVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="@string/flightPathDataText" />
 
         </TableRow>
 
@@ -119,7 +119,7 @@
                 android:id="@+id/flightPathRollVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="@string/flightPathDataText" />
         </TableRow>
 
         <TableRow
@@ -137,7 +137,7 @@
                 android:id="@+id/flightPathPitchVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="@string/flightPathDataText" />
         </TableRow>
 
         <TableRow
@@ -155,7 +155,7 @@
                 android:id="@+id/flightPathYawVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="@string/flightPathDataText" />
         </TableRow>
     </TableLayout>
 
