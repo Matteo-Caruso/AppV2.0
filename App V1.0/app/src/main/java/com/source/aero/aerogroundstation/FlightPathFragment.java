@@ -375,10 +375,19 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         super.onDestroy();
     }
 
-
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
         this.map = mapboxMap;
     }
+
+    public MapboxMap getMap() {
+        if (map != null) {
+            return this.map;
+        }
+        else {
+            return null;
+        }
+    }
+
 }
 

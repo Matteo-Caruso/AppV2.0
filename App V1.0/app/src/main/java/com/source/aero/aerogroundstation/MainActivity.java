@@ -623,7 +623,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 .setItems(sessions, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         flightPathData = new Bundle();
-                                        List<Waypoint> waypoints = populate();
+                                        //List<Waypoint> waypoints = populate();
+                                        List<Waypoint> waypoints = mDatabaseHelper.getWaypoints(lmaoStringFix[which], "Plane");
                                         ArrayList<Waypoint> bundleList = new ArrayList<Waypoint>(waypoints);
                                         flightPathData.putSerializable("WAYPOINTS",bundleList);
                                         openFragment("FLIGHTPATH");
@@ -1157,7 +1158,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Called from fragments that need access to map object
     //TODO: Redesign fragments using Viewmodels
     public MapboxMap passMap() {
-        return this.map; }
+        return this.map;
+    }
 
     //Bluetooth Functions
     private void setup() {
