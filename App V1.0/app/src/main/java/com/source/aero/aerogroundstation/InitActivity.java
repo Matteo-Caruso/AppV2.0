@@ -11,6 +11,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+
 public class InitActivity extends AppCompatActivity {
     //UI elements
     Button startButton;
@@ -26,10 +31,12 @@ public class InitActivity extends AppCompatActivity {
     //Required methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_initactivity);
 
         //Initialize UI elements
-        setContentView(R.layout.activity_initactivity);
+        //setContentView(R.layout.activity_initactivity);
         startButton = (Button) findViewById(R.id.initConfigStartButton);
         configGroup = (RadioGroup) findViewById(R.id.initConfigRadioGroup);
         configPreview = (TextView) findViewById(R.id.initConfigPreviewTextView);

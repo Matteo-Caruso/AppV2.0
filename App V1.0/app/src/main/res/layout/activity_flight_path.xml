@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constrainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="166dp"
+        android:layout_height="172dp"
+        android:background="#80009688"
+        android:translationZ="2dp">
+
+        <TableRow
+            android:id="@+id/flightPathLocationRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightpathLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location" />
+
+            <TextView
+                android:id="@+id/flightPathLocationVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/flightPathAltitudeRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightPathAltitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Altitude" />
+
+            <TextView
+                android:id="@+id/flightPathAltitudeVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/flightPathSpeedRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightPathSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speed" />
+
+            <TextView
+                android:id="@+id/flightPathSpeedVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/flightHeadingRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightPathHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Heading" />
+
+            <TextView
+                android:id="@+id/flightPathHeadingVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/flightPathDropHeightRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightPathDropHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Drop Height" />
+
+            <TextView
+                android:id="@+id/flightPathDropHeightVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/flightPathRollRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightPathRoll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Roll" />
+
+            <TextView
+                android:id="@+id/flightPathRollVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/flightPathPitchRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightPathPitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pitch" />
+
+            <TextView
+                android:id="@+id/flightPathPitchVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/flightPathYawRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightPathYaw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yaw" />
+
+            <TextView
+                android:id="@+id/flightPathYawVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText" />
+        </TableRow>
+    </TableLayout>
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/flightPathMapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        mapbox:layout_constraintBottom_toBottomOf="parent"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintStart_toStartOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent"
+        mapbox:mapbox_cameraTargetLat="28.0394650"
+        mapbox:mapbox_cameraTargetLng="-81.9498040"
+        mapbox:mapbox_cameraZoom="11"
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9"
+        mapbox:mapbox_renderTextureMode="true"/>
+
+    <ImageButton
+        android:id="@+id/flightPathBackwardsButton"
+        android:layout_width="71dp"
+        android:layout_height="match_parent"
+        android:background="#002196f3"
+        android:contentDescription="@string/flightPathBackwardButtonContentDescription"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_backwards"/>
+
+    <ImageButton
+        android:id="@+id/flightPathPlayButton"
+        android:layout_width="523dp"
+        android:layout_height="55dp"
+        android:background="#00000000"
+        android:contentDescription="@string/flightPathForwardButtonContentDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_play" />
+
+    <ImageButton
+        android:id="@+id/flightPathForwardButton"
+        android:layout_width="71dp"
+        android:layout_height="206dp"
+        android:background="#00000000"
+        android:contentDescription="@string/flightPathPlayButtonContentDescription"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_forward" />
+
+</android.support.constraint.ConstraintLayout>
