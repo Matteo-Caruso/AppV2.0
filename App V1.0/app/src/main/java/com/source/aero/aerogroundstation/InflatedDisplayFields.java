@@ -12,9 +12,14 @@ import android.widget.TextView;
 public class InflatedDisplayFields extends Fragment{
 
     String TAG = "INFLATEDDISPLAYFIELDS";
-
-    public InflatedDisplayFields() {
+    private String gg;
+    private String ww;
+    private String hh;
+    public InflatedDisplayFields(String w, String h, String g) {
         // Required empty public constructor
+        ww=w;
+        hh=h;
+        gg=g;
     }
 
     @Override
@@ -33,13 +38,16 @@ public class InflatedDisplayFields extends Fragment{
 //        LinearLayout displayFields = (LinearLayout) view.findViewById(R.id.displayFieldsLayout);
 //        displayFields.setVisibility(View.INVISIBLE);
 
-            adjustTextValues("N/A", "N/A");
+            adjustTextValues(ww, hh, gg);
     }
 
-    public void adjustTextValues(String payloadHeight, String cdaHeight)
+    public void adjustTextValues(String water, String habitat, String cdaHeight)
     {
-        TextView payloadDropAltitude = (TextView) getView().findViewById(R.id.payloadDropAltitude);
-        payloadDropAltitude.setText(payloadHeight);
+        TextView waterDrop = (TextView) getView().findViewById(R.id.waterDrop);
+        waterDrop.setText((water.substring(0, water.length()-1)) + " ft");
+
+        TextView nerfDrop = (TextView) getView().findViewById(R.id.nerfDrop);
+        nerfDrop.setText(habitat.substring(0, habitat.length()-1));
 
         TextView cdaDropAltitude = (TextView) getView().findViewById(R.id.cdaDropAltitude);
         cdaDropAltitude.setText(cdaHeight);

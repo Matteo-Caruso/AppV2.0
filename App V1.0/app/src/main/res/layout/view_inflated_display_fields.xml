@@ -6,6 +6,39 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:background="#99000000">
+    <!-- The layout below is for the payload drop altitude information-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:orientation="horizontal"
+        android:visibility="visible">
+        <!-- the background uses a rectangle created in the drawable folder -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="-50dp"
+            android:clickable="true"
+            android:onClick="increaseFontSize"
+            android:text="Water: "
+            android:textColor="#6600CC"
+            android:textSize="0.9in" />
+
+        <TextView
+            android:id="@+id/waterDrop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="-50dp"
+            android:clickable="true"
+            android:onClick="increaseFontSize"
+            android:text="N/A"
+            android:textColor="#6600CC"
+            android:textSize="0.9in" />
+    </LinearLayout>
 
     <!-- The layout below is for the payload drop altitude information-->
     <LinearLayout
@@ -13,82 +46,67 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:orientation="horizontal"
-        android:padding="1dp">
+        android:orientation="horizontal">
         <!-- the background uses a rectangle created in the drawable folder -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="-50dp"
             android:layout_marginRight="2dp"
-            android:text="Payload: "
+            android:text="Habitat: "
             android:textColor="#6600CC"
-            android:textSize="1in"
+            android:textSize="0.9in"
             android:clickable="true"
             android:onClick="increaseFontSize"/>
         <TextView
-            android:id="@+id/payloadDropAltitude"
+            android:id="@+id/nerfDrop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
+            android:layout_marginTop="-50dp"
             android:layout_marginRight="8dp"
-            android:text="999"
+            android:text="N/A"
             android:textColor="#6600CC"
-            android:textSize="1in"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="8dp"
-            android:text="ft"
-            android:textColor="#6600CC"
-            android:textSize="1in"
+            android:textSize="0.9in"
             android:clickable="true"
             android:onClick="increaseFontSize"/>
     </LinearLayout>
 
     <!-- The layout below is for the cda drop altitude information-->
     <LinearLayout
-        android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:orientation="horizontal"
-        android:padding="1dp">
+
+        android:visibility="visible">
         <!-- the background uses a rectangle created in the drawable folder -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
+            android:layout_marginTop="-50dp"
+            android:clickable="true"
+            android:onClick="increaseFontSize"
             android:text="CDA: "
             android:textColor="#6600CC"
-            android:textSize="1in"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="0.9in" />
+
         <TextView
             android:id="@+id/cdaDropAltitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="8dp"
-            android:text="999"
-            android:textColor="#6600CC"
-            android:textSize="1in"
+            android:layout_marginTop="-50dp"
             android:clickable="true"
-            android:onClick="increaseFontSize"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="8dp"
-            android:text="ft"
+            android:onClick="increaseFontSize"
+            android:text="N/A"
             android:textColor="#6600CC"
-            android:textSize="1in"
-            android:clickable="true"
-            android:onClick="increaseFontSize"/>
+            android:textSize="0.9in" />
+
     </LinearLayout>
 
 </LinearLayout>

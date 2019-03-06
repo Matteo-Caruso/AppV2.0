@@ -20,11 +20,11 @@ public interface GeneralAircraft {
     double readPlaneHeight();
     void updatePlaneHeight(double currentPlaneHeightValue);
 
-    double readPlaneSpeed();
-    void updatePlaneSpeed(double currentPlaneSpeedValue);
+    int readPlaneSpeed();
+    void updatePlaneSpeed(int currentPlaneSpeedValue);
 
-    double readPlaneAltitude();
-    void updatePlaneAltitude(double currentPlaneAltitudeValue);
+    int readPlaneAltitude();
+    void updatePlaneAltitude(int currentPlaneAltitudeValue);
 
     double readPlaneLatitude();
     void updatePlaneLatitude(double currentPlaneLatitudeValue);

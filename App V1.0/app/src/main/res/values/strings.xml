@@ -29,10 +29,11 @@
     <string name="initConfigDatabaseClearPromptNegativeToast">Database not cleared</string>
     <string name="initConfigDatabaseClearDialogTitle">Clear Database</string>
 
-    <string name="motorSpeedDialOption1Text">Payload</string>
-    <string name="motorSpeedDialOption2Text">Gliders</string>
-    <string name="motorSpeedDialOption3Text">G1 Pitch</string>
-    <string name="motorSpeedDialOption4Text">G2 Pitch</string>
+    <string name="motorSpeedDialOption1Text">Water</string>
+    <string name="motorSpeedDialOption2Text">Habitat</string>
+    <string name="motorSpeedDialOption3Text">Gliders</string>
+    <string name="motorSpeedDialOption4Text">G1 Pitch</string>
+    <string name="motorSpeedDialOption5Text">G2 Pitch</string>
 
     <string name="mainActivityNavigationDrawerCalibrationItem1Text">Calibrate IMU</string>
     <string name="mainActivityNavigationDrawerCalibrationItem2Text">Calibrate Barometer</string>

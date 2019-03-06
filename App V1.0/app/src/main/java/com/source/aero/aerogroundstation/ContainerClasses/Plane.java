@@ -8,8 +8,8 @@ public class Plane implements GeneralAircraft {
     private double pitch = 0.0;
     private double roll = 0.0;
     private double height = 0.0;
-    private double speed = 0.0;
-    private double altitude = 0.0;
+    private int speed = 0;
+    private int altitude = 0;
     private double latitude = 0.0;
     private double longitude = 0.0;
 
@@ -79,22 +79,22 @@ public class Plane implements GeneralAircraft {
         return this.height;
     }
 
-    public void updatePlaneSpeed(double currentPlaneSpeedValue)
+    public void updatePlaneSpeed(int currentPlaneSpeedValue)
     {
         this.speed = currentPlaneSpeedValue;
     }
 
-    public double readPlaneSpeed()
+    public int readPlaneSpeed()
     {
         return this.speed;
     }
 
-    public void updatePlaneAltitude(double currentPlaneAltitudeValue)
+    public void updatePlaneAltitude(int currentPlaneAltitudeValue)
     {
         this.altitude = currentPlaneAltitudeValue;
     }
 
-    public double readPlaneAltitude()
+    public int readPlaneAltitude()
     {
         return this.altitude;
     }

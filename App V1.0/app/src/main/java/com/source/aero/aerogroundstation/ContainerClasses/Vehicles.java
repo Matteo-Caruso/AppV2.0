@@ -32,11 +32,11 @@ public class Vehicles
         // here we update the plane members, using the message crated by the parser class
 
         mainPlane.updateRadioSignalStrength(messageData.rssiFromMessage);
-        mainPlane.updatePlaneYaw(messageData.yawFromMessage);
-        mainPlane.updatePlanePitch(messageData.pitchFromMessage);
-        mainPlane.updatePlaneRoll(messageData.rollFromMessaage);
-        mainPlane.updatePlaneSpeed(messageData.speedFromMessage);
-        mainPlane.updatePlaneAltitude(messageData.altFromMessage);
+        mainPlane.updatePlaneYaw(messageData.yawFromMessage/100.0);
+        mainPlane.updatePlanePitch(messageData.pitchFromMessage/100.0);
+        mainPlane.updatePlaneRoll(messageData.rollFromMessaage/100.0);
+        mainPlane.updatePlaneSpeed(messageData.speedFromMessage/100);                             // In METRES/S. TODO: Convert to Feet/s
+        mainPlane.updatePlaneAltitude(messageData.altFromMessage/10);   // In METRES. TODO: Convert to Feet
         mainPlane.updatePlaneLatitude(messageData.latFromMessage/10000000.0);
         mainPlane.updatePlaneLongitude(messageData.lonFromMessage/10000000.0);
 

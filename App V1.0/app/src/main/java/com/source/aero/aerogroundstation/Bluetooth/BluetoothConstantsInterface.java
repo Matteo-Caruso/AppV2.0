@@ -31,9 +31,10 @@ public interface BluetoothConstantsInterface {
     public static final byte CALIBRATEGPS = (byte) 2;
     public static final byte CALIBRATEBAROMETER = (byte) 3;
     public static final byte NODROP = (byte) 0;
-    public static final byte DROPPAYLOAD = (byte) 1;
+    public static final byte DROPWATER = (byte) 1;
+    public static final byte DROPHABITAT = (byte) 3;
     public static final byte DROPGLIDERS = (byte) 2;
-    public static final short MOTOROFF = 0;
+    public static final short MOTOROFF = 2;
     public static final short MOTORON = 1;
     public static final short ERROR = 0;
 
