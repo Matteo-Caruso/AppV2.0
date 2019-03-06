@@ -92,4 +92,22 @@
     <string name="bluetooth_titlePairedDevices">Paired Devices</string>
     <string name="bluetooth_titleOtherDevices">Other Available Devices</string>
     <string name="bluetooth_buttonScan">Scan for devices</string>
+
+    <!-- Flight path strings -->
+    <string name="flightPathForwardButtonContentDescription">Move to next point</string>
+    <string name="flightPathBackwardButtonContentDescription">Move to previous point</string>
+    <string name="flightPathPlayButtonContentDescription">Play path</string>
+    <string name="flightPathAltitudeFormatString">%1$.2f ft</string>
+    <string name="flightPathSpeedFormatString">%1$.2f ft/s</string>
+    <string name="flightPathHeadingFormatString">%1$.2f deg</string>
+    <string name="flightPathRollFormatString">%1$.2f deg</string>
+    <string name="flightPathPitchFormatString">%1$.2f deg</string>
+    <string name="flightPathYawFormatString">%1$.2f deg</string>
+    <string name="flightPathDataText">Loading &#8230;</string>
+
+
+
+
+
+
 </resources>

@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected Polyline planePath;
     protected IconFactory factory;
     protected Bitmap icon;
+    Bundle flightPathData;
 
     //Ui Elements
     BottomNavigationView bottomNavigationView;
@@ -195,8 +196,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         dropOrder = new ArrayList<>();
 
         mRecording = false;
+<<<<<<< HEAD
         boolean droppped = false;
         lastDroppedWasGlider = NONE;
+=======
+        boolean dropped = false;
+>>>>>>> 6997ac2b12dd382a64166d3506722f6bfc83239e
 
         payloadString = "";
         waterDropped = false;
@@ -306,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onStart() {
         super.onStart();
-        mapView.onStart();
+        //mapView.onStart();
 
         //Bluetooth
         //Request for bluetooth to be enabled
@@ -322,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onResume() {
         super.onResume();
-        mapView.onResume();
+        //mapView.onResume();
 
         //Bluetooth
         if (bluetoothService != null) {
@@ -335,25 +340,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onPause() {
         super.onPause();
-        mapView.onPause();
+        //mapView.onPause();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mapView.onStop();
+        //mapView.onStop();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mapView.onLowMemory();
+        //mapView.onLowMemory();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
+        //mapView.onDestroy();
 
         //Bluetooth
         if (bluetoothService != null) {
@@ -364,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
+        //mapView.onSaveInstanceState(outState);
     }
 
     //Performs speed dial initialization
@@ -667,8 +672,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         AlertDialog.Builder builderPaths = new AlertDialog.Builder(MainActivity.this);
                         builderPaths.setTitle("Flight Paths")
+                                .setPositiveButton("Open", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        openFragment("FLIGHTPATH");
+                                    }
+                                })
                                 .setItems(sessions, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
+                                        flightPathData = new Bundle();
+                                        //List<Waypoint> waypoints = populate();
+                                        List<Waypoint> waypoints = mDatabaseHelper.getWaypoints(lmaoStringFix[which], "Plane");
+                                        ArrayList<Waypoint> bundleList = new ArrayList<Waypoint>(waypoints);
+                                        flightPathData.putSerializable("WAYPOINTS",bundleList);
+                                        openFragment("FLIGHTPATH");
                                           // TODO: Add flight path activity
 //                                        // The 'which' argument contains the index position
 //                                        // of the selected item
@@ -870,6 +887,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.d("TEST", waterDropString+habitatDropString+gliderDropString);
                 fragment = new InflatedDisplayFields(waterDropString, habitatDropString, gliderDropString);
 
+                break;
+            case "FLIGHTPATH":
+                fragment = new FlightPathFragment();
+                fragment.setArguments(flightPathData);
                 break;
             default:
                 Log.d("MainActivity", "Failed to create fragment");
@@ -1267,7 +1288,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //Called from fragments that need access to map object
     public MapboxMap passMap() {
-        return this.map; }
+        return this.map;
+    }
 
     //Bluetooth Functions
     private void setup() {
@@ -1504,5 +1526,43 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String address = data.getExtras().getString(BluetoothDevices.EXTRA_DEVICE_ADDRESS);
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
         bluetoothService.connect(device, secure);
+    }
+
+    //Test method to make test points
+    public ArrayList<Waypoint> populate() {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyy_MM_dd-HH:mm:ss_z");
+        String sessionId = formatter.format(date);
+        double altitude = 100;
+        double speed = 10;
+        double heading = 90;
+        String location = "28.0394650,-81.9498040";
+        int sid = 0;
+        double drop = 10;
+        double gliderDropHeight = 11;
+        double roll = 0;
+        double pitch = 0;
+        double yaw = 20;
+        String flight_type = "P";
+        ArrayList<Waypoint> testArray = new ArrayList<Waypoint>();
+
+        for (int i = 0; i < 100; i++) {
+            altitude += 1;
+            speed += 1;
+            heading += 1;
+            sid += 1;
+            String[] split = location.split(",");
+            double latitude = Double.parseDouble(split[0]);
+            double longitude = Double.parseDouble(split[1]);
+            latitude += 0.001;
+            longitude += 0.001;
+            yaw += 0.1;
+            location = Double.toString(latitude) + "," + Double.toString(longitude);
+            Waypoint point = new Waypoint(sessionId,sid,location,altitude,speed,heading,drop,gliderDropHeight,roll,pitch,yaw);
+            testArray.add(point);
+        }
+
+        return testArray;
+
     }
 }

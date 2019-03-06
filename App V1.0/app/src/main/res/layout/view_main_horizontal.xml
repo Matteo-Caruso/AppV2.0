@@ -46,7 +46,6 @@
         mapbox:mapbox_cameraTargetLng="-97.4155650"
         mapbox:mapbox_cameraZoom="11"
         mapbox:mapbox_styleUrl="mapbox://styles/mapbox/satellite-streets-v9">
-
     </com.mapbox.mapboxsdk.maps.MapView>
 
     <!-- Below, we include the layout for the display fields, allowing them to be viewed in the main activity-->
@@ -109,8 +108,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
