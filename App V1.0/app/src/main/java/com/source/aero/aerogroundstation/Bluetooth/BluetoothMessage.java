@@ -20,7 +20,7 @@ public class BluetoothMessage {
     public BluetoothMessage() {
         //Initialize default values for motors
         for (int i = 0; i < 16; i++) {
-            motors[i] = BluetoothConstantsInterface.MOTOROFF;
+            motors[i] = 0;
         }
     }
 

@@ -9,6 +9,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +71,14 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     boolean endPath = false;
     boolean startPath = true;
     boolean playMode = false;
+
+
+    private TextView currentAltitude;
+    private TextView currentPayload;
+    private TextView currentDropAltitude;
+    private TextView currentSpeed;
+    private TextView currentTimeToTarget;
+    private TextView currentDistanceToTarget;
 
     Handler handler;
 
@@ -169,22 +179,42 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         //Initialize textview elements
         TextView altitudeVal = (TextView) getView().findViewById(R.id.flightPathAltitudeVal);
         TextView speedVal = (TextView)  getView().findViewById(R.id.flightPathSpeedVal);
-        TextView headingVal = (TextView)  getView().findViewById(R.id.flightPathHeadingVal);
-        TextView dropHeightVal = (TextView)  getView().findViewById(R.id.flightPathDropHeightVal);
+        //TextView headingVal = (TextView)  getView().findViewById(R.id.flightPathHeadingVal);
+
+        TextView waterDropHeightVal = (TextView)  getView().findViewById(R.id.waterDropHeightVal);
+        TextView habitatDropHeightVal = (TextView)  getView().findViewById(R.id.habitatDropHeightVal);
+        TextView gliderDropHeightVal  = (TextView)  getView().findViewById(R.id.gliderDropHeightVal);
+
         TextView rollVal = (TextView)  getView().findViewById(R.id.flightPathRollVal);
         TextView pitchVal = (TextView)  getView().findViewById(R.id.flightPathPitchVal);
         TextView yawVal = (TextView)  getView().findViewById(R.id.flightPathYawVal);
-        TextView locationVal = (TextView) getView().findViewById(R.id.flightPathLocationVal);
+        //TextView locationVal = (TextView) getView().findViewById(R.id.flightPathLocationVal);
 
         //Update textviews for current point
         altitudeVal.setText(getString(R.string.flightPathAltitudeFormatString,point.getAltitude()));
         speedVal.setText(getString(R.string.flightPathSpeedFormatString,point.getSpeed()));
-        headingVal.setText(getString(R.string.flightPathHeadingFormatString,point.getHeading()));
-        dropHeightVal.setText(getString(R.string.flightPathAltitudeFormatString,point.getAltitude()));
+        //headingVal.setText(getString(R.string.flightPathHeadingFormatString,point.getHeading()));
+
+        if(point.getWaterDrop() > 0)
+        {
+            waterDropHeightVal .setText(getString(R.string.flightPathAltitudeFormatString, point.getWaterDrop()));
+        }
+
+        if(point.getHabitatDrop() > 0)
+        {
+            habitatDropHeightVal .setText(getString(R.string.flightPathAltitudeFormatString, point.getHabitatDrop()));
+        }
+
+        if(point.getGliderDrop() > 0)
+        {
+            gliderDropHeightVal .setText(getString(R.string.flightPathAltitudeFormatString, point.getGliderDrop()));
+        }
+
+
         rollVal.setText(getString(R.string.flightPathRollFormatString,point.getRoll()));
         pitchVal.setText(getString(R.string.flightPathPitchFormatString,point.getPitch()));
         yawVal.setText(getString(R.string.flightPathYawFormatString,point.getYaw()));
-        locationVal.setText(point.getLocation());
+        //locationVal.setText(point.getLocation());
     }
 
     public void play() {
@@ -265,9 +295,10 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
 
     //Convert string location to LatLng
     public LatLng convertToLatLng(String locat) {
+        Log.d("LatLngCnv", locat);
         String[] split = locat.split(",");
-        double latitude = Double.parseDouble(split[0]);
-        double longitude = Double.parseDouble(split[1]);
+        double latitude = Double.parseDouble(split[0].substring(17,27));
+        double longitude = Double.parseDouble(split[1].substring(11,21));
         LatLng location = new LatLng(latitude,longitude);
         return location;
     }
@@ -292,6 +323,27 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
                     LatLng location = convertToLatLng(point.getLocation());
                     points.add(location);
                     showing[i] = showVal + 1;
+
+                    if(point.getWaterDrop() != 0 )
+                    {
+                        Marker m = map.addMarker(new MarkerOptions()
+                                .title("Water")
+                                .position(location));
+                    }
+
+                    if(point.getHabitatDrop() != 0 )
+                    {
+                        Marker mm = map.addMarker(new MarkerOptions()
+                                .title("Habitat")
+                                .position(location));
+                    }
+
+                    if(point.getGliderDrop() != 0 )
+                    {
+                        Marker mmm = map.addMarker(new MarkerOptions()
+                                .title("Glider")
+                                .position(location));
+                    }
                 }
             }
         }
@@ -388,6 +440,10 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
             return null;
         }
     }
+
+    //Close current fragment on back press
+    //Status tab should always be closed
+
 
 }
 

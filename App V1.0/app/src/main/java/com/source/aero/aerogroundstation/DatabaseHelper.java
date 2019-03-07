@@ -95,25 +95,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //ON CREATE ONLY RUNS ONCE
         // Check to see if database exits
         File dbFile = new File(DB_PATH + DATABASE_NAME);
-        Log.d("Data", "ON CREATE RUNNNNINNININNIGGG");
+        Log.d("Data", "Database onCreate...");
         //Good idea to check if name of db already exists but we know to avoid that problem
 
         boolean exists = dbFile.exists();
         db.execSQL("PRAGMA foreign_keys=TRUE;");
 
         // If database does not exist, create a session table
-            db.execSQL("CREATE TABLE " + SESSION_TABLE_NAME + " (" + SESSION_TABLE_COL_ID + " TEXT PRIMARY KEY, " +
+        db.execSQL("CREATE TABLE " + SESSION_TABLE_NAME + " (" + SESSION_TABLE_COL_ID + " TEXT PRIMARY KEY, " +
                     SESSION_TABLE_COL_FILEPATH + " TEXT)");
-
-//            db.execSQL("CREATE TABLE " + FLIGHTPATH_TABLE_NAME + " (" + FLIGHTPATH_TABLE_COL_SESSION + " TEXT, " +
-//                    FLIGHTPATH_TABLE_COL_WAYPOINT + " INTEGER, " +
-//                    FLIGHTPATH_TABLE_COL_LOCATION + " BLOB, " +
-//                    FLIGHTPATH_TABLE_COL_ALT + " REAL, " +
-//                    FLIGHTPATH_TABLE_COL_SPEED + " REAL, " +
-//                    FLIGHTPATH_TABLE_COL_HEAD + " REAL, " +
-//                    "PRIMARY KEY (" + FLIGHTPATH_TABLE_COL_SESSION + ", " + FLIGHTPATH_TABLE_COL_WAYPOINT + "), " +
-//                    "FOREIGN KEY " + FLIGHTPATH_TABLE_COL_SESSION + " `REFERENCES` " + SESSION_TABLE_NAME + " (" + SESSION_TABLE_COL_ID + ") " +
-//                    "ON DELETE CASCADE ON UPDATE NO ACTION)");
 
         //Creating a FlightPath table
         db.execSQL("CREATE TABLE " + FLIGHTPATH_TABLE_NAME + " (" + FLIGHTPATH_TABLE_COL_SESSION + " TEXT, " +
@@ -180,20 +170,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("drop", String.valueOf(wdropHeight) + " " + String.valueOf(hdropHeight)+ " " + String.valueOf(gliderDropHeight));
 
         // Get current date and create new session variables
-
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_z");
-//
-//        Date formattedDate = new Date();
-//
-//        try {
-//            formattedDate = formatter.parse(sessionID);
-//            System.out.println(formattedDate);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//        String sessionName = formatter.format(formattedDate);
         Log.d("Add Point", sessionID);
+
         //Insert session into DB
         ContentValues contentValues = new ContentValues();
         contentValues.put(FLIGHTPATH_TABLE_COL_SESSION, sessionID);
@@ -284,7 +262,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Stores the data from the Sessions table
         List<String> sessions = new ArrayList<>();
 
-        //Cursor dbCursor = db.rawQuery("SELECT * FROM " + FLIGHTPATH_TABLE_NAME + " WHERE " + FLIGHTPATH_TABLE_COL_SESSION + " 0", null);
         //Setting up a cursor that will scan through the Flight path table 
         Cursor cursor = db.rawQuery("SELECT DISTINCT * FROM " + FLIGHTPATH_TABLE_NAME, null);
 
@@ -313,14 +290,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Database object
         SQLiteDatabase db = this.getReadableDatabase();
         
-        //List stores the data from the FlightPath table
+        // List stores the data from the FlightPath table
         List<Waypoint> waypointList = new ArrayList<Waypoint>();
         Log.d("Getting", sessionID);
 
         // Cursor object
-        //Cursor cursor = db.rawQuery("SELECT * FROM " + FLIGHTPATH_TABLE_NAME + " WHERE " + FLIGHTPATH_TABLE_COL_SESSION + " =" + sessionID + ";", null);
         Cursor cursor = db.rawQuery("SELECT * FROM " + FLIGHTPATH_TABLE_NAME + " WHERE " + FLIGHTPATH_TABLE_COL_SESSION + " =? AND " + FLIGHTPATH_TABLE_COL_TYPE + " = '" + flight_type +"'", new String[] {sessionID});
-        //Added another condition to the query where the cursor only gathers data that matches the specified flight type
+        // Added another condition to the query where the cursor only gathers data that matches the specified flight type
         
         // Return data
         Log.d("Get", String.valueOf(cursor.getCount()));
@@ -338,7 +314,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 double wdropHeight = cursor.getDouble(6);
                 double hdropHeight = cursor.getDouble(7);
                 double gliderDropHeight = cursor.getDouble(8);
-
                 double roll = cursor.getDouble(9);
                 double pitch = cursor.getDouble(10);
                 double yaw = cursor.getDouble(11);
@@ -378,14 +353,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // Iterate over cursor and store data
             buffer.append("#Session: " + sessionID + "\n");
             buffer.append(FLIGHTPATH_TABLE_COL_WAYPOINT + ", " + FLIGHTPATH_TABLE_COL_LOCATION + ", " + FLIGHTPATH_TABLE_COL_ALT + ", " + FLIGHTPATH_TABLE_COL_SPEED + ", " + FLIGHTPATH_TABLE_COL_HEAD + "\n");
-//            while (cursor.moveToNext()) {
-//                buffer.append(cursor.getString(1) + ", " + cursor.getString(2) + ", " + cursor.getString(3) + ", " + cursor.getString(4) + ", " + cursor.getString(5));
-//            }
 
             for (Iterator<Waypoint> iter = waypoints.iterator(); iter.hasNext(); ) {
                 Waypoint w = iter.next();
                 buffer.append(w.getName() + ", " + w.getID() + ", " + w.getLocation() + ", " + w.getAltitude() + ", " + w.getSpeed() + ", " +w.getHeading());
-//
             }
 
             // Get filepath
@@ -446,7 +417,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM " + SESSION_TABLE_NAME);
         db.execSQL("DELETE FROM " + TARGET_TABLE_NAME);
         db.close();
-
     }
 }
 

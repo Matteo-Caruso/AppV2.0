@@ -44,7 +44,7 @@
         mapbox:layout_constraintTop_toTopOf="parent"
         mapbox:mapbox_cameraTargetLat="32.6759782"
         mapbox:mapbox_cameraTargetLng="-97.4155650"
-        mapbox:mapbox_cameraZoom="11"
+        mapbox:mapbox_cameraZoom="8"
         mapbox:mapbox_styleUrl="mapbox://styles/mapbox/satellite-streets-v9">
     </com.mapbox.mapboxsdk.maps.MapView>
 

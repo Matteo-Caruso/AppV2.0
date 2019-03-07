@@ -73,26 +73,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // String for configuration that the system boots into
     String configuration;
 
-    private ArrayList<Integer> dropOrder;
-
-    private static final int NONE = 0;
+    // I FORGOT WHY
     private static final int WATER = 1;
     private static final int GLIDER = 2;
     private static final int HABITAT = 3;
-
 
     // Database helper functionality
     public DatabaseHelper mDatabaseHelper;
     private String dbName = "AeroDB";
     private boolean mRecording;             // Variable that is true if we are in recording mode. Else false
     private int MAX_POINTS = 100;           // Buffer of points stored
+    private boolean sessionCreated;
+    protected String recordingSession;
+    private int waypointID;
+    private int dropped;
 
-    private boolean waterDropped;
-    private boolean habitatDropped;
-    private String payloadString;
-    private boolean gliderDropped;
-    private String dropString;
-
+    // String values for drop string and drop height string
     private String waterTextString = "N/A\n";
     private String waterDropString;
     private String habitatDropString;
@@ -100,40 +96,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String gliderDropString;
     private String gliderTextString = "N/A";
 
-    private int lastDroppedWasGlider;
-
     //Mapbox elements
     private MapView mapView;
     private MapboxMap map;
 
+    // Map markers
     protected Marker planeMarker;
-    Marker mPayload;
-    Marker mCDA;
+    protected Marker mPayload;
+    protected Marker mCDA;
     protected Marker lastPosition;
+
+    // Other map elements
     protected Polyline planePath;
     protected IconFactory factory;
     protected Bitmap icon;
+
+    // Bundle
     Bundle flightPathData;
 
     //Ui Elements
     BottomNavigationView bottomNavigationView;
     SpeedDialView speedDialView;
     SpeedDialView motorSpeedDialView;
-    DrawerLayout drawerLayout;
-    int drawerMenu = 0;
+    DrawerLayout drawerLayout
     Spinner spinner;
     NavigationView navigationView;
     ImageButton statusTabButton;
     ArrayList<LatLng> points;
-
-    private boolean sessionCreated;
-
-    protected String recordingSession;
-    private int waypointID;
-
-    int dropped;
-
-    boolean[] motorState = new boolean[16];
+    int drawerMenu = 0;
 
     //Bluetooth Elements
     //Request Codes
@@ -141,7 +131,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
     private static final int REQUEST_ENABLE_BT = 3;
     boolean bluetoothDisplayed = false;
+    private BluetoothAdapter bluetoothAdapter = null;
+    private BluetoothService bluetoothService = null;
+    private StringBuffer dataBuffer;
+    private int discoveryTime = 300;
+    private String connectedDevice = null;
+    boolean[] motorState = new boolean[16];
 
+    // Data text views
     private TextView currentAltitude;
     private TextView currentPayload;
     private TextView currentDropAltitude;
@@ -149,28 +146,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView currentTimeToTarget;
     private TextView currentDistanceToTarget;
 
-
-    //private ListView logView;
-    private EditText editTextView;
-    private Button sendButton;
-    //private ArrayAdapter<String> logArrayAdapter;
-    /*private TextView.OnEditorActionListener writeListener = new TextView.OnEditorActionListener() {
-        @Override
-        public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-            if (i == EditorInfo.IME_NULL && keyEvent.getAction() == KeyEvent.ACTION_UP) {
-                String data = textView.getText().toString();
-                send(data);
-            }
-            return true;
-        }
-    };*/
-
-    private BluetoothAdapter bluetoothAdapter = null;
-    private BluetoothService bluetoothService = null;
-    private StringBuffer dataBuffer;
-    private int discoveryTime = 300;
-    private String connectedDevice = null;
-
+    // Vehicles
     private Vehicles vehicleManager;
 
     @Override
@@ -193,24 +169,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Points for creating polyline
         points = new ArrayList<>();
-        dropOrder = new ArrayList<>();
 
         mRecording = false;
-<<<<<<< HEAD
-        boolean droppped = false;
-        lastDroppedWasGlider = NONE;
-=======
-        boolean dropped = false;
->>>>>>> 6997ac2b12dd382a64166d3506722f6bfc83239e
+        dropped = 0;
 
-        payloadString = "";
-        waterDropped = false;
-        habitatDropped = false;
-        dropString = "";
         waterDropString = "N/A\n";
         habitatDropString= "N/A\n";
         gliderDropString= "N/A";
-        gliderDropped = false;
+
         sessionCreated = false;
 
         recordingSession = null;
@@ -228,12 +194,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent intent = getIntent();
         configuration = intent.getStringExtra("CONFIGURATION");
 
-        //Bluetooth Setup
-        //Get local bluetooth adapter
+        //Bluetooth Setup. Get local bluetooth adapter
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        //logView = (ListView) findViewById(R.id.bluetooth_messageView);
-        //editTextView = (EditText) findViewById(R.id.bluetooth_sendMsgEditTextView);
-        //sendButton = (Button) findViewById(R.id.bluetooth_sendMsgButton);
 
         initTextDisplay();
 
@@ -266,9 +228,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         currentDistanceToTarget = (TextView) findViewById(R.id.currentDistanceToTarget);
         currentDistanceToTarget.setText("N/A");
-
-//        currentDropAltitude.setText(waterDropString + habitatDropString + gliderDropString);
-//        currentPayload.setText(waterTextString + habitatDropString + gliderDropString);
     }
 
     @Override
@@ -480,10 +439,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         Toast.makeText(MainActivity.this,"Dropping water...", Toast.LENGTH_SHORT).show();
 
-                        updateDropped(1);
                         if(mRecording)
                         {
-                            // addWaypointToDb("Plane");
+                            addWaypointToDb("Plane");
                         }
 
                         if(configuration.equals("DEBUG")) { waterDropString = "100 \n"; }
@@ -495,8 +453,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             mPayload = map.addMarker(new MarkerOptions()
                                     .title("Water")
                                     .position(new LatLng(28.0394650, -81.9498040)));
-
-
                         }
                         else
                         {
@@ -507,14 +463,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         currentDropAltitude.setText(waterDropString + habitatDropString + gliderDropString);
 
-
-
-                        waterDropped = true;
-                        dropOrder.add(WATER);
                         dropped = WATER;
 
                         waterTextString = "Water\n";
-                        currentPayload.setText(waterTextString + habitatDropString + gliderDropString);
+                        currentPayload.setText(waterTextString + habitatTextString + gliderTextString);
 
                         break;
                     case R.id.motorSpeedDialAction2:
@@ -527,18 +479,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         Toast.makeText(MainActivity.this,"Dropping habitats...", Toast.LENGTH_SHORT).show();
 
-                        updateDropped(HABITAT);
                         if(mRecording)
                         {
 
-                            //addWaypointToDb("Plane");
+                            addWaypointToDb("Plane");
                         }
 
                         // If we requested a drop, then define the drop string
                         // If we are in DEBUG, use a FAKE height. COMP build uses actual height
 
                             if(configuration.equals("DEBUG")) { habitatDropString = "75 ft\n"; }
-                            else { habitatDropString = String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude()) +"ft\n";}
+                            else { habitatDropString = String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude()) +" ft\n";}
 
 
 
@@ -555,16 +506,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 .position(new LatLng(vehicleManager.getPlaneData().readPlaneLatitude(), vehicleManager.getPlaneData().readPlaneLongitude())));
                     }
 
-                        currentDropAltitude.setText(waterDropString + habitatDropString + gliderDropString);
+                    currentDropAltitude.setText(waterDropString + habitatDropString + gliderDropString);
 
-
-                    dropOrder.add(HABITAT);
-
-                    habitatDropped = true;
                     dropped = HABITAT;
                     habitatTextString = "Habitat\n";
                     currentPayload.setText(waterTextString + habitatTextString + gliderTextString);
-                        break;
+                    break;
 
                     case R.id.motorSpeedDialAction3:
                         motorSpeedDialView.close();
@@ -573,17 +520,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         command.setDropRequest(BluetoothConstantsInterface.DROPGLIDERS);
                         send(command.makeMessage());
                         Toast.makeText(MainActivity.this,"Dropping gliders...", Toast.LENGTH_SHORT).show();
-                        updateDropped(2);
+
                         if(mRecording)
                         {
-
-                            //addWaypointToDb("Plane");
+                            addWaypointToDb("Plane");
                         }
 
-
-                            if(configuration.equals("DEBUG")) { gliderDropString = "50 ft"; }
-                            else { gliderDropString = String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude())+" ft";}
-
+                        if(configuration.equals("DEBUG")) { gliderDropString = "50 ft"; }
+                        else { gliderDropString = String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude())+" ft";}
 
                         // Add marker and drop string
                         if(configuration.equals("DEBUG"))
@@ -602,8 +546,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         gliderTextString = "Glider";
                         currentPayload.setText(waterTextString + habitatTextString + gliderTextString);
 
-                        dropOrder.add(GLIDER);
-                        gliderDropped = true;
                         dropped = GLIDER;
 
                         break;
@@ -631,22 +573,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    private void updateDropped(int dropCode)
-    {
-        if(dropCode == 1)
-        {
-            // TODO: Add water marker to lat/lon
-        }
-        else if(dropCode == 2)
-        {
-            // TODO: Add glider market to lat/lon
-        }
-        else if(dropCode == 3)
-        {
-            // TODO: Drop habitat
-        }
-    }
-
     //Initialize bottom navigation bar
     private void initBottomNavigationBar() {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.mainActivityBottomNavigationView);
@@ -664,6 +590,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         // Get list of database sessions
                         List<String> sessionList = mDatabaseHelper.getFlightSessions();
 
+                        for(String s : sessionList)
+                        {
+                            Log.d("Sessions", s);
+                        }
+
                         String[] sessions = new String[sessionList.size()];
                         sessions = sessionList.toArray(sessions);
 
@@ -672,35 +603,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         AlertDialog.Builder builderPaths = new AlertDialog.Builder(MainActivity.this);
                         builderPaths.setTitle("Flight Paths")
-                                .setPositiveButton("Open", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        openFragment("FLIGHTPATH");
-                                    }
-                                })
                                 .setItems(sessions, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         flightPathData = new Bundle();
-                                        //List<Waypoint> waypoints = populate();
+
                                         List<Waypoint> waypoints = mDatabaseHelper.getWaypoints(lmaoStringFix[which], "Plane");
+
                                         ArrayList<Waypoint> bundleList = new ArrayList<Waypoint>(waypoints);
                                         flightPathData.putSerializable("WAYPOINTS",bundleList);
                                         openFragment("FLIGHTPATH");
-                                          // TODO: Add flight path activity
-//                                        // The 'which' argument contains the index position
-//                                        // of the selected item
-//
-//                                        Intent intent = new Intent(MainActivity.this, FlightPathActivity.class);
-//
-//                                        //Session is the name of the flight path we want to go through
-//
-//                                        List<Waypoint> waypoints = mDatabaseHelper.getWaypoints(lmaoStringFix[which], "Plane");
-//
-//                                        //Log.d("Waypoints", waypoints.get(0).getName() + " " + waypoints.get(0).getLocation());
-//                                        ArrayList<Waypoint> intentList = new ArrayList<Waypoint>(waypoints);
-//
-//                                        intent.putExtra("waypoints", intentList);
-//                                        MainActivity.this.startActivity(intent);
                                     }
                                 })
                                 .setNegativeButton("Close",new DialogInterface.OnClickListener() {
@@ -717,15 +628,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         return true;
                     case R.id.mainActivityBottomNavigationTargets:
                         onBackPressed();
-                        //TODO:Open targets fragment
-                        // Get list of database targets
 
                         List<Target> targetList = mDatabaseHelper.getTargets();
-//                        List<Target> targetList = new ArrayList<Target>();
-//                        targetList.add(new Target("Hello", "Test"));
-//                        targetList.add(new Target("Hello", "Test"));
 
                         List<String> targetNames = new ArrayList<String>();
+
                         for(Target target : targetList)
                         {
                             targetNames.add(target.getName());
@@ -792,7 +699,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 break;
                             case R.id.navigationDrawerItem2:
                                 if (drawerMenu == 0) {
-
                                     // TODO: Request current altitude to use as offset for incoming altitude values
                                     message = new BluetoothMessage();
                                     message.setMsgType((short)1);
@@ -850,17 +756,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
-
-//    //Initialize statustab fragment
-//    public void initStatusTab() {
-//        statusTabButton = (ImageButton) findViewById(R.id.mainActivityStatusTab);
-//        statusTabButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                openFragment("STATUSTAB");
-//            }
-//        });
-//    }
 
     //Create fragment on top of main
     public void openFragment(String fragmentType) {
@@ -950,9 +845,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mCDA = null;
             }
         }
-
-
-
     }
 
     //------------------------------------------------- Below is the implementation for when the display field values need to be adjusted -----------------------------------------------------------
@@ -961,9 +853,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     {
         // Update value
         currentAltitude.setText(String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude()));
-
-
-
         currentSpeed.setText(String.valueOf(vehicleManager.getPlaneData().readPlaneSpeed()));
 
         // TODO: Calculate distance to target based on plane position and target position
@@ -980,19 +869,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             currentTimeToTarget.setText(String.valueOf(time) +" s");
         }
 
-
         updatePlane();
     }
 
     //------------------------------------------------- Below is the implementation of the motor dialogue when a button is selected -----------------------------------------------------------
-    // TODO: Implement the functionality of the motor dialogue
     public void motorDialogueSelect(View view)
     {
         int id = view.getId();
         BluetoothMessage message = new BluetoothMessage();
         switch(id)
         {
-
             case R.id.motorOneOpenButton: {
                 message = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
                 message.setMsgType((short)1);
@@ -1002,7 +888,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(getApplicationContext(),"Turning Motor 1 On", Toast.LENGTH_SHORT).show();
                 break;
             }
-
             case R.id.motorOneCloseButton:
             {
                 message = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
@@ -1013,7 +898,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(getApplicationContext(),"Turning Motor 1 Off", Toast.LENGTH_SHORT).show();
                 break;
             }
-
             case R.id.motorTwoOpenButton:
             {
                 message = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
@@ -1024,7 +908,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(getApplicationContext(),"Turning Motor 2 On", Toast.LENGTH_SHORT).show();
                 break;
             }
-
             case R.id.motorTwoCloseButton:
             {
                 message = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
@@ -1035,7 +918,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(getApplicationContext(),"Turning Motor 2 Off", Toast.LENGTH_SHORT).show();
                 break;
             }
-
             case R.id.motorThreeOpenButton:
             {
                 message = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
@@ -1046,7 +928,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(getApplicationContext(),"Turning Motor 3 On", Toast.LENGTH_SHORT).show();
                 break;
             }
-
             case R.id.motorThreeCloseButton:
             {
                 message = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
@@ -1057,7 +938,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(getApplicationContext(),"Turning Motor 3 Off", Toast.LENGTH_SHORT).show();
                 break;
             }
-
             case R.id.motorFourOpenButton:
             {
                 message = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
@@ -1068,7 +948,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(getApplicationContext(),"Turning Motor 4 On", Toast.LENGTH_SHORT).show();
                 break;
             }
-
             case R.id.motorFourCloseButton:
             {
                 message = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
@@ -1079,7 +958,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(getApplicationContext(),"Turning Motor 4 Off", Toast.LENGTH_SHORT).show();
                 break;
             }
-
             case R.id.motorFiveOpenButton:
             {
                 message = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
@@ -1090,7 +968,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(getApplicationContext(),"Turning Motor 5 On", Toast.LENGTH_SHORT).show();
                 break;
             }
-
             case R.id.motorFiveCloseButton:
             {
                 message = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
@@ -1101,7 +978,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(getApplicationContext(),"Turning Motor 5 Off", Toast.LENGTH_SHORT).show();
                 break;
             }
-
             case R.id.motorSixOpenButton:
             {
                 message = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
@@ -1112,7 +988,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(getApplicationContext(),"Turning Motor 6 On", Toast.LENGTH_SHORT).show();
                 break;
             }
-
             case R.id.motorSixCloseButton:
             {
                 message = new BluetoothMessage();     // Need default on button push cause then you will clobber commands
@@ -1163,15 +1038,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .addAll(points)
                 .color(Color.parseColor("#3bb2d0"))
                 .width(1));
-
-//        //From old code, leaving in till we deal with drop
-//        wayPointCount++;
-//
-//        if (dropped) {
-//            droppedCount = wayPointCount;
-//        }
-
-
     }
 
     //------------------------------------------------- Below is the implementation of increasing or decreasing display field font size when selected -----------------------------------------------------------
@@ -1179,20 +1045,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     {
         onBackPressed();
         openFragment("INFLATEDDISPLAYFIELDS");
-
-
-//        //The field values can be changed as follows:
-//        TextView payloadDropAltitude = (TextView) findViewById(R.id.payloadDropAltitude);
-//        payloadDropAltitude.setText("N/A");
-//
-//        TextView cdaDropAltitude = (TextView) findViewById(R.id.cdaDropAltitude);
-//        cdaDropAltitude.setText("N/A");
-//
-//        //NOTE: The values can be changed as above using any function
-//
-        /*InflatedDisplayFields fragment_obj = (InflatedDisplayFields)getSupportFragmentManager().findFragmentByTag("INFLATEDDISPLAYFIELDS");
-        fragment_obj.*/
-
     }
 
     void addWaypointToDb(String flightType)
@@ -1207,9 +1059,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         else{
             waypointID += 1;
-            boolean g = false;
+            boolean databaseAddSuccess = false;
             if(dropped == WATER){
-                  g =mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
+                databaseAddSuccess = mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
                           (float)vehicleManager.getPlaneData().readPlaneAltitude(),
                           (float)vehicleManager.getPlaneData().readPlaneSpeed(),
                           (float)vehicleManager.getPlaneData().readPlaneYaw(),
@@ -1223,7 +1075,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 dropped = 0;
             }
             else if(dropped == HABITAT){
-                g =mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
+                databaseAddSuccess = mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
                         (float)vehicleManager.getPlaneData().readPlaneAltitude(),
                         (float)vehicleManager.getPlaneData().readPlaneSpeed(),
                         (float) 0.0,
@@ -1237,7 +1089,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 dropped = 0;
             }
             else if(dropped == GLIDER){
-                g =mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
+                databaseAddSuccess = mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
                         (float)vehicleManager.getPlaneData().readPlaneAltitude(),
                         (float)vehicleManager.getPlaneData().readPlaneSpeed(),
                         (float) 0.0,
@@ -1251,7 +1103,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 dropped = 0;
             }
             else{
-                g =mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
+                databaseAddSuccess =mDatabaseHelper.addWaypoint(recordingSession, waypointID, points.get(points.size()-1).toString(),
                         (float)vehicleManager.getPlaneData().readPlaneAltitude(),
                         (float)vehicleManager.getPlaneData().readPlaneSpeed(),
                         (float)vehicleManager.getPlaneData().readPlaneYaw(),
@@ -1264,7 +1116,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         flightType);
             }
 
-            Log.d("Waypointc", String.valueOf(g));
+            Log.d("Database addition flag: ", String.valueOf(databaseAddSuccess));
 
         }
     }
@@ -1281,7 +1133,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             fragmentTransaction.remove(existingFragment).commit();
             speedDialView.show();
             bottomNavigationView.setVisibility(View.VISIBLE);
-            //statusTabButton.setVisibility(View.VISIBLE);
             getSupportActionBar().hide();
         }
     }
@@ -1293,22 +1144,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //Bluetooth Functions
     private void setup() {
-        //logArrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_bluetoothlog);
-        //logView.setAdapter(logArrayAdapter);
-
-        //editTextView.setOnEditorActionListener(writeListener);
-
-        /*sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                if (null != view) {
-                    TextView textView = (TextView) findViewById(R.id.bluetooth_sendMsgEditTextView);
-                    String data = textView.getText().toString();
-                    send(data);
-                }
-            }
-        });*/
-
         //Initialize bluetooth connections
         bluetoothService = new BluetoothService(this, handler);
         dataBuffer = new StringBuffer("");
@@ -1335,19 +1170,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Send data
     private void send(byte[] data) {
         Log.d(TAG, "Sending data...");
-        
-        // Lat/Lon multiplied by 1000000 to remove decimals
-        // Test message with target GPS coordinates pointing to ACEB building for testing gnd station -> onboard
-        ////                                  start type  lat         lon         calibrate rssi drop gliders motors
-        byte[] send;
-        //Check configuration to determine message
-        if (configuration.equals("DEBUG")) {
-            //send = hexStringToByteArray("0a0004029035D0FB27D200010201020000000100020003000400050006000700080009000a000b000c000d000e000f0000ff");
-            send = data;
-        }
-        else {
-            send = data;
-        }
 
         //Check device is connected
         if (bluetoothService.getState() != BluetoothService.STATE_CONNECTED) {
@@ -1355,18 +1177,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         }
 
-        bluetoothService.write(send);
-
-        //For sending strings
-        /*if (data.length() > 0) {
-            byte[] send = data.getBytes();
-
-            //bluetoothService.write(send);
-            bluetoothService.write(testMessage);
-
-            dataBuffer.setLength(0);
-            editTextView.setText(dataBuffer);
-        }*/
+        bluetoothService.write(data);
     }
     
     // Thiss function takes in a string that represents an incoming bluetooth msg from the HC-05
@@ -1390,6 +1201,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 switch (parser.whoIsThisMesssageFor)
                 {
+                    case 0:
                     case 1:
                     case 4:
                     {
@@ -1399,17 +1211,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         vehicleManager.updatePlane(parser);
 
+                        Log.d("LatLng", String.valueOf(vehicleManager.getPlaneData().readPlaneLatitude()) + " " + String.valueOf(vehicleManager.getPlaneData().readPlaneLongitude()));
                         LatLng planePoint =  new LatLng(vehicleManager.getPlaneData().readPlaneLatitude(), vehicleManager.getPlaneData().readPlaneLongitude());
+
                         if(points.size() > MAX_POINTS)
                         {
+
+                            Log.d(TAG, "Removing points to limit waypoint list size...");
                             points.remove(0);
+
                         }
                         points.add(planePoint);
 
                         // Check if recording to add to db
                         if(mRecording)
                         {
-                            //addWaypointToDb("Plane");
+                            Log.d(TAG, "Adding to db...");
+                            addWaypointToDb("Plane");
                         }
 
                         updateUI();
@@ -1455,6 +1273,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         case BluetoothService.STATE_CONNECTED:
                             //setStatus(getString(R.string.bluetooth_titleConnectedTo, connectedDevice));
                             //logArrayAdapter.clear();
+                            BluetoothMessage bMsg = new BluetoothMessage();
+                            bMsg.setMsgType((short) 1);
+                            send(bMsg.makeMessage());
                             break;
                         case BluetoothService.STATE_CONNECTING:
                             //setStatus(R.string.bluetooth_titleConnectedTo);
@@ -1486,7 +1307,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         readIncomingBluetoothData(readBuffer);
                     }
 
-                    //logArrayAdapter.add(connectedDevice + ": " + "New msg");
                     break;
                 case BluetoothConstantsInterface.MESSAGE_DEVICE_NAME:
                     connectedDevice = msg.getData().getString(BluetoothConstantsInterface.DEVICE_NAME);
@@ -1526,43 +1346,5 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String address = data.getExtras().getString(BluetoothDevices.EXTRA_DEVICE_ADDRESS);
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
         bluetoothService.connect(device, secure);
-    }
-
-    //Test method to make test points
-    public ArrayList<Waypoint> populate() {
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyy_MM_dd-HH:mm:ss_z");
-        String sessionId = formatter.format(date);
-        double altitude = 100;
-        double speed = 10;
-        double heading = 90;
-        String location = "28.0394650,-81.9498040";
-        int sid = 0;
-        double drop = 10;
-        double gliderDropHeight = 11;
-        double roll = 0;
-        double pitch = 0;
-        double yaw = 20;
-        String flight_type = "P";
-        ArrayList<Waypoint> testArray = new ArrayList<Waypoint>();
-
-        for (int i = 0; i < 100; i++) {
-            altitude += 1;
-            speed += 1;
-            heading += 1;
-            sid += 1;
-            String[] split = location.split(",");
-            double latitude = Double.parseDouble(split[0]);
-            double longitude = Double.parseDouble(split[1]);
-            latitude += 0.001;
-            longitude += 0.001;
-            yaw += 0.1;
-            location = Double.toString(latitude) + "," + Double.toString(longitude);
-            Waypoint point = new Waypoint(sessionId,sid,location,altitude,speed,heading,drop,gliderDropHeight,roll,pitch,yaw);
-            testArray.add(point);
-        }
-
-        return testArray;
-
     }
 }

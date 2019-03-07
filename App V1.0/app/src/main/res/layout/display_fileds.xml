@@ -23,9 +23,10 @@ android:orientation="vertical"
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:text="Payload: "
             android:layout_marginLeft="8dp"
             android:layout_marginRight="2dp"
-            android:text="Payload: "
             android:textStyle="bold"
             android:textColor="#6600CC"
             android:textSize="10pt" />

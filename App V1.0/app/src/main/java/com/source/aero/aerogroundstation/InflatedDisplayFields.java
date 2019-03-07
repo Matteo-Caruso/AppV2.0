@@ -44,7 +44,7 @@ public class InflatedDisplayFields extends Fragment{
     public void adjustTextValues(String water, String habitat, String cdaHeight)
     {
         TextView waterDrop = (TextView) getView().findViewById(R.id.waterDrop);
-        waterDrop.setText((water.substring(0, water.length()-1)) + " ft");
+        waterDrop.setText((water.substring(0, water.length()-1)));
 
         TextView nerfDrop = (TextView) getView().findViewById(R.id.nerfDrop);
         nerfDrop.setText(habitat.substring(0, habitat.length()-1));

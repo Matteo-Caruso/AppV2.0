@@ -29,21 +29,20 @@ public class Vehicles
         {
             mainPlane = new Plane();
         }
-        // here we update the plane members, using the message crated by the parser class
 
+        // here we update the plane members, using the message crated by the parser class
         mainPlane.updateRadioSignalStrength(messageData.rssiFromMessage);
         mainPlane.updatePlaneYaw(messageData.yawFromMessage/100.0);
         mainPlane.updatePlanePitch(messageData.pitchFromMessage/100.0);
         mainPlane.updatePlaneRoll(messageData.rollFromMessaage/100.0);
-        mainPlane.updatePlaneSpeed(messageData.speedFromMessage/100);                             // In METRES/S. TODO: Convert to Feet/s
-        mainPlane.updatePlaneAltitude(messageData.altFromMessage/10);   // In METRES. TODO: Convert to Feet
-        mainPlane.updatePlaneLatitude(messageData.latFromMessage/10000000.0);
-        mainPlane.updatePlaneLongitude(messageData.lonFromMessage/10000000.0);
+        mainPlane.updatePlaneSpeed((int)((messageData.speedFromMessage*3.28)/100));   // ft/s
+        mainPlane.updatePlaneAltitude((int)((messageData.altFromMessage*3.28)/10));   // ft
+        mainPlane.updatePlaneLatitude(messageData.latFromMessage / 10000000.0);
+        mainPlane.updatePlaneLongitude(messageData.lonFromMessage / 10000000.0);
 
         // here we set the drop location for the plane
         mainPlane.dropGliderPointLatitude(messageData.gDropLatFromMessage/10000000.0);
         mainPlane.dropGliderPointLongitude(messageData.gDropLonFromMessage/10000000.0);
-
     }
 
 
@@ -57,7 +56,6 @@ public class Vehicles
         }
 
         // here we update glider one data
-
         gliderOne.updateRadioSignalStrength(messageData.rssiFromMessage);
         gliderOne.updatePlaneYaw(messageData.yawFromMessage);
         gliderOne.updatePlanePitch(messageData.pitchFromMessage);
@@ -73,10 +71,6 @@ public class Vehicles
         // here we set the glider drop location
         gliderOne.updateGlidertargetLatitude(messageData.pDropLatFromMessage);
         gliderOne.updateGlidertargetLongitude(messageData.pDropLonFromMessage);
-
-
-        // whats left is to determine when to drop the payload
-
     }
 
     // come here if message is for glider 2
@@ -89,7 +83,6 @@ public class Vehicles
         }
 
         // here we update glider one data
-
         gliderOne.updateRadioSignalStrength(messageData.rssiFromMessage);
         gliderOne.updatePlaneYaw(messageData.yawFromMessage);
         gliderOne.updatePlanePitch(messageData.pitchFromMessage);
@@ -105,11 +98,6 @@ public class Vehicles
         // here we set the glider drop location
         gliderOne.updateGlidertargetLatitude(messageData.pDropLatFromMessage);
         gliderOne.updateGlidertargetLongitude(messageData.pDropLonFromMessage);
-
-
-        // whats left is to determine when to drop the payload
-
-
     }
 
     public Plane getPlaneData()

@@ -6,30 +6,39 @@
     android:id="@+id/constrainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <TableLayout
-        android:layout_width="166dp"
-        android:layout_height="172dp"
-        android:background="#80009688"
+
+        android:layout_width="350dp"
+        android:layout_height="280dp"
+        android:background="#804298f4"
         android:translationZ="2dp">
 
-        <TableRow
-            android:id="@+id/flightPathLocationRow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!--<TableRow-->
+            <!--android:id="@+id/flightPathLocationRow"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
-            <TextView
-                android:id="@+id/flightpathLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location" />
+            <!--<TextView-->
+                <!--android:id="@+id/flightpathLocation"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="8dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textColor="#6600CC"-->
+                <!--android:textSize="10pt"-->
+                <!--android:text="Location" />-->
 
-            <TextView
-                android:id="@+id/flightPathLocationVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/flightPathDataText" />
-        </TableRow>
+            <!--<TextView-->
+                <!--android:id="@+id/flightPathLocationVal"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/flightPathDataText"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:textColor="#6600CC"-->
+                <!--android:textSize="10pt"/>-->
+        <!--</TableRow>-->
 
         <TableRow
             android:id="@+id/flightPathAltitudeRow"
@@ -39,6 +48,11 @@
             <TextView
                 android:id="@+id/flightPathAltitude"
                 android:layout_width="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
                 android:layout_height="wrap_content"
                 android:text="Altitude" />
 
@@ -46,7 +60,11 @@
                 android:id="@+id/flightPathAltitudeVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/flightPathDataText" />
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
         </TableRow>
 
         <TableRow
@@ -57,6 +75,11 @@
             <TextView
                 android:id="@+id/flightPathSpeed"
                 android:layout_width="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
                 android:layout_height="wrap_content"
                 android:text="Speed" />
 
@@ -64,43 +87,121 @@
                 android:id="@+id/flightPathSpeedVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/flightPathDataText" />
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
         </TableRow>
 
+        <!--<TableRow-->
+            <!--android:id="@+id/flightHeadingRow"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/flightPathHeading"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_marginLeft="8dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textColor="#6600CC"-->
+                <!--android:textSize="10pt"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Heading" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/flightPathHeadingVal"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/flightPathDataText"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:textColor="#6600CC"-->
+                <!--android:textSize="10pt"/>-->
+        <!--</TableRow>-->
+
         <TableRow
-            android:id="@+id/flightHeadingRow"
+            android:id="@+id/waterDropHeightRow"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/flightPathHeading"
+                android:id="@+id/waterDropHeight"
                 android:layout_width="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
                 android:layout_height="wrap_content"
-                android:text="Heading" />
+                android:text="Water Drop Height" />
 
             <TextView
-                android:id="@+id/flightPathHeadingVal"
+                android:id="@+id/waterDropHeightVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/flightPathDataText" />
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
+
         </TableRow>
 
         <TableRow
-            android:id="@+id/flightPathDropHeightRow"
+            android:id="@+id/habitatDropHeightRow"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/flightPathDropHeight"
+                android:id="@+id/habitatDropHeight"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Drop Height" />
+                android:text="Habitat Drop Height" />
 
             <TextView
-                android:id="@+id/flightPathDropHeightVal"
+                android:id="@+id/habitatDropHeightVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/flightPathDataText" />
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/gliderDropHeightRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/gliderDropHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
+                android:text="Glider Drop Height" />
+
+            <TextView
+                android:id="@+id/gliderDropHeightVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
 
         </TableRow>
 
@@ -112,6 +213,11 @@
             <TextView
                 android:id="@+id/flightPathRoll"
                 android:layout_width="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
                 android:layout_height="wrap_content"
                 android:text="Roll" />
 
@@ -119,7 +225,11 @@
                 android:id="@+id/flightPathRollVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/flightPathDataText" />
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
         </TableRow>
 
         <TableRow
@@ -130,6 +240,11 @@
             <TextView
                 android:id="@+id/flightPathPitch"
                 android:layout_width="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
                 android:layout_height="wrap_content"
                 android:text="Pitch" />
 
@@ -137,7 +252,11 @@
                 android:id="@+id/flightPathPitchVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/flightPathDataText" />
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
         </TableRow>
 
         <TableRow
@@ -147,6 +266,11 @@
 
             <TextView
                 android:id="@+id/flightPathYaw"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Yaw" />
@@ -155,7 +279,11 @@
                 android:id="@+id/flightPathYawVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/flightPathDataText" />
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
         </TableRow>
     </TableLayout>
 
@@ -168,10 +296,10 @@
         mapbox:layout_constraintEnd_toEndOf="parent"
         mapbox:layout_constraintStart_toStartOf="parent"
         mapbox:layout_constraintTop_toTopOf="parent"
-        mapbox:mapbox_cameraTargetLat="28.0394650"
-        mapbox:mapbox_cameraTargetLng="-81.9498040"
-        mapbox:mapbox_cameraZoom="11"
-        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/outdoors-v9"
+        mapbox:mapbox_cameraTargetLat="32.6759782"
+        mapbox:mapbox_cameraTargetLng="-97.4155650"
+        mapbox:mapbox_cameraZoom="8"
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/satellite-streets-v9"
         mapbox:mapbox_renderTextureMode="true"/>
 
     <ImageButton

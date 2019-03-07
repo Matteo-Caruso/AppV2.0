@@ -104,9 +104,4 @@ public class messageParser {
 
         return sb.toString();
     }
-
-
-    // this function would create a message sent to the plane
-    //convertMessageToByteBuffer();
-
 }
