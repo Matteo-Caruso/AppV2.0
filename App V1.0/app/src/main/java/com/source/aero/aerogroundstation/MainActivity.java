@@ -58,7 +58,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothConstantsInterface;
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothDevices;
@@ -196,12 +195,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         dropOrder = new ArrayList<>();
 
         mRecording = false;
-<<<<<<< HEAD
+
         boolean droppped = false;
         lastDroppedWasGlider = NONE;
-=======
-        boolean dropped = false;
->>>>>>> 6997ac2b12dd382a64166d3506722f6bfc83239e
 
         payloadString = "";
         waterDropped = false;
@@ -1538,6 +1534,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         double heading = 90;
         String location = "28.0394650,-81.9498040";
         int sid = 0;
+        int wdrop = 0;
         double drop = 10;
         double gliderDropHeight = 11;
         double roll = 0;
@@ -1557,8 +1554,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             latitude += 0.001;
             longitude += 0.001;
             yaw += 0.1;
+
             location = Double.toString(latitude) + "," + Double.toString(longitude);
-            Waypoint point = new Waypoint(sessionId,sid,location,altitude,speed,heading,drop,gliderDropHeight,roll,pitch,yaw);
+            Waypoint point = new Waypoint(sessionId,sid,location,altitude,speed,heading,wdrop,drop,gliderDropHeight,roll,pitch,yaw);
             testArray.add(point);
         }
 
