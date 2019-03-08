@@ -128,7 +128,7 @@ public class FlightPath extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     public void play() {
-        //TODO: Add play functionality
+
     }
 
     public void forward() {

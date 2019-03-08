@@ -1,5 +1,4 @@
-// TODO: ALTITUDE IN METRES WITH ONE DECIMAL PRECISION
-// TODO: SPEED IN METRES WITH TWO DECIMAL PRECISION in m/s
+// TODO: Barometer height offset if we use the barometer
 
 package com.source.aero.aerogroundstation;
 
@@ -58,7 +57,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothConstantsInterface;
 import com.source.aero.aerogroundstation.Bluetooth.BluetoothDevices;
@@ -118,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     BottomNavigationView bottomNavigationView;
     SpeedDialView speedDialView;
     SpeedDialView motorSpeedDialView;
-    DrawerLayout drawerLayout
+    DrawerLayout drawerLayout;
     Spinner spinner;
     NavigationView navigationView;
     ImageButton statusTabButton;
@@ -149,6 +147,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // Vehicles
     private Vehicles vehicleManager;
 
+    // Target coordinates
+    float targetLat;
+    float targetLon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,8 +173,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         points = new ArrayList<>();
 
         mRecording = false;
-        dropped = 0;
-
         waterDropString = "N/A\n";
         habitatDropString= "N/A\n";
         gliderDropString= "N/A";
@@ -200,6 +200,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initTextDisplay();
 
         vehicleManager = new Vehicles();
+
+        // Target
+        targetLat = 0;
+        targetLon = 0;
 
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -488,30 +492,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         // If we requested a drop, then define the drop string
                         // If we are in DEBUG, use a FAKE height. COMP build uses actual height
 
-                            if(configuration.equals("DEBUG")) { habitatDropString = "75 ft\n"; }
-                            else { habitatDropString = String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude()) +" ft\n";}
+                        if(configuration.equals("DEBUG")) { habitatDropString = "75 ft\n"; }
+                        else { habitatDropString = String.valueOf(vehicleManager.getPlaneData().readPlaneAltitude()) +" ft\n";}
 
+                        // Add marker and drop string
+                        if(configuration.equals("DEBUG"))
+                        {
+                            mCDA = map.addMarker(new MarkerOptions()
+                                    .title("Habitat")
+                                    .position(new LatLng(28.2494650, -81.9498040)));
+                        }
+                        else
+                        {
+                            // TODO: Only add marker if we have valid data on drop
+                            mCDA = map.addMarker(new MarkerOptions()
+                                    .position(new LatLng(vehicleManager.getPlaneData().readPlaneLatitude(), vehicleManager.getPlaneData().readPlaneLongitude())));
+                        }
 
+                        currentDropAltitude.setText(waterDropString + habitatDropString + gliderDropString);
 
-                    // Add marker and drop string
-                    if(configuration.equals("DEBUG"))
-                    {
-                        mCDA = map.addMarker(new MarkerOptions()
-                                .title("Habitat")
-                                .position(new LatLng(28.2494650, -81.9498040)));
-                    }
-                    else
-                    {
-                        mCDA = map.addMarker(new MarkerOptions()
-                                .position(new LatLng(vehicleManager.getPlaneData().readPlaneLatitude(), vehicleManager.getPlaneData().readPlaneLongitude())));
-                    }
-
-                    currentDropAltitude.setText(waterDropString + habitatDropString + gliderDropString);
-
-                    dropped = HABITAT;
-                    habitatTextString = "Habitat\n";
-                    currentPayload.setText(waterTextString + habitatTextString + gliderTextString);
-                    break;
+                        dropped = HABITAT;
+                        habitatTextString = "Habitat\n";
+                        currentPayload.setText(waterTextString + habitatTextString + gliderTextString);
+                        break;
 
                     case R.id.motorSpeedDialAction3:
                         motorSpeedDialView.close();
@@ -586,7 +589,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         return true;
                     case R.id.mainActivityBottomNavigationPath:
                         onBackPressed();
-                        //TODO:Open path fragment
                         // Get list of database sessions
                         List<String> sessionList = mDatabaseHelper.getFlightSessions();
 
@@ -648,9 +650,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         builderTarget.setTitle("Targets")
                                 .setItems(lmaoTargetFix, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-//                                        // The 'which' argument contains the index position
-//                                        // of the selected item
-                                          // TODO: SEND OFF TARGET
+                                        // TODO: Set target based on selected argument. This may not compile
+                                        String target = targetList.get(which).getLocation();
+                                        String _target_[] = target.split(",");
+                                        targetLat = Float.valueOf(_target_[0]);
+                                        targetLon = Float.valueOf(_target_[1]);
+                                        Toast.makeText(MainActivity.this, "Setting as target...", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .setNegativeButton("Close",new DialogInterface.OnClickListener() {
@@ -699,7 +704,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 break;
                             case R.id.navigationDrawerItem2:
                                 if (drawerMenu == 0) {
-                                    // TODO: Request current altitude to use as offset for incoming altitude values
                                     message = new BluetoothMessage();
                                     message.setMsgType((short)1);
                                     message.setCalibrate(BluetoothConstantsInterface.CALIBRATEGPS);
@@ -860,9 +864,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(points.size() > 2)
         {
             LatLng curLoc = points.get(points.size()-1);
-            LatLng prevLoc = points.get(points.size()-2);
-            double distance = curLoc.distanceTo(prevLoc);
-            currentDistanceToTarget.setText(String.valueOf(distance)+ " m");
+            LatLng tarLoc = new LatLng((double)targetLat, (double)targetLon);
+            double distance = curLoc.distanceTo(tarLoc);
+            currentDistanceToTarget.setText(String.valueOf(distance*3.28)+ " ft");
 
             // v = d/t therefore t = d/v
             double time = distance/vehicleManager.getPlaneData().readPlaneSpeed();

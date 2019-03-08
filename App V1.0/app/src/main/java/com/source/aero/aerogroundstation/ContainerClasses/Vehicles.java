@@ -37,12 +37,20 @@ public class Vehicles
         mainPlane.updatePlaneRoll(messageData.rollFromMessaage/100.0);
         mainPlane.updatePlaneSpeed((int)((messageData.speedFromMessage*3.28)/100));   // ft/s
         mainPlane.updatePlaneAltitude((int)((messageData.altFromMessage*3.28)/10));   // ft
-        mainPlane.updatePlaneLatitude(messageData.latFromMessage / 10000000.0);
-        mainPlane.updatePlaneLongitude(messageData.lonFromMessage / 10000000.0);
 
-        // here we set the drop location for the plane
-        mainPlane.dropGliderPointLatitude(messageData.gDropLatFromMessage/10000000.0);
-        mainPlane.dropGliderPointLongitude(messageData.gDropLonFromMessage/10000000.0);
+        double intermediateLat = messageData.latFromMessage / 10000000.0;
+        if(intermediateLat <= 90 || intermediateLat >= -90)
+        {
+            mainPlane.updatePlaneLatitude(messageData.latFromMessage / 10000000.0);
+            mainPlane.dropGliderPointLatitude(messageData.gDropLatFromMessage/10000000.0);
+        }
+
+        double intermediateLong = messageData.lonFromMessage / 10000000.0;
+        if(intermediateLong <= 180 || intermediateLong >= -180)
+        {
+            mainPlane.updatePlaneLongitude(messageData.lonFromMessage / 10000000.0);
+            mainPlane.dropGliderPointLongitude(messageData.gDropLonFromMessage/10000000.0);
+        }
     }
 
 

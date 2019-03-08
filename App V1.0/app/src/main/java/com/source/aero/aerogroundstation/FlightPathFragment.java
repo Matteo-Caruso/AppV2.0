@@ -1,44 +1,38 @@
 package com.source.aero.aerogroundstation;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.Process;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mapbox.android.gestures.RotateGestureDetector;
 import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.annotations.Polyline;
 import com.mapbox.mapboxsdk.annotations.PolylineOptions;
-import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
-import java.lang.reflect.Array;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
 
 import static java.lang.Thread.sleep;
@@ -60,6 +54,25 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     ImageButton forwardButton;
     ImageButton backwardsButton;
     ImageButton playButton;
+    Button displayButton;
+
+    TextView fpWater;
+    TextView fpWaterVal;
+    TextView fpHabitat;
+    TextView fpHabitatVal;
+    TextView fpCDA;
+    TextView fpCDAVal;
+
+    TextView altitudeVal;
+    TextView speedVal;
+    TextView waterDropHeightVal;
+    TextView habitatDropHeightVal;
+    TextView gliderDropHeightVal;
+    TextView rollVal;
+    TextView pitchVal;
+    TextView yawVal;
+
+    TableLayout tb;
 
     //Data elements
     ArrayList<Waypoint> waypoints;
@@ -72,6 +85,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     boolean startPath = true;
     boolean playMode = false;
 
+    boolean show;
 
     private TextView currentAltitude;
     private TextView currentPayload;
@@ -80,9 +94,13 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     private TextView currentTimeToTarget;
     private TextView currentDistanceToTarget;
 
+    String waterHeight = "N/A";
+    String habitatHeight = "N/A";
+    String cdaHeight = "N/A";
+
     Handler handler;
 
-    int playbackRate = 100;
+    int playbackRate = 500;
 
     Thread thread;
 
@@ -124,6 +142,8 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        show = false;
+
         //Get waypoints
         data = getArguments();
         //Retrieve data sent from activity
@@ -148,9 +168,36 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
 
         points = new ArrayList<LatLng>();
 
+        tb = (TableLayout) view.findViewById(R.id.tableFP);
         forwardButton = (ImageButton) view.findViewById(R.id.flightPathForwardButton);
         backwardsButton = (ImageButton) view.findViewById(R.id.flightPathBackwardsButton);
         playButton = (ImageButton) view.findViewById(R.id.flightPathPlayButton);
+        displayButton = (Button) view.findViewById(R.id.displayInchButton);
+
+        altitudeVal = (TextView) view.findViewById(R.id.flightPathAltitudeVal);
+        speedVal = (TextView)  view.findViewById(R.id.flightPathSpeedVal);
+        //TextView headingVal = (TextView)  view.findViewById(R.id.flightPathHeadingVal);
+
+        waterDropHeightVal = (TextView)  view.findViewById(R.id.waterDropHeightVal);
+        habitatDropHeightVal = (TextView)  view.findViewById(R.id.habitatDropHeightVal);
+        gliderDropHeightVal  = (TextView)  view.findViewById(R.id.gliderDropHeightVal);
+
+        rollVal = (TextView)  view.findViewById(R.id.flightPathRollVal);
+        pitchVal = (TextView)  view.findViewById(R.id.flightPathPitchVal);
+        yawVal = (TextView)  view.findViewById(R.id.flightPathYawVal);
+
+        fpWater = (TextView)  view.findViewById(R.id.fpWater);
+        fpWater.setVisibility(View.INVISIBLE);
+        fpWaterVal = (TextView)  view.findViewById(R.id.fpWaterDropVal);
+        fpWaterVal.setVisibility(View.INVISIBLE);
+        fpHabitat = (TextView)  view.findViewById(R.id.fpHabitat);
+        fpHabitat.setVisibility(View.INVISIBLE);
+        fpHabitatVal = (TextView)  view.findViewById(R.id.fpHabitatDropVal);
+        fpHabitatVal.setVisibility(View.INVISIBLE);
+        fpCDA = (TextView)  view.findViewById(R.id.fpCDA);
+        fpCDA.setVisibility(View.INVISIBLE);
+        fpCDAVal = (TextView)  view.findViewById(R.id.fpCDADropVal);
+        fpCDAVal.setVisibility(View.INVISIBLE);
 
         factory = IconFactory.getInstance(getActivity());
         icon = factory.fromResource(R.drawable.ic_plane).getBitmap();
@@ -173,6 +220,67 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
                 play();
             }
         });
+
+        displayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+
+                if(show)
+                {
+                    tb.setVisibility(View.INVISIBLE);
+                    fpWater.setVisibility(View.VISIBLE);
+                    fpWaterVal.setVisibility(View.VISIBLE);
+                    fpHabitat.setVisibility(View.VISIBLE);
+                    fpHabitatVal.setVisibility(View.VISIBLE);
+                    fpCDA.setVisibility(View.VISIBLE);
+                    fpCDAVal.setVisibility(View.VISIBLE);
+
+                    fpWaterVal.setText(waterHeight);
+                    fpHabitatVal.setText(habitatHeight);
+                    fpCDAVal.setText(cdaHeight);
+
+                    altitudeVal.setVisibility(View.INVISIBLE);
+                    speedVal.setVisibility(View.INVISIBLE);;
+                    //TextView headingVal = (TextView)  view.findViewById(R.id.flightPathHeadingVal);
+
+                    waterDropHeightVal.setVisibility(View.INVISIBLE);
+                    habitatDropHeightVal.setVisibility(View.INVISIBLE);
+                    gliderDropHeightVal.setVisibility(View.INVISIBLE);
+
+                    rollVal.setVisibility(View.INVISIBLE);
+                    pitchVal.setVisibility(View.INVISIBLE);
+                    yawVal.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    tb.setVisibility(View.VISIBLE);
+                    fpWater.setVisibility(View.INVISIBLE);
+                    fpWaterVal.setVisibility(View.INVISIBLE);
+                    fpHabitat.setVisibility(View.INVISIBLE);
+                    fpHabitatVal.setVisibility(View.INVISIBLE);
+                    fpCDA.setVisibility(View.INVISIBLE);
+                    fpCDAVal.setVisibility(View.INVISIBLE);
+
+                    altitudeVal.setVisibility(View.VISIBLE);
+                    speedVal.setVisibility(View.VISIBLE);
+                    //TextView headingVal = (TextView)  view.findViewById(R.id.flightPathHeadingVal);
+
+                    waterDropHeightVal.setVisibility(View.VISIBLE);
+                    habitatDropHeightVal.setVisibility(View.VISIBLE);
+                    gliderDropHeightVal.setVisibility(View.VISIBLE);
+
+                    rollVal.setVisibility(View.VISIBLE);
+                    pitchVal.setVisibility(View.VISIBLE);
+                    yawVal.setVisibility(View.VISIBLE);
+                }
+
+
+                show = !show;
+            }
+        });
+
+
     }
 
     public void updateData(Waypoint point) {
@@ -188,6 +296,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
         TextView rollVal = (TextView)  getView().findViewById(R.id.flightPathRollVal);
         TextView pitchVal = (TextView)  getView().findViewById(R.id.flightPathPitchVal);
         TextView yawVal = (TextView)  getView().findViewById(R.id.flightPathYawVal);
+
         //TextView locationVal = (TextView) getView().findViewById(R.id.flightPathLocationVal);
 
         //Update textviews for current point
@@ -218,7 +327,6 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void play() {
-        //TODO: Add play functionality
         if (playMode) {
             playButton.setImageResource(R.drawable.ic_play);
             playMode = false;
@@ -329,6 +437,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
                         Marker m = map.addMarker(new MarkerOptions()
                                 .title("Water")
                                 .position(location));
+                        waterHeight = String.valueOf((int)point.getWaterDrop()) + " ft";
                     }
 
                     if(point.getHabitatDrop() != 0 )
@@ -336,6 +445,7 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
                         Marker mm = map.addMarker(new MarkerOptions()
                                 .title("Habitat")
                                 .position(location));
+                        habitatHeight = String.valueOf((int)point.getHabitatDrop()) + " ft";
                     }
 
                     if(point.getGliderDrop() != 0 )
@@ -343,6 +453,8 @@ public class FlightPathFragment extends Fragment implements OnMapReadyCallback {
                         Marker mmm = map.addMarker(new MarkerOptions()
                                 .title("Glider")
                                 .position(location));
+                        String.valueOf((int)point.getAltitude());
+                        cdaHeight = String.valueOf((int)point.getGliderDrop()) + " ft";
                     }
                 }
             }
