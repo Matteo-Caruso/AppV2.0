@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <!-- Empty items to take up space underneath navigation header (workaround for fixed navigation header) -->
+        <item android:title=""
+            android:enabled="false"/>
+        <item android:title=""
+            android:enabled="false"/>
+
+        <!-- Actual menu items should be added on here -->
+        <item android:id="@+id/navigationDrawerItem1"
+            android:icon="@drawable/ic_calibrate_imu"
+            android:title="@string/mainActivityNavigationDrawerCalibrationItem1Text"/>
+        <item android:id="@+id/navigationDrawerItem2"
+            android:icon="@drawable/ic_calibrate_barometer"
+            android:title="@string/mainActivityNavigationDrawerCalibrationItem2Text"/>
+        <item android:id="@+id/navigationDrawerItem3"
+            android:icon="@drawable/ic_calibrate_gps"
+            android:title="@string/mainActivityNavigationDrawerCalibrationItem3Text"/>
+    </group>
+</menu>

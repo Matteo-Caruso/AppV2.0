@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Definition of menu items for bottom navigation bar in main activity -->
+
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mainActivityBottomNavigationMap"
+        android:icon="@drawable/ic_map"
+        android:title="@string/mainActivityBottomNavigationOption1Text"/>
+
+    <item
+        android:id="@+id/mainActivityBottomNavigationPath"
+        android:icon="@drawable/ic_path"
+        android:title="@string/mainActivityBottomNavigationOption2Text"/>
+
+    <item
+        android:id="@+id/mainActivityBottomNavigationTargets"
+        android:icon="@drawable/ic_target"
+        android:title="@string/mainActivityBottomNavigationOption3Text"/>
+
+    <item
+        android:id="@+id/mainActivityBottomNavigationPayload"
+        android:icon="@drawable/ic_payload"
+        android:title="@string/mainActivityBottomNavigationOption4Text"/>
+
+    <item
+        android:id="@+id/mainActivityBottomNavigationAttitude"
+        android:icon="@drawable/ic_attitude"
+        android:title="@string/mainActivityBottomNavigationOption5Text"/>
+
+</menu>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainActivityNavigationHeader"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/colorPrimary"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="@color/colorSecondary"
+    android:gravity="bottom"
+    android:padding="16dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <!-- App icon on header-->
+
+    <ImageView
+        android:id="@+id/mainActivityNavigationHeaderImageView"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <!-- Navigation spinner to change menu items (implemented programatically) -->
+    <Spinner
+        android:id="@+id/mainActivityNavigationSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:prompt="@string/mainActivityNavigationSpinnerPrompt" />
+</LinearLayout>

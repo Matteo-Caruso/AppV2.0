@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.source.aero.aerogroundstation.MainActivity"
+    android:id="@+id/mainActivityDrawerLayout"
+    tools:openDrawer="end"
+    >
+
+    <!-- Layout kept to horizontal until orientation support is done -->
+    <include
+        layout="@layout/view_main_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="2dp"
+        android:visibility="visible"/>
+
+    <!-- Navigation drawer -->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/mainActivityNavigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/main_navigation_calibration">
+
+        <!-- Keep header fixed -->
+        <include
+            layout="@layout/view_navigation_header"/>
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>
+

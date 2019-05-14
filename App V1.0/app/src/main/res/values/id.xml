@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- Item definitions for speed dial in main activity -->
+    <item name="mainActivitySpeedDialAction1" type="id" />
+    <item name="mainActivitySpeedDialAction2" type="id" />
+    <item name="mainActivitySpeedDialAction3" type="id" />
+    <item name="mainActivitySpeedDialAction4" type="id" />
+    <item name="mainActivitySpeedDialAction5" type="id" />
+
+    <item name="motorSpeedDialAction1" type="id" />
+    <item name="motorSpeedDialAction2" type="id" />
+    <item name="motorSpeedDialAction3" type="id" />
+    <item name="motorSpeedDialAction4" type="id" />
+    <item name="motorSpeedDialAction5" type="id" />
+</resources>

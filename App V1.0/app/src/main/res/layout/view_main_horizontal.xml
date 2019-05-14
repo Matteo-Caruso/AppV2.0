@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.source.aero.aerogroundstation.MainActivity">
+
+    <!--&lt;!&ndash; Control tab implementation &ndash;&gt;-->
+    <!--<ImageButton-->
+        <!--android:id="@+id/mainActivityStatusTab"-->
+        <!--android:layout_width="201dp"-->
+        <!--android:layout_height="24dp"-->
+        <!--android:background="@color/cardview_shadow_end_color"-->
+        <!--android:contentDescription="@string/mainActivityStatusTabDescription"-->
+        <!--android:translationZ="2dp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:srcCompat="@drawable/ic_tab_horizontal" />-->
+
+    <!-- Frame layout for fragment inflation -->
+    <FrameLayout
+        android:id="@+id/mainActivityFragmentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="2dp"
+        android:visibility="visible" >
+    </FrameLayout>
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="465dp"
+        android:visibility="visible"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0"
+        mapbox:layout_constraintBottom_toBottomOf="parent"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintStart_toStartOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent"
+        mapbox:mapbox_cameraTargetLat="32.6759782"
+        mapbox:mapbox_cameraTargetLng="-97.4155650"
+        mapbox:mapbox_cameraZoom="8"
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/satellite-streets-v9">
+    </com.mapbox.mapboxsdk.maps.MapView>
+
+    <!-- Below, we include the layout for the display fields, allowing them to be viewed in the main activity-->
+    <include
+        layout="@layout/display_fileds"
+        android:layout_width="250dp"
+        android:layout_height="325dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recordingIdentifier" />
+
+    <!-- include
+        android:id="@+id/bluetoothView"
+        layout="@layout/view_bluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="2dp"
+        android:visibility="gone" / -->
+
+    <!-- Bottom navigation bar outline (uses menu items)-->
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/mainActivityBottomNavigationView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/highlightIcon"
+        app:itemTextColor="@color/highlightIcon"
+        app:menu="@menu/main_bottom_navigation" />
+
+    <!-- Mapbox map view -->
+
+    <!-- Speed dial element -->
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/mainActivitySpeedDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/mainActivityBottomNavigationView"
+        app:sdExpansionMode="top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:sdMainFabClosedBackgroundColor="@color/colorSecondary"
+        app:sdMainFabClosedSrc="@drawable/ic_speeddial"
+        app:sdMainFabOpenedBackgroundColor="@color/colorSecondaryDark"
+        app:sdUseReverseAnimationOnClose="true"
+        />
+
+    <!-- Speed dial element -->
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/motorSpeedDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:sdExpansionMode="bottom"
+        app:sdMainFabClosedBackgroundColor="@color/colorSecondary"
+        app:sdMainFabClosedSrc="@drawable/ic_controller"
+        app:sdMainFabOpenedBackgroundColor="@color/colorSecondaryDark"
+        app:sdUseReverseAnimationOnClose="true" />
+
+
+
+
+    <!--The LinearLayout below is used to display the recording dialogue to identify whether data is being recorded -->
+    <LinearLayout
+        android:id="@+id/recordingIdentifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/red_boarder_white_outline"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        app:layout_constraintHorizontal_bias="0.008"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!-- the background uses a rectangle created in the drawable folder -->
+        <TextView
+            android:id="@+id/recordingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="Not Recording"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
+

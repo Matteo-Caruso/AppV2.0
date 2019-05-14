@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constrainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:id="@+id/tableFP"
+        android:layout_width="350dp"
+        android:layout_height="280dp"
+        android:background="#804298f4"
+        android:translationZ="2dp">
+
+        <!--<TableRow-->
+            <!--android:id="@+id/flightPathLocationRow"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/flightpathLocation"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="8dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textColor="#6600CC"-->
+                <!--android:textSize="10pt"-->
+                <!--android:text="Location" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/flightPathLocationVal"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/flightPathDataText"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:textColor="#6600CC"-->
+                <!--android:textSize="10pt"/>-->
+        <!--</TableRow>-->
+
+        <TableRow
+            android:id="@+id/flightPathAltitudeRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightPathAltitude"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
+                android:layout_height="wrap_content"
+                android:text="Altitude" />
+
+            <TextView
+                android:id="@+id/flightPathAltitudeVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/flightPathSpeedRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightPathSpeed"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
+                android:layout_height="wrap_content"
+                android:text="Speed" />
+
+            <TextView
+                android:id="@+id/flightPathSpeedVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
+        </TableRow>
+
+        <!--<TableRow-->
+            <!--android:id="@+id/flightHeadingRow"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/flightPathHeading"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_marginLeft="8dp"-->
+                <!--android:layout_marginRight="2dp"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textColor="#6600CC"-->
+                <!--android:textSize="10pt"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Heading" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/flightPathHeadingVal"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/flightPathDataText"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:textColor="#6600CC"-->
+                <!--android:textSize="10pt"/>-->
+        <!--</TableRow>-->
+
+        <TableRow
+            android:id="@+id/waterDropHeightRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/waterDropHeight"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
+                android:layout_height="wrap_content"
+                android:text="Water Drop Height" />
+
+            <TextView
+                android:id="@+id/waterDropHeightVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/habitatDropHeightRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/habitatDropHeight"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Habitat Drop Height" />
+
+            <TextView
+                android:id="@+id/habitatDropHeightVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/gliderDropHeightRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/gliderDropHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
+                android:text="Glider Drop Height" />
+
+            <TextView
+                android:id="@+id/gliderDropHeightVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/flightPathRollRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightPathRoll"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
+                android:layout_height="wrap_content"
+                android:text="Roll" />
+
+            <TextView
+                android:id="@+id/flightPathRollVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/flightPathPitchRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightPathPitch"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
+                android:layout_height="wrap_content"
+                android:text="Pitch" />
+
+            <TextView
+                android:id="@+id/flightPathPitchVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/flightPathYawRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/flightPathYaw"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="2dp"
+                android:textStyle="bold"
+                android:textColor="#6600CC"
+                android:textSize="10pt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yaw" />
+
+            <TextView
+                android:id="@+id/flightPathYawVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flightPathDataText"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#6600CC"
+                android:textSize="10pt"/>
+        </TableRow>
+    </TableLayout>
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/flightPathMapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        mapbox:layout_constraintBottom_toBottomOf="parent"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintStart_toStartOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent"
+        mapbox:mapbox_cameraTargetLat="32.6759782"
+        mapbox:mapbox_cameraTargetLng="-97.4155650"
+        mapbox:mapbox_cameraZoom="8"
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/satellite-streets-v9"
+        mapbox:mapbox_renderTextureMode="true"/>
+
+    <ImageButton
+        android:id="@+id/flightPathBackwardsButton"
+        android:layout_width="71dp"
+        android:layout_height="match_parent"
+        android:background="#002196f3"
+        android:contentDescription="@string/flightPathBackwardButtonContentDescription"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_backwards"/>
+
+    <ImageButton
+        android:id="@+id/flightPathPlayButton"
+        android:layout_width="523dp"
+        android:layout_height="55dp"
+        android:background="#00000000"
+        android:contentDescription="@string/flightPathForwardButtonContentDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_play" />
+
+    <ImageButton
+        android:id="@+id/flightPathForwardButton"
+        android:layout_width="71dp"
+        android:layout_height="206dp"
+        android:background="#00000000"
+        android:contentDescription="@string/flightPathPlayButtonContentDescription"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_forward" />
+
+    <Button
+        android:id="@+id/displayInchButton"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginEnd="380dp"
+        android:layout_marginStart="17dp"
+        android:text="Inch Display"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/flightPathMapView" />
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="-5dp"
+                tools:ignore="MissingConstraints">
+
+                <!-- the background uses a rectangle created in the drawable folder -->
+                <TextView
+                    android:id="@+id/fpWater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="-50dp"
+                    android:clickable="true"
+                    android:onClick="increaseFontSize"
+                    android:text="Water: "
+                    android:textColor="#6600CC"
+                    android:textSize="0.9in" />
+
+                <TextView
+                    android:id="@+id/fpWaterDropVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="-50dp"
+                    android:clickable="true"
+                    android:onClick="increaseFontSize"
+                    android:text="N/A"
+                    android:textColor="#6600CC"
+                    android:textSize="0.9in" />
+            </LinearLayout>
+
+
+    <!-- The layout below is for the payload drop altitude information-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="146dp"
+                tools:ignore="MissingConstraints">
+                <!-- the background uses a rectangle created in the drawable folder -->
+                <TextView
+                    android:id="@+id/fpHabitat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="-50dp"
+                    android:clickable="true"
+                    android:onClick="increaseFontSize"
+                    android:text="Habitat: "
+                    android:textColor="#6600CC"
+                    android:textSize="0.9in" />
+
+                <TextView
+                    android:id="@+id/fpHabitatDropVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="-50dp"
+                    android:clickable="true"
+                    android:onClick="increaseFontSize"
+                    android:text="N/A"
+                    android:textColor="#6600CC"
+                    android:textSize="0.9in" />
+            </LinearLayout>
+
+            <!-- The layout below is for the cda drop altitude information-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:orientation="horizontal"
+
+                android:visibility="visible"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="301dp"
+                tools:ignore="MissingConstraints">
+                <!-- the background uses a rectangle created in the drawable folder -->
+                <TextView
+                    android:id="@+id/fpCDA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="-50dp"
+                    android:clickable="true"
+                    android:onClick="increaseFontSize"
+                    android:text="CDA: "
+                    android:textColor="#6600CC"
+                    android:textSize="0.9in" />
+
+                <TextView
+                    android:id="@+id/fpCDADropVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="-50dp"
+                    android:clickable="true"
+                    android:onClick="increaseFontSize"
+                    android:text="N/A"
+                    android:textColor="#6600CC"
+                    android:textSize="0.9in" />
+
+            </LinearLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
